@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_DIR: /home/runner/godot
+  GODOT_BIN: /home/runner/godot/godot
+
+jobs:
+  test:
+    name: Tests and render check
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/godot
+          key: godot-${{ env.GODOT_VERSION }}
+      - name: Install Godot
+        run: tools/install_godot.sh
+      - name: Import project
+        run: $GODOT_BIN --headless --path . --import || true
+      - name: Unit tests
+        run: tools/run_tests.sh
+      - name: Render check (Mesa software OpenGL)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb libgl1-mesa-dri libglx-mesa0 >/dev/null
+          mkdir -p build/shots
+          tools/screenshot.sh res://scenes/dev/spike.tscn build/shots/spike_dry.png 40
+          tools/screenshot.sh res://scenes/dev/spike.tscn build/shots/spike_knee_deep.png 40 --water=0.9
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: build/shots/*.png
+
+  export:
+    name: Builds (Windows, Android, macOS)
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache Godot and export templates
+        uses: actions/cache@v4
+        with:
+          path: |
+            /home/runner/godot
+            /home/runner/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_VERSION }}
+      - name: Install Godot and export templates
+        run: tools/install_godot.sh --templates
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Configure Android export
+        run: |
+          mkdir -p ~/.config/godot
+          for f in editor_settings-4.tres editor_settings-4.7.tres; do
+            cat > ~/.config/godot/$f <<EOS
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          EOS
+          done
+          keytool -genkeypair -keystore $RUNNER_TEMP/debug.keystore -storepass android -alias androiddebugkey \
+            -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          echo "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=$RUNNER_TEMP/debug.keystore" >> $GITHUB_ENV
+          echo "GODOT_ANDROID_KEYSTORE_DEBUG_USER=androiddebugkey" >> $GITHUB_ENV
+          echo "GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=android" >> $GITHUB_ENV
+      - name: Import project
+        run: $GODOT_BIN --headless --path . --import || true
+      - name: Export
+        run: |
+          mkdir -p build/windows build/android build/macos build/linux
+          $GODOT_BIN --headless --path . --export-release "Windows" build/windows/Depthbound.exe
+          $GODOT_BIN --headless --path . --export-debug "Android" build/android/Depthbound.apk
+          $GODOT_BIN --headless --path . --export-release "macOS" build/macos/Depthbound.zip
+          $GODOT_BIN --headless --path . --export-release "Linux" build/linux/Depthbound.x86_64
+          ls -la build/*
+      - name: Smoke test exported build
+        run: |
+          out=$(timeout 60 build/linux/Depthbound.x86_64 --headless -- --smoke-test 2>&1 || true)
+          echo "$out" | tail -5
+          echo "$out" | grep -q SMOKE_OK
+      - uses: actions/upload-artifact@v4
+        with:
+          name: depthbound-windows
+          path: build/windows/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: depthbound-android-apk
+          path: build/android/*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: depthbound-macos
+          path: build/macos/*.zip

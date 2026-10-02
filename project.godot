@@ -1,0 +1,74 @@
+; Engine configuration file.
+; Godot 4.7.2 project for Depthbound.
+
+config_version=5
+
+[application]
+
+config/name="Depthbound"
+config/description="Mobile action roguelite: descend a flooding dungeon."
+config/version="0.1.0"
+run/main_scene="res://scenes/boot.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.02, 0.03, 0.04, 1)
+boot_splash/show_image=false
+config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://autoload/event_bus.gd"
+Settings="*res://autoload/settings.gd"
+DataDB="*res://autoload/data_db.gd"
+GameState="*res://autoload/game_state.gd"
+SaveManager="*res://autoload/save_manager.gd"
+AudioManager="*res://autoload/audio_manager.gd"
+DevTools="*res://autoload/dev_tools.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1600
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=4
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.02, 0.03, 0.04, 1)
+anti_aliasing/quality/msaa_3d=1
+
+[shader_globals]
+
+light_grid={
+"type": "sampler2D",
+"value": ""
+}
+light_grid_rect={
+"type": "vec4",
+"value": Vector4(0, 0, 1, 1)
+}
+water_height={
+"type": "float",
+"value": -1.0
+}
+hero_pos={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+cutaway_enabled={
+"type": "float",
+"value": 1.0
+}

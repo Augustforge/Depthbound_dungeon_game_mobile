@@ -1,0 +1,7 @@
+key,en,ru,es
+GAME_TITLE,Depthbound,Спуск,Descenso
+HUD_FLOOR,Floor %d / %d,Этаж %d / %d,Piso %d / %d
+HUD_WATER,Water,Вода,Agua
+BTN_DODGE,Dodge,Уворот,Esquivar
+BTN_ACTION,Action,Действие,Acción
+SPIKE_HINT,"WASD / joystick — move, Space — dodge","WASD / джойстик — движение, Пробел — уворот","WASD / joystick — moverse, Espacio — esquivar"

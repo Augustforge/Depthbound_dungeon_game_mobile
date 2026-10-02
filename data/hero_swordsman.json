@@ -1,0 +1,36 @@
+{
+	"id": "swordsman",
+	"name_key": "CLASS_SWORDSMAN",
+	"radius": 0.35,
+	"stats": {
+		"max_hp": 600,
+		"atk": 40,
+		"attack_speed": 1.0,
+		"attack_range": 1.6,
+		"move_speed": 4.0,
+		"armor": 20,
+		"crit_chance": 0.05,
+		"crit_damage": 1.5,
+		"lifesteal": 0.0,
+		"cdr": 0.0,
+		"pickup_radius": 2.0
+	},
+	"stat_caps": {
+		"attack_interval_min": 0.35,
+		"move_speed_max": 6.4,
+		"crit_chance_max": 0.75,
+		"lifesteal_max": 0.30,
+		"cdr_max": 0.40
+	},
+	"dodge": {
+		"cooldown": 6.0,
+		"distance": 3.0,
+		"duration": 0.25,
+		"invulnerable": 0.35,
+		"charges": 1,
+		"cooldown_min": 3.0
+	},
+	"water": {
+		"knee_deep_slow": 0.15
+	}
+}

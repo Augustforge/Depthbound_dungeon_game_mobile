@@ -1,0 +1,6 @@
+{
+	"id": "test_spike",
+	"name_key": "FLOOR_TEST_SPIKE",
+	"time_limit": 120,
+	"goal": {"type": "breakthrough"}
+}

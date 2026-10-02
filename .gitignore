@@ -1,0 +1,16 @@
+# Godot
+.godot/
+*.translation
+export/
+build/
+# Export credentials
+export_credentials.cfg
+*.keystore
+# OS / editors
+.DS_Store
+Thumbs.db
+*.tmp
+# Local tools and scratch
+/tools/bin/
+/tools/cache/
+/tmp/
