@@ -5,6 +5,8 @@ extends Control
 
 signal dodge_pressed
 signal action_pressed
+## A tap on the right half of the screen outside the buttons (used to pick a priority target).
+signal world_tapped(screen_pos: Vector2)
 
 const JOY_RADIUS := 120.0
 const DEAD_ZONE := 0.15
@@ -39,7 +41,9 @@ func _input(event: InputEvent) -> void:
 			if t.position.distance_to(_dodge_center()) < 110.0:
 				dodge_pressed.emit()
 				get_viewport().set_input_as_handled()
-			elif t.position.x < size.x * 0.5 and _joy_finger == -1:
+			elif t.position.x >= size.x * 0.5:
+				world_tapped.emit(t.position)
+			elif _joy_finger == -1:
 				_joy_finger = t.index
 				_joy_origin = t.position
 				_joy_knob = t.position

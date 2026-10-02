@@ -9,6 +9,8 @@ var _timer_label: Label
 var _hint: Label
 var _fps: Label
 var _gauge: WaterGauge
+var _hp_bar: HpBar
+var overlay: WorldOverlay
 
 
 func setup(w: World) -> void:
@@ -27,13 +29,20 @@ func setup(w: World) -> void:
 	_hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_hint.position.y -= 60
 	_fps = _label(root, 22, Color(0.6, 0.7, 0.7))
-	_fps.position = Vector2(24, 20)
+	_fps.position = Vector2(40, 16)
 	_gauge = WaterGauge.new()
 	_gauge.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
 	_gauge.custom_minimum_size = Vector2(46, 420)
 	_gauge.size = Vector2(46, 420)
 	_gauge.position = Vector2(-140, -260)
 	root.add_child(_gauge)
+	_hp_bar = HpBar.new()
+	_hp_bar.position = Vector2(40, 70)
+	_hp_bar.size = Vector2(420, 34)
+	root.add_child(_hp_bar)
+	overlay = WorldOverlay.new()
+	root.add_child(overlay)
+	root.move_child(overlay, 0)
 	controls = TouchControls.new()
 	root.add_child(controls)
 
@@ -64,6 +73,27 @@ func _process(_delta: float) -> void:
 	_fps.text = "%d FPS" % Engine.get_frames_per_second()
 	_gauge.ratio = clampf(t.progress(), 0.0, 1.0)
 	controls.dodge_ready = world.hero.dodge_ready_ratio()
+	_hp_bar.hp = world.hero.hp
+	_hp_bar.max_hp = world.hero.max_hp
+
+
+class HpBar:
+	extends Control
+	var hp: float = 1.0
+	var max_hp: float = 1.0
+
+	func _process(_d: float) -> void:
+		queue_redraw()
+
+	func _draw() -> void:
+		var r := Rect2(Vector2.ZERO, size)
+		draw_rect(r.grow(3), Color(0, 0, 0, 0.8))
+		draw_rect(Rect2(Vector2.ZERO, Vector2(size.x * clampf(hp / max_hp, 0, 1), size.y)), Color(0.75, 0.12, 0.1))
+		draw_rect(r, Color(0.7, 0.62, 0.48), false, 2.0)
+		var font := get_theme_default_font()
+		var text := "%d / %d" % [ceili(hp), roundi(max_hp)]
+		var tw := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
+		draw_string(font, Vector2((size.x - tw) * 0.5, size.y - 8), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color.WHITE)
 
 
 class WaterGauge:
