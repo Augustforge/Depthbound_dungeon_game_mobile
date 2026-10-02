@@ -1,0 +1,56 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "image-to-image.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0fc26-0006-71f1-b245-d315a4c15c2a",
+      "resource": "image-to-image",
+      "endpoint": "/openapi/v1/image-to-image",
+      "type": "image-to-image",
+      "name": null,
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1790936744293,
+      "started_at": 1790936744302,
+      "finished_at": 1790936756739,
+      "expires_at": 1791195956739,
+      "face_count": null,
+      "consumed_credits": 6,
+      "model_urls": {},
+      "image_urls": [
+        "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/uploads/image_01a0fc26-0006-71f1-b245-d315a4c15c2a_0.png?Expires=1791195956&Signature=dB1bC219j7vrQ~1JAdfxlHHs1XeruEKSlmqvze7DMh073OM8kVrOXo4uWn9BMWy~vYmlPgLvYzkkWY-BRGxLwxF5s8lupCFO0pXeFdbNmerQRuIrBKKlCQ3mnrP8itEsp6as2Y8VOgPPzIJwsX~tOWPBdXHD4GJ4GK63KvfgAUaJ0bYP4WC9NkGK35t2A~dHHwjEjRx52NpnImC~XiaKdfdVKucvyaMRZeM~yojGT6TOSfEDGvT46V22dHBSyjhgXHs-qg3QGzKuirgEOxtYC7AwAAvi5ZvKpRzv88LJYqqehKg21~TctJKtMEsZpRkhIG9n-rLuzOHLZSuG4D6BIg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      ],
+      "texture_urls": [],
+      "thumbnail_url": null,
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": null,
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "14ccc203-4533-45e9-b21b-2fc6e91be221",
+      "task_id": "01a0fc26-0006-71f1-b245-d315a4c15c2a",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": {
+      "path": "/home/user/Dungeon-game-Android/art/source/hero_m/i2i.json",
+      "bytes": 1394
+    },
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 14.92,
+      "polls": 4
+    }
+  },
+  "error": null,
+  "warnings": []
+}

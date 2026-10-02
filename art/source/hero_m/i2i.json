@@ -1,0 +1,16 @@
+{
+  "id": "01a0fc26-0006-71f1-b245-d315a4c15c2a",
+  "type": "image-to-image",
+  "ai_model": "nano-banana-2",
+  "prompt": "The same young man from the image: messy dark hair, torn dirty linen shirt, crossed leather belts and straps, faded red cloth sash, ragged dark trousers, tall leather boots wrapped in straps, broken iron shackle with short chain on left wrist. Full body, front view, standing straight in a neutral A-pose with arms slightly away from the body, EMPTY HANDS (no sword), feet slightly apart, plain light grey background, even soft lighting, no shadows. Same painterly dark fantasy style, game character reference for 3D modeling.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790936744293,
+  "started_at": 1790936744302,
+  "finished_at": 1790936756739,
+  "expires_at": 1791195956739,
+  "image_urls": [
+    "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/uploads/image_01a0fc26-0006-71f1-b245-d315a4c15c2a_0.png?Expires=1791195956&Signature=dB1bC219j7vrQ~1JAdfxlHHs1XeruEKSlmqvze7DMh073OM8kVrOXo4uWn9BMWy~vYmlPgLvYzkkWY-BRGxLwxF5s8lupCFO0pXeFdbNmerQRuIrBKKlCQ3mnrP8itEsp6as2Y8VOgPPzIJwsX~tOWPBdXHD4GJ4GK63KvfgAUaJ0bYP4WC9NkGK35t2A~dHHwjEjRx52NpnImC~XiaKdfdVKucvyaMRZeM~yojGT6TOSfEDGvT46V22dHBSyjhgXHs-qg3QGzKuirgEOxtYC7AwAAvi5ZvKpRzv88LJYqqehKg21~TctJKtMEsZpRkhIG9n-rLuzOHLZSuG4D6BIg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 6
+}

@@ -27,7 +27,10 @@ vec3 sample_light(vec2 xz, float time) {
 	vec2 uv = (xz - light_grid_rect.xy) / light_grid_rect.zw;
 	vec3 l = texture(light_grid, uv).rgb * LIGHT_SCALE;
 	float flicker = 1.0 + 0.07 * sin(time * 9.0 + xz.x * 1.7 + xz.y * 2.3) + 0.04 * sin(time * 23.0 + xz.y * 3.1);
-	return l * flicker;
+	// Soft cool-white light around the hero so the player always reads their own character.
+	float d = distance(xz, hero_pos.xz);
+	vec3 hero_glow = vec3(0.32, 0.36, 0.36) * pow(clamp(1.0 - d / 4.0, 0.0, 1.0), 2.0);
+	return l * flicker + hero_glow;
 }
 
 // 1 on walkable floor, 0 inside walls.

@@ -1,0 +1,2 @@
+error: No credentials found. Pass --api-key, export MESHY_API_KEY, or log in.
+hint: Run: meshy auth login  (or: meshy auth login --with-key msy_...)

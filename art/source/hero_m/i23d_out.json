@@ -1,0 +1,60 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "image-to-3d.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0fc26-6ac6-72fc-82eb-4179bd323a4d",
+      "resource": "image-to-3d",
+      "endpoint": "/openapi/v1/image-to-3d",
+      "type": "image-to-3d",
+      "name": "",
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1790936771950,
+      "started_at": 1790936771955,
+      "finished_at": 1790936848392,
+      "expires_at": 1791196048392,
+      "face_count": null,
+      "consumed_credits": 15,
+      "model_urls": {
+        "glb": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fc26-6ac6-72fc-82eb-4179bd323a4d/output/model.glb?Expires=1791196048&Signature=eZmHJe9GZbvI1ioo0MgQMNOaQj-PvsaooBPU6X8CYHcSi-LpAKCC~wJw1BIu5z5Gk3waLreE4DW9ETxuQJ3voJ3n7EFm-fZTwPWCBGCgOck370vlJcreBVCiMNpxY~zD6R6~nzNOBQkJsl8CEissglmR-ypwVpcAl9A9g5Kv2trbTtBl5jwAuBufD8pCnz1b-ld5sCrgCH7Zm09O3YZBg-zI0kg3N7lxU7qliqvSnf6UG4Q-khwrenZJfUQk1Gps4IyZOuvUjbIAbjLmpmFImIJRj0264uClp-DdFHspKfIbaaqiXgiVgBcWZejBRkttjzos4CgDR6BBE77Nv0CmVg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      },
+      "image_urls": [],
+      "texture_urls": [
+        {
+          "base_color": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fc26-6ac6-72fc-82eb-4179bd323a4d/output/texture_0.png?Expires=1791196048&Signature=Vux4KP9FY0TonEEcp3M3agEVtW9UenwvHezBFBlAWovUJHWapVWpTO7~m8rnTvisqI8ZyJk-B7UDc1wECWzUQBfHj5UL-USEqLp6gx4EGyXbqwkkbMadN75fa0GDGHeQuPGcd4w6mu3C7nDIBqyT9V-HrfF5MmJMzq2ywjvxtsUt0FuHTx5gq1hdMLx6GsNzwNiBYRwfWv2pbMukMEfyU5Pp60WSVekY0O6AObttbW~I9aXHERbLd1xH7N~Y7nM1D3TEx0Mv7w6~cbExPbTUDZW9CxTI3VV0lMICRs5cHossmmYTelOixdKfq6RJmyUgKaqIp51pNkeJ506a3gs4FA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+        }
+      ],
+      "thumbnail_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fc26-6ac6-72fc-82eb-4179bd323a4d/output/preview.png?Expires=1791196048&Signature=LVmXg4TbFwpNDdxBLetmfBB4xOWX1zlEpfDzFfTZfzzvAVmvbasRubsWB6MqWZKSwz1eh20iItabbd~y3zPrDqZzQ5AVScE7~BKtGtC39MXPoMS9BwJu-pDtl97pgipLLVKBdIKfLJix0BPDXY1N2Glh~jf9xmg9Y9rULdEigZhnzlgrFnNgLQ1bns~XHCuPVs3qaGkqv8yKOKsY9iqcfMoccvd~aMfpdCG518B06HozEu58~-Rniu7uiaGOjJOLBH3ca4LeVuqXZJhWwSbcjkLign480vq10F7epxtoVzuwoBmKMiHUgnPTLncrOxbImuJ618OqeAwjQ8H71ij04g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": null,
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "f1c2a1ac-e177-4f3a-b4ab-5132ea1dec4b",
+      "task_id": "01a0fc26-6ac6-72fc-82eb-4179bd323a4d",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": {
+      "path": "/home/user/Dungeon-game-Android/art/source/hero_m/i23d.json",
+      "bytes": 2728
+    },
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 82.91,
+      "polls": 8
+    }
+  },
+  "error": null,
+  "warnings": []
+}

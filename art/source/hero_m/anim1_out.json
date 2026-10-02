@@ -1,0 +1,60 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "animate.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0fc28-a61e-72a5-9c8c-0c394550b8c0",
+      "resource": "animate",
+      "endpoint": "/openapi/v1/animations",
+      "type": "animate",
+      "name": "",
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1790936917744,
+      "started_at": 1790936917751,
+      "finished_at": 1790936937607,
+      "expires_at": 1791196137607,
+      "face_count": null,
+      "consumed_credits": 30,
+      "model_urls": {},
+      "image_urls": [],
+      "texture_urls": [],
+      "thumbnail_url": null,
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": {
+        "animation_glb_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fc28-a61e-72a5-9c8c-0c394550b8c0/output/merged_animations.glb?Expires=1791196137&Signature=FxIrO10XGf6XTcoGBNBVGI7X0K~u2ykHIpWO5TcD9AqvHJE8v6ylvd1VNPOcAEeZ6vb-r4PCRv0ADsXxnOm3gaKgCwz97gENC4A2-oAtvoaDplWOA8IpriPenFGc5N2suWInmhtrZbHUTOqxVxdot0oWj2fGAcj8yoCs3Tqq6iPF87VUaCP2BTOXScJzyikL5RPWLU2Eey5GW5y4FV8znef2TIyFb96vi8FxDa4fgCG-QU5UmkSVV5ZUw~GI8ObylrmpJCgIazaE8Uuh6oKFl5Fj0dV-JiauzzxTbcyn02ItYgQ-XU50maVJ5QKqf9HXZJnAlnKjYqbWqftufu-b3g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "animation_fbx_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fc28-a61e-72a5-9c8c-0c394550b8c0/output/merged_animations.fbx?Expires=1791196137&Signature=GrYXswQZ9hZjLBexVMY7yS-m4U5ViCoaplHdY6e3kR-p94fzmW9tX9GfAxtUX-ia9fVSNhHJz7HZQ2saMGoiyyGNWooSrCYN~Wl3uYEdy~DhILMMGnKWCv9fHc5siM2qGAWyXjfKIJ0a5r8IvS2aVCrc-Xwtd3CXKQvozTxobFNiuKKrrDvclXoH8gFJY5WDSxx6fiAu9mC10KELDosqax0P4E1ZIilx4P-rRsvJ76RHtSQ575e~DSeJuL-08IepxdYSRyDGXykHfrqfE8un4eWeKTw5C1sMqS3-Xi3JBHKpxZPjQcLZ5qzqDS7u3mwSHHlWlfxg45vwfLWrojmj6A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "processed_usdz_url": "",
+        "processed_armature_fbx_url": "",
+        "processed_animation_fps_fbx_url": ""
+      },
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "b2d7a036-c108-4b2e-9f92-81358e1c72c1",
+      "task_id": "01a0fc28-a61e-72a5-9c8c-0c394550b8c0",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": {
+      "path": "/home/user/Dungeon-game-Android/art/source/hero_m/anim1.json",
+      "bytes": 1556
+    },
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 25.77,
+      "polls": 5
+    }
+  },
+  "error": null,
+  "warnings": []
+}

@@ -35,6 +35,6 @@ tools/godot_check.sh                   # импорт проекта + пров�
 3. Обновить чек-лист в `docs/PLAN.md`.
 
 ## Арт (Meshy)
-- Ключ — переменная окружения `MESHY_API_KEY`; CLI — `npx meshy-cli` (документация: `meshy --help`, всегда `--output-schema v1 --format json`).
+- Ключ подставляет прокси окружения (API credential); вызывать CLI через `tools/meshy.sh <команда>` (документация: `meshy --help`, всегда `--output-schema v1 --format json`).
 - Перед тратой кредитов — `meshy balance` и смета в `art/ASSETS.md`. Каждый ассет записывать в `art/ASSETS.md` (источник, task id, лицензия), промпты — в `art/PROMPTS.md`.
 - Риг Meshy — только двуногие. Крыс анимируем процедурно.
