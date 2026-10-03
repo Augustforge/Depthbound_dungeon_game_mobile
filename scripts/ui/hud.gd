@@ -73,6 +73,12 @@ func _process(_delta: float) -> void:
 	_fps.text = "%d FPS" % Engine.get_frames_per_second()
 	_gauge.ratio = clampf(t.progress(), 0.0, 1.0)
 	controls.dodge_ready = world.hero.dodge_ready_ratio()
+	controls.auto_on = world.hero.auto_mode
+	for i in Hero.MAX_ACTIVES:
+		var sk := world.hero.actives[i]
+		controls.skills[i] = {} if sk == null else {
+			"ready": sk.ready_ratio(), "level": sk.level, "label": tr(String(sk.data.get("name_key", sk.id))),
+			"seconds": sk.cooldown_left}
 	_hp_bar.hp = world.hero.hp
 	_hp_bar.max_hp = world.hero.max_hp
 

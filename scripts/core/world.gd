@@ -8,6 +8,11 @@ signal entity_removed(entity: Entity)
 signal damage_dealt(target: Combatant, amount: float, crit: bool, source: Entity)
 signal entity_died(entity: Entity)
 signal hero_attacked(target: Combatant)
+signal telegraph_started(t: Telegraph)
+signal telegraph_fired(t: Telegraph)
+signal parried(attacker: Combatant)
+signal bleed_exploded(at: Vector2)
+signal second_wind
 
 const TICK := 1.0 / 60.0
 
@@ -17,6 +22,7 @@ var rng: RngStreams
 var floor_index: int = 1
 var hero: Hero
 var entities: Array[Entity] = []
+var telegraphs: Array[Telegraph] = []
 var time: float = 0.0
 ## Live mode: _physics_process drives step(). Off in tests.
 var running: bool = false
@@ -152,7 +158,59 @@ func step(dt: float) -> void:
 	for e in entities.duplicate():
 		if e.alive:
 			e.tick(dt)
+	_tick_telegraphs(dt)
 	_separate()
+
+
+## Knee-deep water slows everyone by 15 %, drowned move 15 % faster (GDD 10.2).
+func mob_speed_factor(m: Mob) -> float:
+	if timer.phase() < FloorTimer.Phase.KNEE:
+		return 1.0
+	return 1.15 if m.def_id == &"drowned" else 0.85
+
+
+func add_telegraph(t: Telegraph) -> void:
+	t.left = t.total
+	telegraphs.append(t)
+	telegraph_started.emit(t)
+
+
+func _tick_telegraphs(dt: float) -> void:
+	for t in telegraphs.duplicate():
+		if t.source != null and not t.source.alive:
+			telegraphs.erase(t)
+			continue
+		t.left -= dt
+		if t.left > 0.0:
+			continue
+		telegraphs.erase(t)
+		t.fired = true
+		telegraph_fired.emit(t)
+		for target in Shapes.query(self, t.shape, t.origin, t.dir, t.target_team):
+			apply_strike(t.source, target, t.damage, t.effect, t.parryable, t.origin)
+
+
+## A hit from a mob ability or attack on a target, with armour, parry and effects (GDD 6.3, 8.2).
+func apply_strike(src: Combatant, target: Combatant, damage: float, effect: Dictionary,
+		parryable: bool, from: Vector2) -> void:
+	if target == hero and hero.try_parry(src, parryable):
+		return
+	var taken := target.take_damage(damage * Damage.armor_factor(target.armor), false, src)
+	if taken <= 0.0 and target.is_invulnerable():
+		return
+	if effect.has("stun"):
+		target.statuses.apply(&"stun", float(effect["stun"]))
+	if effect.has("root"):
+		target.statuses.apply(&"root", float(effect["root"]))
+	if effect.has("slow"):
+		target.statuses.apply(&"slow", float(effect["slow"][1]), float(effect["slow"][0]))
+	if effect.get("pull", false) and src != null:
+		var to_src := src.pos - target.pos
+		var dist := maxf(0.0, to_src.length() - src.radius - target.radius - 0.2)
+		target.statuses.push(to_src.normalized() * dist / 0.25, 0.25)
+	if effect.has("knockback"):
+		var away := (target.pos - from).normalized()
+		target.statuses.push(away * float(effect["knockback"]) / 0.3, 0.3)
 
 
 ## Pushes overlapping bodies apart. The hero passes through enemies while dodging (GDD 7).
@@ -160,11 +218,11 @@ func _separate() -> void:
 	var n := entities.size()
 	for i in n:
 		var a := entities[i]
-		if not a.alive:
+		if not a.alive or not (a is Combatant):
 			continue
 		for j in range(i + 1, n):
 			var b := entities[j]
-			if not b.alive:
+			if not b.alive or not (b is Combatant):
 				continue
 			if (a == hero and hero.is_dodging()) or (b == hero and hero.is_dodging()):
 				continue

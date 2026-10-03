@@ -39,6 +39,13 @@ func setup(w: World, ov: WorldOverlay) -> void:
 	_button("Kill all enemies (K)", kill_all)
 	_button("Water +10%", func() -> void: world.timer.elapsed += world.timer.limit * 0.1)
 	_button("Heal hero", func() -> void: world.hero.hp = world.hero.max_hp)
+	_button("Give all skills", func() -> void:
+		for id in SkillDB.actives() + SkillDB.passives():
+			if world.hero.find_skill(id) == null:
+				world.hero.add_skill(id))
+	_button("All skills +1 level", func() -> void:
+		for sk in world.hero.all_skills():
+			sk.set_level(sk.level + 1))
 	_button("Restart floor (R)", func() -> void: get_tree().reload_current_scene())
 
 

@@ -5,3 +5,15 @@ HUD_WATER,Water,Вода,Agua
 BTN_DODGE,Dodge,Уворот,Esquivar
 BTN_ACTION,Action,Действие,Acción
 SPIKE_HINT,"WASD / joystick — move, Space — dodge","WASD / джойстик — движение, Пробел — уворот","WASD / joystick — moverse, Espacio — esquivar"
+SKILL_CLEAVE_NAME,Cleave,Рассечение,Tajo
+SKILL_DASH_NAME,Dash Strike,Рывок,Embestida
+SKILL_WHIRLWIND_NAME,Whirlwind,Вихрь клинков,Torbellino
+SKILL_PARRY_NAME,Parry,Парирование,Parada
+SKILL_BLADE_NAME,Throwing Blade,Метательный клинок,Hoja arrojadiza
+SKILL_CRY_NAME,Battle Cry,Боевой клич,Grito de guerra
+SKILL_BLEED_NAME,Bleed,Кровотечение,Sangrado
+SKILL_MASTER_NAME,Blade Master,Мастер клинка,Maestro de la hoja
+SKILL_LIFESTEAL_NAME,Lifesteal,Вампиризм,Robo de vida
+SKILL_COUNTER_NAME,Counterattack,Контратака,Contraataque
+SKILL_WIND_NAME,Second Wind,Второе дыхание,Segundo aliento
+SKILL_FURY_NAME,Fury,Ярость,Furia

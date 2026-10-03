@@ -2,11 +2,51 @@
 	"id": "test_spike",
 	"name_key": "FLOOR_TEST_SPIKE",
 	"time_limit": 120,
-	"goal": {"type": "breakthrough"},
+	"goal": {
+		"type": "breakthrough"
+	},
 	"packs": {
-		"a": [{"mob": "rat", "count": 4}],
-		"b": [{"mob": "prisoner", "count": 2}, {"mob": "rat", "count": 2}],
-		"c": [{"mob": "jailer", "count": 1}, {"mob": "prisoner", "count": 2}],
-		"d": [{"mob": "crossbowman", "count": 2}, {"mob": "drowned", "count": 1}]
+		"a": [
+			{
+				"mob": "rat",
+				"count": 4
+			}
+		],
+		"b": [
+			{
+				"mob": "prisoner",
+				"count": 2
+			},
+			{
+				"mob": "rat",
+				"count": 2
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		],
+		"d": [
+			{
+				"mob": "crossbowman",
+				"count": 2
+			},
+			{
+				"mob": "drowned",
+				"count": 1
+			}
+		],
+		"e": [
+			{
+				"mob": "chain_brute",
+				"count": 1
+			}
+		]
 	}
 }

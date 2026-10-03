@@ -11,6 +11,8 @@ const CLIPS := {
 	&"idle": &"Idle_02", &"run": &"Run_02", &"attack_a": &"Left_Slash", &"attack_b": &"Right_Hand_Sword_Slash",
 	&"dodge": &"Roll_Dodge", &"hit": &"Hit_Reaction", &"death": &"dying_backwards",
 	&"dash_strike": &"Thrust_Slash", &"whirlwind": &"Double_Blade_Spin", &"battle_cry": &"Sword_Shout",
+	&"cleave": &"Charged_Slash", &"parry": &"Sword_Parry", &"throwing_blade": &"Crouch_Charge_and_Throw",
+	&"interact": &"open_door",
 }
 const SWORD_OFFSET := Vector3(0.0, 0.08, 0.02)
 const SWORD_ROTATION := Vector3(-90, 0, 0)
@@ -26,6 +28,8 @@ var _roll: float = 0.0
 var _last_swing: float = 0.0
 var _swing_alt: bool = false
 var _hit_shown: float = 99.0
+var _skill_shown: StringName = &""
+var _skill_left_prev: float = 0.0
 
 
 func setup(h: Hero, look: StringName = &"male") -> void:
@@ -97,9 +101,23 @@ func _animate_model() -> void:
 	if not hero.alive:
 		model.play_state(&"death")
 		return
+	if hero.anim_state == &"whirlwind":
+		model.play_state(&"whirlwind", 1.6)
+		return
+	if hero.skill_anim_left > 0.0 and hero.anim_state != &"run":
+		if _skill_shown != hero.skill_anim or hero.skill_anim_left > _skill_left_prev:
+			_skill_shown = hero.skill_anim
+			var len := model.clip_length(hero.skill_anim)
+			model.play_state(hero.skill_anim, maxf(1.0, len / maxf(hero.skill_anim_left, 0.2)), true)
+		_skill_left_prev = hero.skill_anim_left
+		return
+	_skill_shown = &""
+	_skill_left_prev = 0.0
 	match hero.anim_state:
-		&"dodge":
+		&"dodge", &"dash":
 			model.play_state(&"dodge", model.clip_length(&"dodge") / hero.dodge_duration / 1.6)
+		&"stunned":
+			model.play_state(&"hit", 0.5)
 		&"run":
 			model.play_state(&"run", hero.move_speed * hero.speed_factor / 4.0)
 		&"attack":

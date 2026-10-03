@@ -187,6 +187,8 @@ func _animate_model(delta: float, flash: float) -> void:
 			queue_free()
 		return
 	match mob.anim_state:
+		&"cast":
+			model.play_state(&"attack", 0.55)
 		&"run":
 			model.play_state(&"run", mob.move_speed / 3.2)
 		&"attack":

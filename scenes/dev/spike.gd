@@ -23,6 +23,11 @@ func _ready() -> void:
 	if not hero_at.is_empty():
 		var xy := hero_at.split(",")
 		world.hero.pos = Vector2(float(xy[0]), float(xy[1]))
+	if DevTools.arg("skills") == "all":
+		for id in [&"whirlwind", &"throwing_blade", &"blade_master", &"fury"]:
+			world.hero.add_skill(id)
+	world.hero.auto_mode = DevTools.arg("auto") == "1"
+	world.hero.immortal = DevTools.arg("immortal") == "1"
 	var start_progress := float(DevTools.arg("water", "0"))
 	world.timer.elapsed = world.timer.limit * start_progress
 
@@ -56,15 +61,48 @@ func _ready() -> void:
 	hud.setup(world)
 	hud.controls.dodge_pressed.connect(func() -> void: world.hero.input.dodge_requested = true)
 	hud.controls.world_tapped.connect(_on_world_tapped)
+	hud.controls.skill_pressed.connect(func(i: int) -> void: world.hero.input.skill_requested[i] = true)
+	hud.controls.auto_toggled.connect(func() -> void: world.hero.auto_mode = not world.hero.auto_mode)
+	world.telegraph_started.connect(_add_telegraph_view)
 	hud.overlay.setup(world, cam)
+	if DevTools.arg("telegraphs") == "1":
+		_spawn_test_telegraphs()
 	if DebugMenu.enabled():
 		var dbg := DebugMenu.new()
 		add_child(dbg)
 		dbg.setup(world, hud.overlay)
 
 
+## Visual check: one telegraph of each shape around the hero, half filled.
+func _spawn_test_telegraphs() -> void:
+	var h := world.hero.pos
+	var shapes := [
+		[{"type": "circle", "radius": 2.0}, h + Vector2(-3.5, 0), Vector2.RIGHT],
+		[{"type": "cone", "angle": 90, "radius": 3.0}, h + Vector2(0.5, -0.5), Vector2.RIGHT],
+		[{"type": "line", "length": 6.0, "width": 1.2}, h + Vector2(-2, 2.5), Vector2.RIGHT],
+	]
+	for sh: Array in shapes:
+		var t := Telegraph.new()
+		t.shape = sh[0]
+		t.origin = sh[1]
+		t.dir = sh[2]
+		t.total = 100.0
+		world.add_telegraph(t)
+		t.left = 50.0
+
+
+func _add_telegraph_view(t: Telegraph) -> void:
+	var v := TelegraphView.new()
+	add_child(v)
+	v.setup(t)
+
+
 func _add_view(e: Entity) -> void:
-	if e is Mob:
+	if e is Projectile:
+		var pv := ProjectileView.new()
+		add_child(pv)
+		pv.setup(e)
+	elif e is Mob:
 		var v := MobView.new()
 		add_child(v)
 		v.setup(e)
@@ -108,6 +146,9 @@ func _physics_process(_delta: float) -> void:
 	input.move = keys if keys.length() > 0.0 else hud.controls.joystick
 	if Input.is_action_just_pressed(&"dodge"):
 		input.dodge_requested = true
+	for i in 3:
+		if Input.is_action_just_pressed(StringName("skill_%d" % (i + 1))):
+			input.skill_requested[i] = true
 	if time_scale > 1.0:
 		world.timer.tick(get_physics_process_delta_time() * (time_scale - 1.0))
 
