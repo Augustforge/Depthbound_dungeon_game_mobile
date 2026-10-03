@@ -23,6 +23,7 @@ var _stairs_msg_left: float = 0.0
 var _boss_bar: BossBar
 var _line_panel: PanelContainer
 var _line_label: Label
+var _line_portrait: TextureRect
 var _line_left: float = 0.0
 
 
@@ -92,10 +93,26 @@ func setup(w: World) -> void:
 	_line_panel.anchor_bottom = 1.0
 	_line_panel.offset_left = -520
 	_line_panel.offset_right = 520
-	_line_panel.offset_top = -260
+	_line_panel.offset_top = -340
+	_line_panel.offset_bottom = -190
 	_line_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_line_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_line_label = UiKit.label(_line_panel, "", 32, Color(1, 0.85, 0.75))
+	var line_row := HBoxContainer.new()
+	line_row.add_theme_constant_override(&"separation", 18)
+	line_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_line_panel.add_child(line_row)
+	_line_portrait = TextureRect.new()
+	_line_portrait.custom_minimum_size = Vector2(110, 110)
+	_line_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_line_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	line_row.add_child(_line_portrait)
+	_line_label = Label.new()
+	_line_label.add_theme_font_size_override(&"font_size", 32)
+	_line_label.add_theme_color_override(&"font_color", Color(1, 0.85, 0.75))
+	_line_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_line_label.custom_minimum_size = Vector2(800, 0)
+	_line_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	line_row.add_child(_line_label)
 	_line_panel.visible = false
 	_hp_bar = HpBar.new()
 	_hp_bar.position = Vector2(40, 70)
@@ -222,6 +239,9 @@ func show_hint(text: String, seconds: float) -> void:
 func show_boss_line(key: String) -> void:
 	var boss_name := tr(String(world.boss.boss_data["name_key"])) if world.boss else ""
 	_line_label.text = "%s: «%s»" % [boss_name, tr(key)]
+	var portrait := "res://assets/ui/portrait_%s.webp" % String(world.boss.def_id) if world.boss else ""
+	_line_portrait.texture = load(portrait) if not portrait.is_empty() and ResourceLoader.exists(portrait) else null
+	_line_portrait.visible = _line_portrait.texture != null
 	_line_left = 3.0
 
 

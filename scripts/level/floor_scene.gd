@@ -100,6 +100,7 @@ func _build_view(grid: FloorGrid) -> void:
 	cam = CameraRig.new()
 	add_child(cam)
 	cam.target = hero_view
+	cam.bounds = Rect2(0, 0, grid.width, grid.height)
 	hero_view._process(0.0)
 	cam.snap()
 	_add_environment()

@@ -1,14 +1,13 @@
 extends Control
 ## Intro (GDD 3.3): four still frames with a line of text each; tap to go on, "Skip" to the camp.
-## Frames slowly pan over the menu and camp art until the comic frames arrive (art track A5).
+## Painted frames (art track A5) with a slow pan and zoom.
 
 const WELL := preload("res://assets/ui/main_menu.webp")
-const CAMP := preload("res://assets/ui/camp.webp")
 const FRAMES := [
-	{"art": "well", "key": "INTRO_1", "from": Vector2(0.0, 0.0), "zoom": 1.25},
-	{"art": "well", "key": "INTRO_2", "from": Vector2(-0.15, -0.05), "zoom": 1.35},
-	{"art": "well", "key": "INTRO_3", "from": Vector2(-0.1, -0.2), "zoom": 1.5},
-	{"art": "camp", "key": "INTRO_4", "from": Vector2(-0.05, -0.05), "zoom": 1.2},
+	{"art": "res://assets/ui/intro/frame1.webp", "key": "INTRO_1", "from": Vector2(0.0, 0.0), "zoom": 1.15},
+	{"art": "res://assets/ui/intro/frame2.webp", "key": "INTRO_2", "from": Vector2(-0.06, -0.02), "zoom": 1.2},
+	{"art": "res://assets/ui/intro/frame3.webp", "key": "INTRO_3", "from": Vector2(-0.04, -0.08), "zoom": 1.25},
+	{"art": "res://assets/ui/intro/frame4.webp", "key": "INTRO_4", "from": Vector2(-0.03, -0.03), "zoom": 1.15},
 ]
 
 var _index: int = -1
@@ -25,9 +24,20 @@ func _ready() -> void:
 	add_child(bg)
 	_art = UiKit.cover_art(self, WELL)
 	_art.pivot_offset = Vector2(960, 540)
-	var shade := ColorRect.new()
-	shade.color = Color(0, 0, 0, 0.35)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# A dark band under the text so it reads over any frame.
+	var g := Gradient.new()
+	g.set_color(0, Color(0, 0, 0, 0.0))
+	g.set_color(1, Color(0, 0, 0, 0.8))
+	var gt := GradientTexture2D.new()
+	gt.gradient = g
+	gt.fill_from = Vector2(0, 0)
+	gt.fill_to = Vector2(0, 1)
+	var shade := TextureRect.new()
+	shade.texture = gt
+	shade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	shade.anchor_right = 1.0
+	shade.anchor_top = 0.55
+	shade.anchor_bottom = 1.0
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(shade)
 	_text = UiKit.label(self, "", 40, UiKit.TEXT)
@@ -64,7 +74,7 @@ func _next() -> void:
 		_finish()
 		return
 	var f: Dictionary = FRAMES[_index]
-	_art.texture = WELL if f["art"] == "well" else CAMP
+	_art.texture = load(String(f["art"])) if ResourceLoader.exists(String(f["art"])) else WELL
 	_art.scale = Vector2.ONE * float(f["zoom"])
 	_art.position = Vector2(f["from"]) * size
 	_text.text = tr(String(f["key"]))
