@@ -327,6 +327,9 @@ func find_path(from: Vector2, to: Vector2) -> PackedVector2Array:
 	var path := _astar.get_point_path(a, b, true)
 	if path.size() > 0:
 		path[path.size() - 1] = to
+	# The first point is the centre of the cell we stand in: walking back to it makes units jitter.
+	if path.size() > 1:
+		path.remove_at(0)
 	return path
 
 

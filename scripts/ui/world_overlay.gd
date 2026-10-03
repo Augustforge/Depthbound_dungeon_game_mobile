@@ -66,6 +66,21 @@ func _draw() -> void:
 			var r := Rect2(s - Vector2(w * 0.5, 0), Vector2(w, 10))
 			draw_rect(r.grow(2), Color(0, 0, 0, 0.75))
 			draw_rect(Rect2(r.position, Vector2(w * e.hp / e.max_hp, 10)), Color(0.85, 0.18, 0.15))
+	# Key icon over the key holder (GDD 10.3) and the interaction progress over the hero (GDD 5).
+	for e in world.entities:
+		if e is Mob and e.alive and e.key_holder:
+			var kp := Vector3(e.pos.x, 2.9, e.pos.y)
+			if not camera.is_position_behind(kp):
+				var ks := camera.unproject_position(kp)
+				draw_circle(ks, 22.0, Color(0.1, 0.08, 0.02, 0.85))
+				draw_string(font, ks + Vector2(-12, 11), "⚿", HORIZONTAL_ALIGNMENT_LEFT, -1, 32, Color(1, 0.85, 0.3))
+	var hero := world.hero
+	if hero.interact_target != null:
+		var hp3 := Vector3(hero.pos.x, 2.3, hero.pos.y)
+		var hs := camera.unproject_position(hp3)
+		var k := 1.0 - hero.interact_left / maxf(hero.interact_total, 0.01)
+		draw_rect(Rect2(hs - Vector2(60, 0), Vector2(120, 12)).grow(2), Color(0, 0, 0, 0.8))
+		draw_rect(Rect2(hs - Vector2(60, 0), Vector2(120 * k, 12)), Color(0.95, 0.85, 0.4))
 	for n in _numbers:
 		var p: Vector3 = n["pos"]
 		if camera.is_position_behind(p):

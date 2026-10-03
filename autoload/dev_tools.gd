@@ -36,6 +36,6 @@ func _process(_delta: float) -> void:
 
 func _run_smoke_test() -> void:
 	var ok := DataDB.load_errors.is_empty() and Settings.load_translations() > 0
-	ok = ok and FileAccess.file_exists("res://levels/test/spike_room.txt")
+	ok = ok and FileAccess.file_exists("res://levels/d01/floor_01.txt")
 	print("SMOKE_OK" if ok else "SMOKE_FAIL %s" % [DataDB.load_errors])
 	get_tree().quit(0 if ok else 1)

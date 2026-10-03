@@ -20,6 +20,8 @@ var dodge_charges: int = 1
 ## Per slot: {"ready": 0..1, "level": int, "label": String, "seconds": float} or {} when empty.
 var skills: Array[Dictionary] = [{}, {}, {}]
 var auto_on: bool = false
+var action_visible: bool = false
+var action_progress: float = 0.0
 const SKILL_OFFSETS: Array[Vector2] = [Vector2(-235, 30), Vector2(-175, -160), Vector2(0, -235)]
 const SKILL_RADIUS := 68.0
 
@@ -39,6 +41,10 @@ func _dodge_center() -> Vector2:
 
 func _skill_center(i: int) -> Vector2:
 	return _dodge_center() + SKILL_OFFSETS[i]
+
+
+func _action_center() -> Vector2:
+	return _dodge_center() + Vector2(-420, 30)
 
 
 func _auto_center() -> Vector2:
@@ -62,6 +68,10 @@ func _input(event: InputEvent) -> void:
 					skill_pressed.emit(i)
 					get_viewport().set_input_as_handled()
 					return
+			if action_visible and t.position.distance_to(_action_center()) < 80.0:
+				action_pressed.emit()
+				get_viewport().set_input_as_handled()
+				return
 			if t.position.distance_to(_auto_center()) < 55.0:
 				auto_toggled.emit()
 				get_viewport().set_input_as_handled()
@@ -111,6 +121,15 @@ func _draw() -> void:
 	var font := get_theme_default_font()
 	for i in 3:
 		_draw_skill(i, font)
+	if action_visible:
+		var xc := _action_center()
+		draw_circle(xc, 72.0, Color(0.1, 0.18, 0.12, 0.9))
+		draw_arc(xc, 72.0, 0, TAU, 48, Color(0.6, 0.95, 0.6), 4.0, true)
+		if action_progress > 0.0:
+			draw_arc(xc, 64.0, -PI / 2.0, -PI / 2.0 + TAU * action_progress, 48, Color(0.95, 0.95, 0.6), 9.0, true)
+		var at2 := tr("BTN_ACTION")
+		var aw2 := font.get_string_size(at2, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
+		draw_string(font, xc + Vector2(-aw2 * 0.5, 9), at2, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color(0.9, 1, 0.9))
 	var ac := _auto_center()
 	draw_circle(ac, 48.0, Color(0.85, 0.55, 0.15, 0.9) if auto_on else Color(0.06, 0.07, 0.08, 0.75))
 	draw_arc(ac, 48.0, 0, TAU, 48, Color(0.95, 0.85, 0.6), 3.0, true)

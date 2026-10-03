@@ -1,18 +1,29 @@
 extends Node
-## Current run state (GDD 19.2). Filled by stage 3–5; kept minimal for now.
+## Current run (GDD 19.2): RunState for the dungeon in progress plus helpers to move between floors.
 
-var run_seed: int = 0
-var floor_index: int = 1
+const DUNGEON := "d01"
+## MVP: floors 1–10 (GDD 20.1).
+const LAST_FLOOR := 10
+
+var run: RunState
 var hero_class: StringName = &"swordsman"
 var hero_look: StringName = &"male"
 var rng: RngStreams
 
 
 func _ready() -> void:
-	new_run(int(Time.get_unix_time_from_system()))
+	if run == null:
+		new_run(int(Time.get_unix_time_from_system()))
 
 
 func new_run(seed_value: int) -> void:
-	run_seed = seed_value
-	floor_index = 1
-	rng = RngStreams.new(run_seed)
+	run = RunState.new_run(seed_value)
+	rng = RngStreams.new(seed_value)
+
+
+static func floor_path(index: int) -> String:
+	return "res://levels/%s/floor_%02d" % [DUNGEON, index]
+
+
+static func floor_exists(index: int) -> bool:
+	return FileAccess.file_exists(floor_path(index) + ".txt")

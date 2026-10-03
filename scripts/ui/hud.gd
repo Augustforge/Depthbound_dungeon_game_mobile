@@ -11,6 +11,13 @@ var _fps: Label
 var _gauge: WaterGauge
 var _hp_bar: HpBar
 var overlay: WorldOverlay
+var _goal: Label
+var _gold: Label
+var _hint_panel: PanelContainer
+var _hint_label: Label
+var _hint_left: float = 0.0
+var _essence: EssenceBar
+var _stairs_msg_left: float = 0.0
 
 
 func setup(w: World) -> void:
@@ -31,11 +38,34 @@ func setup(w: World) -> void:
 	_fps = _label(root, 22, Color(0.6, 0.7, 0.7))
 	_fps.position = Vector2(40, 16)
 	_gauge = WaterGauge.new()
-	_gauge.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
-	_gauge.custom_minimum_size = Vector2(46, 420)
-	_gauge.size = Vector2(46, 420)
-	_gauge.position = Vector2(-140, -260)
+	_gauge.anchor_left = 1.0
+	_gauge.anchor_right = 1.0
+	_gauge.offset_left = -80
+	_gauge.offset_right = -40
+	_gauge.offset_top = 120
+	_gauge.offset_bottom = 440
 	root.add_child(_gauge)
+	_goal = _label(root, 28, Color(0.85, 0.82, 0.7))
+	_goal.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	_goal.position.y = 132
+	_gold = _label(root, 30, Color(1, 0.82, 0.35))
+	_gold.position = Vector2(40, 112)
+	_gold.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_essence = EssenceBar.new()
+	_essence.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	_essence.position = Vector2(40, -64)
+	_essence.size = Vector2(440, 26)
+	root.add_child(_essence)
+	_hint_panel = UiKit.panel(root)
+	_hint_panel.anchor_left = 0.5
+	_hint_panel.anchor_right = 0.5
+	_hint_panel.offset_left = -450
+	_hint_panel.offset_right = 450
+	_hint_panel.offset_top = 190
+	_hint_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_hint_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hint_label = UiKit.label(_hint_panel, "", 34)
+	_hint_panel.visible = false
 	_hp_bar = HpBar.new()
 	_hp_bar.position = Vector2(40, 70)
 	_hp_bar.size = Vector2(420, 34)
@@ -69,7 +99,20 @@ func _process(_delta: float) -> void:
 	_timer_label.text = "%d:%02d" % [rem / 60, rem % 60]
 	var alarm := t.remaining() <= 30.0
 	_timer_label.add_theme_color_override(&"font_color", Color(1, 0.35, 0.3) if alarm else Color(0.95, 0.92, 0.85))
-	_hint.text = tr("SPIKE_HINT")
+	_hint.text = tr("SPIKE_HINT") if not world.grid.data.get("tutorial", false) else ""
+	_hint.visible = OS.has_feature("pc") or OS.has_feature("editor")
+	_gold.text = "◆ %d" % (world.gold_collected + (world.run.gold if world.run else 0))
+	_goal.text = _goal_text()
+	_essence.value = world.essence
+	_essence.threshold = world.essence_threshold()
+	_essence.total = world.essence_total
+	_hint_left -= get_process_delta_time()
+	_hint_panel.visible = _hint_left > 0.0
+	var near := world.interactable_near(world.hero.pos)
+	controls.action_visible = near != null or world.hero.interact_target != null
+	controls.action_progress = 0.0 if world.hero.interact_target == null else \
+			1.0 - world.hero.interact_left / maxf(world.hero.interact_total, 0.01)
+	_stairs_message()
 	_fps.text = "%d FPS" % Engine.get_frames_per_second()
 	_gauge.ratio = clampf(t.progress(), 0.0, 1.0)
 	controls.dodge_ready = world.hero.dodge_ready_ratio()
@@ -81,6 +124,52 @@ func _process(_delta: float) -> void:
 			"seconds": sk.cooldown_left}
 	_hp_bar.hp = world.hero.hp
 	_hp_bar.max_hp = world.hero.max_hp
+
+
+func show_hint(text: String, seconds: float) -> void:
+	_hint_label.text = text
+	_hint_left = seconds
+
+
+func _goal_text() -> String:
+	match world.goal_type:
+		&"key_holder":
+			return tr("GOAL_KEY_DONE") if world.has_key else tr("GOAL_KEY_MISSING")
+		&"seals":
+			return tr("GOAL_SEALS") % [world.seals_done, world.seals_needed]
+	return tr("GOAL_BREAKTHROUGH")
+
+
+## "Locked: you need the key" / "seals 1/3" when standing at closed stairs (GDD 13.2).
+func _stairs_message() -> void:
+	var at_stairs := world.hero.pos.distance_to(FloorGrid.cell_center(world.grid.exit)) < 1.6
+	if at_stairs and not world.goal_done() and _hint_left <= 0.0:
+		var msg := tr("STAIRS_LOCKED_KEY") if world.goal_type == &"key_holder" \
+				else tr("STAIRS_LOCKED_SEALS") % [world.seals_done, world.seals_needed]
+		show_hint(msg, 1.5)
+
+
+class EssenceBar:
+	extends Control
+	var value: float = 0.0
+	var threshold: float = 1.0
+	var total: float = 1.0
+
+	func _process(_d: float) -> void:
+		queue_redraw()
+
+	func _draw() -> void:
+		var r := Rect2(Vector2.ZERO, size)
+		draw_rect(r.grow(3), Color(0, 0, 0, 0.8))
+		var full := value >= threshold and total > 0.0
+		var col := Color(0.75, 0.45, 1.0) if full else Color(0.5, 0.3, 0.75)
+		draw_rect(Rect2(Vector2.ZERO, Vector2(size.x * clampf(value / maxf(total, 1.0), 0, 1), size.y)), col)
+		var tx := size.x * clampf(threshold / maxf(total, 1.0), 0, 1)
+		draw_line(Vector2(tx, -8), Vector2(tx, size.y + 8), Color(1, 0.9, 0.6), 3.0)
+		draw_rect(r, Color(0.7, 0.62, 0.48), false, 2.0)
+		var font := get_theme_default_font()
+		draw_string(font, Vector2(0, -12), "%s %d / %d" % [tr("HUD_ESSENCE"), roundi(value), roundi(threshold)],
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color(0.85, 0.75, 1.0))
 
 
 class HpBar:

@@ -45,6 +45,7 @@ func heal(amount: float) -> void:
 
 func die(_killer: Entity) -> void:
 	alive = false
+	hp = 0.0
 	anim_state = &"death"
 	world.entity_died.emit(self)
 

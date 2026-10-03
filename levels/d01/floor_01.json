@@ -1,0 +1,23 @@
+{
+	"id": "d01_f01",
+	"name_key": "FLOOR_D01_01",
+	"time_limit": 150,
+	"goal": {"type": "breakthrough"},
+	"zone": "cells",
+	"tutorial": true,
+	"packs": {
+		"a": [{"mob": "rat", "count": 3}],
+		"b": [{"mob": "prisoner", "count": 2}],
+		"c": [{"mob": "prisoner", "count": 2}, {"mob": "rat", "count": 3}],
+		"d": [{"mob": "rat", "count": 4}]
+	},
+	"locks": {"c": [[29, 15], [29, 16]]},
+	"notes": {"N": "NOTE_D01_01"},
+	"hints": [
+		{"at": [2, 2], "radius": 2.5, "key": "TUT_MOVE"},
+		{"at": [14, 4], "radius": 2.0, "key": "TUT_ATTACK"},
+		{"at": [17, 8], "radius": 1.6, "key": "TUT_DODGE"},
+		{"at": [22, 15], "radius": 2.5, "key": "TUT_SKILL"},
+		{"at": [21, 2], "radius": 2.0, "key": "TUT_ACTION"}
+	]
+}

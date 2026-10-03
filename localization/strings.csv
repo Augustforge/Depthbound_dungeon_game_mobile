@@ -17,3 +17,69 @@ SKILL_LIFESTEAL_NAME,Lifesteal,Вампиризм,Robo de vida
 SKILL_COUNTER_NAME,Counterattack,Контратака,Contraataque
 SKILL_WIND_NAME,Second Wind,Второе дыхание,Segundo aliento
 SKILL_FURY_NAME,Fury,Ярость,Furia
+HUD_ESSENCE,Essence,Эссенция,Esencia
+HUD_GOLD,Gold,Золото,Oro
+GOAL_BREAKTHROUGH,Reach the stairs,Доберись до лестницы,Llega a la escalera
+GOAL_KEY_MISSING,Key: take it from the marked enemy,Ключ: забери у отмеченного врага,Llave: quítasela al enemigo marcado
+GOAL_KEY_DONE,Key found — to the stairs!,Ключ у тебя — к лестнице!,¡Tienes la llave! A la escalera
+GOAL_SEALS,Seals %d / %d,Печати %d / %d,Sellos %d / %d
+STAIRS_LOCKED_KEY,Locked: you need the key,Заперто: нужен ключ,Cerrado: necesitas la llave
+STAIRS_LOCKED_SEALS,Locked: seals %d / %d,Заперто: печати %d / %d,Cerrado: sellos %d / %d
+TUT_MOVE,Drag on the left side to move,"Веди пальцем слева, чтобы идти",Desliza a la izquierda para moverte
+TUT_ATTACK,Stop near an enemy — attacks happen automatically,Остановись рядом с врагом — атака пойдёт сама,Detente junto a un enemigo: el ataque es automático
+TUT_DODGE,Dodge — the button or Space. Dodge through the spikes!,Уворот — кнопка или Пробел. Проскочи шипы!,Esquiva con el botón o Espacio. ¡Cruza los pinchos!
+TUT_SKILL,Press a skill button — or turn on AUTO,Нажми кнопку навыка — или включи AUTO,Pulsa una habilidad o activa AUTO
+TUT_ACTION,Stand next to a chest and press Action,Встань у сундука и нажми «Действие»,Ponte junto al cofre y pulsa «Acción»
+NOTE_TITLE,A prisoner's note,Записка узника,Nota de un prisionero
+NOTE_D01_01,"If you are reading this, they threw you down too. Do not stand still. The water always comes.",Если читаешь это — тебя тоже сбросили. Не стой на месте. Вода приходит всегда.,"Si lees esto, a ti también te arrojaron. No te quedes quieto. El agua siempre llega."
+NOTE_D01_02,The senior jailer wears the key on his belt. You will not get down without it. I tried.,Старший тюремщик носит ключ на поясе. Без ключа вниз не спустишься. Я пробовал.,El carcelero mayor lleva la llave en el cinturón. Sin ella no bajarás. Lo intenté.
+NOTE_D01_03,The drowned grab your legs. Do not stand next to them in the water — they are stronger there.,Утопленники хватают за ноги. Не стой рядом с ними в воде — там они сильнее.,Los ahogados te agarran de las piernas. No te quedes junto a ellos en el agua: allí son más fuertes.
+NOTE_D01_04,The executioner always winds up before he strikes. Watch the swing — and step aside.,Палач всегда замахивается перед ударом. Смотри на замах — и уходи в сторону.,El verdugo siempre toma impulso antes de golpear. Mira el impulso y apártate.
+BTN_CLOSE,Close,Закрыть,Cerrar
+SUMMARY_TITLE,Floor %d cleared,Этаж %d пройден,Piso %d superado
+SUMMARY_TIME,Time,Время,Tiempo
+SUMMARY_ESSENCE,Essence,Эссенция,Esencia
+SUMMARY_LOOT,Gear found,Найдено снаряжения,Equipo encontrado
+SUMMARY_DOUBLE,Essence threshold reached: choose twice!,Порог эссенции достигнут: выбор дважды!,¡Umbral de esencia alcanzado: elige dos veces!
+CHOOSE_CARD,Choose an upgrade,Выбери улучшение,Elige una mejora
+BTN_REROLL,Reroll (%d crystals),Перебросить (%d кристаллов),Volver a tirar (%d cristales)
+BTN_DESCEND,Descend,Спуститься,Descender
+DEATH_FELL,You have fallen,Ты пал,Has caído
+DEATH_DROWNED,The water took you,Тебя поглотила вода,El agua te ha tragado
+BTN_RETRY,Retry the floor,Повторить этаж,Repetir el piso
+BTN_NEW_RUN,New run,Новый забег,Nueva partida
+DEMO_END,This is the end of the current build. More floors are coming.,Это конец текущей сборки. Дальше — новые этажи.,Este es el final de la versión actual. Pronto habrá más pisos.
+RARITY_0,Common,Обычная,Común
+RARITY_1,Rare,Редкая,Rara
+RARITY_2,Epic,Эпическая,Épica
+CARD_SHARPNESS,Sharpness,Острота,Filo
+CARD_QUICK_HAND,Quick Hand,Быстрая рука,Mano rápida
+CARD_LIGHT_STEP,Light Step,Лёгкий шаг,Paso ligero
+CARD_VITALITY,Vitality,Живучесть,Vitalidad
+CARD_TEMPERING,Tempering,Закалка,Temple
+CARD_PRECISION,Precision,Точность,Precisión
+CARD_CRUELTY,Cruelty,Жестокость,Crueldad
+CARD_BLOODTHIRST,Bloodthirst,Жажда крови,Sed de sangre
+CARD_FOCUS,Focus,Концентрация,Concentración
+CARD_GREED,Greed,Жадность,Codicia
+CARD_RESPITE,Respite,Отсрочка,Respiro
+CARD_AGILITY,Agility,Ловкость,Agilidad
+CARD_SECOND_ROLL,Second Roll,Второй перекат,Segunda voltereta
+CARD_RIPOSTE,Riposte,Контрвыпад,Contraestocada
+CARD_SKILL_UP,Upgrade: %s,Улучшение: %s,Mejora: %s
+STAT_atk,+%s damage,+%s урона,+%s de daño
+STAT_attack_speed,+%s attack speed,+%s скорости атаки,+%s de velocidad de ataque
+STAT_move_speed,+%s move speed,+%s скорости бега,+%s de velocidad
+STAT_max_hp,+%s max HP,+%s к здоровью,+%s de salud máxima
+STAT_armor,+%s armor,+%s брони,+%s de armadura
+STAT_crit_chance,+%s crit chance,+%s шанса крита,+%s de probabilidad crítica
+STAT_crit_damage,+%s crit damage,+%s силы крита,+%s de daño crítico
+STAT_lifesteal,+%s lifesteal,+%s вампиризма,+%s de robo de vida
+STAT_cdr,+%s cooldown reduction,+%s сокращения перезарядки,+%s de reducción de enfriamiento
+STAT_pickup_radius,+%s m pickup radius and more gold,+%s м радиуса подбора и больше золота,+%s m de radio de recogida y más oro
+CARD_RESPITE_DESC,+%s time on all next floors,+%s времени на всех следующих этажах,+%s de tiempo en los siguientes pisos
+CARD_AGILITY_DESC,Dodge cooldown -1 s,Перезарядка уворота −1 с,Enfriamiento de esquiva −1 s
+CARD_SECOND_ROLL_DESC,+1 dodge charge,+1 заряд уворота,+1 carga de esquiva
+CARD_RIPOSTE_DESC,After a dodge the next attack deals double damage,После уворота следующая атака наносит двойной урон,"Tras esquivar, el siguiente ataque hace el doble de daño"
+CARD_SKILL_UP_DESC,Level %d → %d,Уровень %d → %d,Nivel %d → %d
+CARD_SKILL_UP_RARE,"Level %d → %d, cooldown −10%%","Уровень %d → %d, перезарядка −10%%","Nivel %d → %d, enfriamiento −10%%"
