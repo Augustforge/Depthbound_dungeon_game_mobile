@@ -6,6 +6,8 @@ extends Node3D
 const WALL_HEIGHT := 2.2
 const CHUNK := 16
 const ENV_SHADER := preload("res://shaders/env.gdshader")
+const FLOOR_TEX := "res://assets/textures/floor_stone.webp"
+const WALL_TEX := "res://assets/textures/wall_stone.webp"
 
 var grid: FloorGrid
 var floor_material: ShaderMaterial
@@ -22,6 +24,11 @@ func build(floor_grid: FloorGrid, torches: Array[Dictionary], accent: Dictionary
 	wall_material = ShaderMaterial.new()
 	wall_material.shader = ENV_SHADER
 	wall_material.set_shader_parameter(&"is_wall", 1.0)
+	for mat: ShaderMaterial in [floor_material, wall_material]:
+		if ResourceLoader.exists(FLOOR_TEX) and ResourceLoader.exists(WALL_TEX):
+			mat.set_shader_parameter(&"floor_tex", load(FLOOR_TEX))
+			mat.set_shader_parameter(&"wall_tex", load(WALL_TEX))
+			mat.set_shader_parameter(&"use_textures", 1.0)
 	if not accent.is_empty():
 		for mat: ShaderMaterial in [floor_material, wall_material]:
 			mat.set_shader_parameter(&"stone_color", Accent.color(accent, "stone"))

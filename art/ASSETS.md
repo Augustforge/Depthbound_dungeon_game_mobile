@@ -31,12 +31,14 @@
 | Иконки 12 навыков и 6 слотов снаряжения | `assets/ui/icons/` | Meshy text-to-image (nano-banana-2), два листа 3×3, нарезаны | `art/source/icons/sheet_*.json` | Meshy | 2026-10-03 |
 | Кадры интро (4) | `assets/ui/intro/frame*.webp` | Meshy text-to-image (nano-banana-2), 16:9 | `art/source/intro/frame*.json` | Meshy | 2026-10-03 |
 | Портреты боссов для реплик | `assets/ui/portrait_warden_grum.webp`, `portrait_executioner_morten.webp` | вырезаны из концептов автора | — | собственность автора | 2026-10-03 |
+| Текстуры камня: пол из плит, стена из блоков (бесшовные) | `assets/textures/*_stone.webp` | Meshy text-to-image (nano-banana-2) | `art/source/textures/*.json` | Meshy | 2026-10-03 |
 
 ## Бюджет Meshy
 Баланс проверяется перед каждой крупной генерацией (`meshy balance`). Баланс на старте: 1190 кредитов.
 
 | Дата | Что | Потрачено | Остаток |
 |---|---|---|---|
+| 2026-10-03 | 2 текстуры камня (по 6) | 12 | 513 |
 | 2026-10-03 | 4 кадра интро (по 6) | 24 | 525 |
 | 2026-10-03 | 13 объектов (по 21: картинка 6 + 3D 15), 2 листа иконок (по 6) | 285 | 549 |
 | 2026-10-03 | Героиня: A-поза 6, image-to-3D 15, риг 5 | 26 | 834 |

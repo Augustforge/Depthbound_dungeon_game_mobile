@@ -9,6 +9,12 @@ uniform vec3 stone_color : source_color = vec3(0.33, 0.34, 0.34);
 uniform vec3 top_color : source_color = vec3(0.3, 0.31, 0.31);
 uniform vec3 ambient : source_color = vec3(0.13, 0.2, 0.23);
 uniform float is_wall = 0.0;
+// Painted stone (art track A0/A4): tiled in world space, tinted by the floor's accent.
+uniform sampler2D floor_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D wall_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform float use_textures = 0.0;
+uniform float floor_tile = 2.6;
+uniform float wall_tile = 2.4;
 
 varying vec3 world_pos;
 varying vec3 world_normal;
@@ -38,8 +44,12 @@ void fragment() {
 	bool top = wall && n.y > 0.5;
 	vec3 albedo;
 	vec3 light;
+	// Painted textures are about 0.45 grey: scale them to the accent's stone colour.
+	vec3 tint = stone_color / 0.34 * 0.95;
 	if (top) {
-		albedo = stones(world_pos.xz, vec2(0.55, 0.42), top_color);
+		albedo = use_textures > 0.5
+				? texture(wall_tex, world_pos.xz / wall_tile).rgb * top_color / 0.31 * 0.62
+				: stones(world_pos.xz, vec2(0.55, 0.42), top_color);
 		// Wall tops take the brightest light of the floor around them.
 		vec3 l0 = sample_light(world_pos.xz + vec2(0.0, 0.7), TIME);
 		vec3 l1 = sample_light(world_pos.xz + vec2(0.0, -0.7), TIME);
@@ -48,12 +58,16 @@ void fragment() {
 		light = ambient * 1.6 + max(max(l0, l1), max(l2, l3)) * 0.8;
 	} else if (wall) {
 		float u = abs(n.z) > 0.5 ? world_pos.x : world_pos.z;
-		albedo = stones(vec2(u, world_pos.y), vec2(0.62, 0.3), stone_color * 0.85);
+		albedo = use_textures > 0.5
+				? texture(wall_tex, vec2(u, -world_pos.y) / wall_tile).rgb * tint * 0.85
+				: stones(vec2(u, world_pos.y), vec2(0.62, 0.3), stone_color * 0.85);
 		albedo *= mix(0.55, 1.0, smoothstep(0.0, 1.6, world_pos.y));
 		light = ambient + sample_light(world_pos.xz + n.xz * 0.35, TIME);
 		light *= 0.92 + 0.08 * n.x; // key light from the top left
 	} else {
-		albedo = stones(world_pos.xz, vec2(0.5, 0.5), stone_color);
+		albedo = use_textures > 0.5
+				? texture(floor_tex, world_pos.xz / floor_tile).rgb * tint
+				: stones(world_pos.xz, vec2(0.5, 0.5), stone_color);
 		light = ambient + sample_light(world_pos.xz, TIME);
 	}
 	// Wet stone below and just above the water line.

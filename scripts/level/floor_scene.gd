@@ -342,6 +342,13 @@ func _open_pause() -> void:
 		ConfirmWindow.new().ask(self, tr("BTN_TO_CAMP"), tr("PAUSE_LEAVE_CONFIRM"), GameState.to_camp))
 
 
+## Leaving the app mid-floor (a call, the home button) opens the pause, so the water waits.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
+		if world != null and world.running and not _modal_open and DevTools.arg("screenshot").is_empty():
+			_open_pause()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"pause") and not _modal_open:
 		get_viewport().set_input_as_handled()
