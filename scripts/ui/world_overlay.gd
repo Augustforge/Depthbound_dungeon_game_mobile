@@ -7,6 +7,8 @@ const NUMBER_LIFE := 0.9
 
 var world: World
 var camera: Camera3D
+## Debug: draw aggro radii (yellow) and attack reach (red).
+var show_radii: bool = false
 var _numbers: Array[Dictionary] = []
 
 
@@ -33,10 +35,27 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+func _circle(c: Vector2, r: float, color: Color) -> void:
+	var pts := PackedVector2Array()
+	for i in 33:
+		var a := TAU * i / 32.0
+		var p := Vector3(c.x + cos(a) * r, 0.05, c.y + sin(a) * r)
+		if camera.is_position_behind(p):
+			return
+		pts.append(camera.unproject_position(p))
+	draw_polyline(pts, color, 2.0)
+
+
 func _draw() -> void:
 	if world == null or camera == null:
 		return
 	var font := get_theme_default_font()
+	if show_radii:
+		for e in world.entities:
+			if e is Mob and e.alive:
+				_circle(e.pos, e.aggro_radius, Color(1, 0.85, 0.2, 0.6))
+				_circle(e.pos, e.attack_range + world.hero.radius, Color(1, 0.3, 0.2, 0.7))
+		_circle(world.hero.pos, world.hero.stats.get_stat(&"attack_range"), Color(0.4, 1, 0.5, 0.7))
 	for e in world.entities:
 		if e is Mob and e.alive and (e.hp < e.max_hp or e.state != Mob.State.IDLE):
 			var p := Vector3(e.pos.x, 2.3 if e.def_id != &"rat" else 1.0, e.pos.y)

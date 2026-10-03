@@ -24,6 +24,10 @@ SaveManager="*res://autoload/save_manager.gd"
 AudioManager="*res://autoload/audio_manager.gd"
 DevTools="*res://autoload/dev_tools.gd"
 
+[depthbound]
+
+dev_build=true
+
 [display]
 
 window/size/viewport_width=1920

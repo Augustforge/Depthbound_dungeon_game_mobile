@@ -57,6 +57,10 @@ func _ready() -> void:
 	hud.controls.dodge_pressed.connect(func() -> void: world.hero.input.dodge_requested = true)
 	hud.controls.world_tapped.connect(_on_world_tapped)
 	hud.overlay.setup(world, cam)
+	if DebugMenu.enabled():
+		var dbg := DebugMenu.new()
+		add_child(dbg)
+		dbg.setup(world, hud.overlay)
 
 
 func _add_view(e: Entity) -> void:
@@ -133,3 +137,4 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		for e in world.entities:
 			if e is Mob and e.alive:
 				e.take_damage(e.hp, false, world.hero)
+
