@@ -47,12 +47,18 @@ func setup(e: Entity) -> void:
 			_parts["glow"] = _box(Vector3(1.0, 0.02, 1.0), Color(0.3, 0.9, 0.85), 0.8)
 			_parts["glow"].position.y = 0.06
 		FloorObject.Kind.CHEST:
+			if PropModels.has("chest_" + String(o.tier)):
+				_parts["model"] = _model("chest_" + String(o.tier))
+				return
 			var col: Color = TIER_COLORS.get(o.tier, Color.BROWN)
 			_box(Vector3(0.9, 0.5, 0.6), col).position.y = 0.25
 			var lid := _box(Vector3(0.92, 0.18, 0.62), col.lightened(0.15))
 			lid.position.y = 0.6
 			_parts["lid"] = lid
 		FloorObject.Kind.LEVER:
+			if PropModels.has("lever"):
+				_parts["model"] = _model("lever")
+				return
 			_box(Vector3(0.3, 0.6, 0.3), Color(0.3, 0.28, 0.26)).position.y = 0.3
 			var handle := _box(Vector3(0.08, 0.7, 0.08), Color(0.6, 0.4, 0.2))
 			handle.position.y = 0.8
@@ -67,12 +73,21 @@ func setup(e: Entity) -> void:
 			if not o.world.grid.grille_along_x(o.cell):
 				bars.rotation.y = PI * 0.5
 		FloorObject.Kind.VALVE, FloorObject.Kind.FLOOD_VALVE:
+			if PropModels.has("valve"):
+				var tint := Color.WHITE if o.kind == FloorObject.Kind.VALVE else Color(0.65, 0.85, 1.0)
+				_parts["wheel"] = _model("valve", tint)
+				return
 			_box(Vector3(0.25, 0.8, 0.25), Color(0.3, 0.3, 0.32)).position.y = 0.4
 			var wheel_col := Color(0.55, 0.25, 0.15) if o.kind == FloorObject.Kind.VALVE else Color(0.2, 0.4, 0.6)
 			var wheel := _cylinder(0.32, 0.06, wheel_col)
 			wheel.position.y = 0.85
 			_parts["wheel"] = wheel
 		FloorObject.Kind.SPRING:
+			if PropModels.has("spring"):
+				_model("spring")
+				_parts["water"] = _cylinder(0.42, 0.03, Color(0.3, 0.9, 1.0), 1.5)
+				_parts["water"].position.y = PropModels.top("spring") * 0.85
+				return
 			_cylinder(0.6, 0.35, Color(0.4, 0.4, 0.42)).position.y = 0.17
 			_parts["water"] = _cylinder(0.5, 0.05, Color(0.3, 0.9, 1.0), 1.5)
 			_parts["water"].position.y = 0.36
@@ -80,6 +95,11 @@ func setup(e: Entity) -> void:
 			_parts["note"] = _box(Vector3(0.3, 0.02, 0.4), Color(0.85, 0.8, 0.65), 0.4)
 			_parts["note"].position.y = 0.05
 		FloorObject.Kind.BEAR_TRAP:
+			if PropModels.has("bear_trap"):
+				_parts["model"] = _model("bear_trap")
+				_parts["glint"] = _box(Vector3(0.1, 0.02, 0.1), Color(1, 1, 0.9), 2.0)
+				_parts["glint"].position.y = 0.12
+				return
 			_cylinder(0.32, 0.04, Color(0.35, 0.33, 0.3)).position.y = 0.03
 			for i in 6:
 				var tooth := _cone(0.04, 0.15, Color(0.6, 0.6, 0.62))
@@ -113,9 +133,16 @@ func _process(delta: float) -> void:
 	var o := ent as FloorObject
 	match o.kind:
 		FloorObject.Kind.CHEST:
-			_parts["lid"].rotation.x = lerpf(_parts["lid"].rotation.x, -1.2 if o.used else 0.0, minf(1.0, delta * 6.0))
+			if _parts.has("lid"):
+				_parts["lid"].rotation.x = lerpf(_parts["lid"].rotation.x, -1.2 if o.used else 0.0, minf(1.0, delta * 6.0))
+			elif o.used and not _parts.has("opened"):
+				_parts["opened"] = true
+				_open_burst()
 		FloorObject.Kind.LEVER:
-			_parts["handle"].rotation.z = lerpf(_parts["handle"].rotation.z, 0.8 if o.used else -0.8, minf(1.0, delta * 8.0))
+			if _parts.has("handle"):
+				_parts["handle"].rotation.z = lerpf(_parts["handle"].rotation.z, 0.8 if o.used else -0.8, minf(1.0, delta * 8.0))
+			else:
+				_parts["model"].rotation.z = lerpf(_parts["model"].rotation.z, -0.35 if o.used else 0.0, minf(1.0, delta * 8.0))
 		FloorObject.Kind.GATE, FloorObject.Kind.LOCK_GATE:
 			var target := 0.0 if o.closed else (2.0 if o.kind == FloorObject.Kind.GATE else -2.2)
 			_parts["bars"].position.y = lerpf(_parts["bars"].position.y, target, minf(1.0, delta * 6.0))
@@ -128,6 +155,8 @@ func _process(delta: float) -> void:
 			visible = not o.used
 		FloorObject.Kind.BEAR_TRAP:
 			_parts["glint"].visible = o.armed and fmod(_time, 1.6) < 0.25
+			if _parts.has("model") and not o.armed:
+				_parts["model"].scale.y = lerpf(_parts["model"].scale.y, 1.6, minf(1.0, delta * 20.0))
 
 
 func _material(color: Color, emission: float) -> ShaderMaterial:
@@ -172,3 +201,45 @@ func _cone(r: float, h: float, color: Color) -> MeshInstance3D:
 	mi.material_override = _material(color, 0.0)
 	add_child(mi)
 	return mi
+
+
+func _model(id: String, tint: Color = Color.WHITE) -> Node3D:
+	var m := PropModels.instance(id, tint)
+	add_child(m)
+	# Chests and traps face the camera a little turned, so they read as 3D.
+	m.rotation.y = 0.35 if id.begins_with("chest") else 0.0
+	return m
+
+
+## Opened chest: a short burst of gold motes and the chest darkens.
+func _open_burst() -> void:
+	var p := CPUParticles3D.new()
+	p.one_shot = true
+	p.emitting = true
+	p.amount = 24
+	p.lifetime = 1.0
+	p.explosiveness = 0.9
+	p.position.y = 0.6
+	p.direction = Vector3.UP
+	p.spread = 50.0
+	p.gravity = Vector3(0, -2.0, 0)
+	p.initial_velocity_min = 1.5
+	p.initial_velocity_max = 3.0
+	p.scale_amount_min = 0.03
+	p.scale_amount_max = 0.06
+	var mote := SphereMesh.new()
+	mote.radius = 1.0
+	mote.height = 2.0
+	mote.radial_segments = 4
+	mote.rings = 2
+	p.mesh = mote
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.albedo_color = Color(1.0, 0.8, 0.3)
+	p.material_override = mat
+	add_child(p)
+	var m: Node3D = _parts["model"]
+	var mi := m.get_child(0) as MeshInstance3D
+	var dim := (mi.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+	dim.set_shader_parameter(&"albedo", Color(0.55, 0.55, 0.55))
+	mi.material_override = dim

@@ -1,0 +1,5 @@
+cd "$(dirname "$0")/.."
+bash objects/pipeline.sh bear_trap 2500 "An open steel bear trap with jagged teeth lying flat on the ground, rusty chain attached"
+bash objects/pipeline.sh barrel 2000 "An old wooden barrel with rusty iron hoops"
+bash objects/pipeline.sh crate 1500 "A worn wooden supply crate with iron corners"
+bash objects/pipeline.sh lever 2500 "A dungeon floor lever: square stone block base with a long rusty iron lever handle sticking up at an angle"

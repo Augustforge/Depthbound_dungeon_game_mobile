@@ -27,12 +27,15 @@
 | Музыка зоны 2 (казематы) | `assets/audio/music/zone_casemates.ogg` | OpenGameArt «Dark Cavern Ambient» (Paul Wortmann) | opengameart.org/content/dark-cavern-ambient | CC0 | 2026-10-03 |
 | Музыка лагеря и меню | `assets/audio/music/camp.ogg` | OpenGameArt «Dark Shrine Loop» (qubodup, yd) | opengameart.org/content/dark-shrine-loop | CC0 | 2026-10-03 |
 | Музыка боссов | `assets/audio/music/boss.ogg` | OpenGameArt «Boss Battle Music» (Juhani Junkala), перекодировано в ogg | opengameart.org/content/boss-battle-music | CC0 | 2026-10-03 |
+| Объекты: сундуки (деревянный, окованный, реликварий), вентиль, Родник, капкан, рычаг; декор: бочка, ящик, дыба, клетка, стойка с оружием, стол | `assets/models/props/` | Meshy: text-to-image (nano-banana-2) → image-to-3D (smart topology) | `art/source/objects/<id>/*.json`, скрипт `art/source/objects/pipeline.sh` | Meshy, платный аккаунт автора | 2026-10-03 |
+| Иконки 12 навыков и 6 слотов снаряжения | `assets/ui/icons/` | Meshy text-to-image (nano-banana-2), два листа 3×3, нарезаны | `art/source/icons/sheet_*.json` | Meshy | 2026-10-03 |
 
 ## Бюджет Meshy
 Баланс проверяется перед каждой крупной генерацией (`meshy balance`). Баланс на старте: 1190 кредитов.
 
 | Дата | Что | Потрачено | Остаток |
 |---|---|---|---|
+| 2026-10-03 | 13 объектов (по 21: картинка 6 + 3D 15), 2 листа иконок (по 6) | 285 | 549 |
 | 2026-10-03 | Героиня: A-поза 6, image-to-3D 15, риг 5 | 26 | 834 |
 | 2026-10-03 | Боссы Грюм и Мортен (по 26), пакет из 7 анимаций (21) | 73 | 860 |
 | 2026-10-03 | Громила и Ульм (по 26) | 52 | 933 |

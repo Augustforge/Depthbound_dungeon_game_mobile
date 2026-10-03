@@ -10,7 +10,7 @@ const IRON := Color(0.2, 0.19, 0.18)
 const WOOD := Color(0.42, 0.28, 0.16)
 const WOOD_DARK := Color(0.28, 0.19, 0.11)
 const BONE := Color(0.74, 0.7, 0.6)
-const STRAW := Color(0.3, 0.24, 0.12)
+const STRAW := Color(0.24, 0.19, 0.1)
 ## Emissive parts store alpha < 1 (the shader turns 1 - alpha into glow).
 const EMBER := Color(1.0, 0.45, 0.12, 0.25)
 const FLAME := Color(1.0, 0.8, 0.45, 0.2)
@@ -29,6 +29,9 @@ var _st: SurfaceTool
 var _origin := Vector3.ZERO
 var _basis := Basis.IDENTITY
 var _count: int = 0
+## Decor kinds drawn with Meshy models (A4): kind -> Array[Transform3D], one MultiMesh each.
+var _model_xforms: Dictionary = {}
+var _prim_vertices: int = 0
 
 
 func build(grid: FloorGrid, accent: Dictionary, torches: Array[Dictionary]) -> void:
@@ -37,7 +40,9 @@ func build(grid: FloorGrid, accent: Dictionary, torches: Array[Dictionary]) -> v
 	for c: Vector2i in grid.marker_cells(FloorGrid.BARS_CHAR):
 		_add_bars(grid, c)
 	_place_decor(grid, accent, torches)
-	if _count == 0 and grid.marker_cells(FloorGrid.BARS_CHAR).is_empty():
+	for kind: String in _model_xforms:
+		_add_multimesh(kind, _model_xforms[kind])
+	if _prim_vertices == 0:
 		return
 	mesh = _st.commit()
 	var mat := ShaderMaterial.new()
@@ -97,7 +102,13 @@ func _place_decor(grid: FloorGrid, accent: Dictionary, torches: Array[Dictionary
 			# Local +Z looks into the room, away from the wall.
 			var yaw := atan2(-float(wall.x), -float(wall.y)) if wall != Vector2i.ZERO else float(h % 628) / 100.0
 			_at(Vector3(anchor.x, 0.0, anchor.y), yaw)
-			_build_prop(kind, h)
+			if PropModels.has(kind):
+				var t := Transform3D(_basis, _origin + _basis.z * (0.12 if kind in TALL else 0.25))
+				if not _model_xforms.has(kind):
+					_model_xforms[kind] = []
+				_model_xforms[kind].append(t)
+			else:
+				_build_prop(kind, h)
 			if kind == "brazier" or kind == "candles":
 				var at := Vector2(_origin.x, _origin.z) + Vector2(_basis.z.x, _basis.z.z) * 0.25
 				lights.append({"pos": at, "intensity": 0.9 if kind == "brazier" else 0.45})
@@ -331,6 +342,24 @@ func _tri(pts: Array, n: Vector3, col: Color, offset: Vector3) -> void:
 
 
 func _vertex(local: Vector3, n: Vector3, col: Color) -> void:
+	_prim_vertices += 1
 	_st.set_color(col)
 	_st.set_normal(_basis * n)
 	_st.add_vertex(_basis * local + _origin)
+
+
+func _add_multimesh(kind: String, xforms: Array) -> void:
+	var d := PropModels.mesh_data(kind)
+	if d.is_empty():
+		return
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = d["mesh"]
+	mm.instance_count = xforms.size()
+	for i in xforms.size():
+		mm.set_instance_transform(i, (xforms[i] as Transform3D) * (d["xform"] as Transform3D))
+	var mmi := MultiMeshInstance3D.new()
+	mmi.multimesh = mm
+	mmi.material_override = d["material"]
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mmi)

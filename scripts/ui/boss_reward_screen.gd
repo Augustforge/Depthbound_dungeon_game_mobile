@@ -66,7 +66,7 @@ func _show_skills() -> void:
 		var sd: Dictionary = DataDB.table(&"skills")[String(id)]
 		_option(row, tr(String(sd["name_key"])), tr(String(sd["desc_key"])), Color(1.0, 0.65, 0.25), func() -> void:
 			run.add_skill(id)
-			_show_reforge())
+			_show_reforge(), Icons.skill(id))
 
 
 func _show_reforge() -> void:
@@ -126,7 +126,7 @@ func _row(parent: Control) -> HBoxContainer:
 	return row
 
 
-func _option(parent: Control, title: String, desc: String, col: Color, cb: Callable) -> void:
+func _option(parent: Control, title: String, desc: String, col: Color, cb: Callable, icon: Texture2D = null) -> void:
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(440, 500)
 	var sb := UiKit.panel_style(col)
@@ -147,5 +147,13 @@ func _option(parent: Control, title: String, desc: String, col: Color, cb: Calla
 	box.add_theme_constant_override(&"separation", 24)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(box)
+	if icon != null:
+		var pic := TextureRect.new()
+		pic.texture = icon
+		pic.custom_minimum_size = Vector2(150, 150)
+		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		box.add_child(pic)
 	for l in [UiKit.label(box, title, 38, col), UiKit.label(box, desc, 28, Color(0.85, 0.85, 0.8))]:
 		l.mouse_filter = Control.MOUSE_FILTER_IGNORE

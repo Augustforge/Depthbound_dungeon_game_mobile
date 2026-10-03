@@ -129,6 +129,14 @@ func _card_widget(parent: Control, card: Dictionary) -> void:
 	box.add_theme_constant_override(&"separation", 26)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(box)
+	if card["kind"] == &"skill" and Icons.skill(card["skill"]) != null:
+		var pic := TextureRect.new()
+		pic.texture = Icons.skill(card["skill"])
+		pic.custom_minimum_size = Vector2(120, 120)
+		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		box.add_child(pic)
 	for l in [UiKit.label(box, tr("RARITY_%d" % int(card["rarity"])), 26, col),
 			UiKit.label(box, CardText.title(card), 40, UiKit.TEXT),
 			UiKit.label(box, CardText.description(card, run), 32, Color(0.85, 0.85, 0.8))]:

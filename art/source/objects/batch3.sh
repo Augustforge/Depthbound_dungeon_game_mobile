@@ -1,0 +1,5 @@
+cd "$(dirname "$0")/.."
+bash objects/pipeline.sh rack 4000 "A medieval wooden torture rack table with rollers at both ends, ropes and iron cranks"
+bash objects/pipeline.sh cage 3500 "A hanging rusty iron gibbet cage, cylindrical, with a chain on top"
+bash objects/pipeline.sh weapon_rack 3500 "A wooden weapon rack leaning against nothing, holding three old spears and a sword"
+bash objects/pipeline.sh table 2500 "A rough wooden guard table with a stool, a tin mug and a candle stub on it"

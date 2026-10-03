@@ -28,4 +28,4 @@ func test_decor_is_deterministic_and_avoids_objects() -> void:
 	v2.build(g, accent, torches)
 	assert_true(v1.decor_count() > 10, "the torture chamber is dressed")
 	assert_eq(v1.decor_count(), v2.decor_count(), "same floor, same decor")
-	assert_true(v1.mesh != null)
+	assert_true(v1.mesh != null or v1.get_child_count() > 0)

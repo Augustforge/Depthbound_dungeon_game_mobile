@@ -1,0 +1,12 @@
+text-to-image 01a0fffc-adbd-7378-9234-947be232884c
+[text-to-image] IN_PROGRESS 20%
+[text-to-image] IN_PROGRESS 30%
+[text-to-image] SUCCEEDED 100%
+      ok in 15s
+image-to-3d 01a0fffc-eb73-737f-8f92-37a049da7521
+[image-to-3d] IN_PROGRESS 1%
+[image-to-3d] IN_PROGRESS 67%
+[image-to-3d] IN_PROGRESS 74%
+[image-to-3d] IN_PROGRESS 84%
+[image-to-3d] SUCCEEDED 100%
+      ok in 41s

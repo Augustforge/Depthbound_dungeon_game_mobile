@@ -1,0 +1,5 @@
+cd "$(dirname "$0")/.."
+bash objects/pipeline.sh chest_iron 3000 "A heavy wooden chest bound with thick riveted dark iron bands and a big iron padlock, lid closed"
+bash objects/pipeline.sh chest_relic 3500 "An ornate ancient reliquary chest of dark bronze with gold trim, engraved runes and a glowing teal gem on the lid, lid closed"
+bash objects/pipeline.sh valve 3000 "A large rusty iron valve wheel mounted horizontally on top of a short thick iron pipe column with bolts"
+bash objects/pipeline.sh spring 3500 "A small round stone well basin carved with old runes, filled with clear glowing teal water"

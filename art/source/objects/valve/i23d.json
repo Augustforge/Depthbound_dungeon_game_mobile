@@ -1,0 +1,57 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "image-to-3d.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0fffc-b632-7727-a8f9-2c5b3efd8f8b",
+      "resource": "image-to-3d",
+      "endpoint": "/openapi/v1/image-to-3d",
+      "type": "image-to-3d",
+      "name": "",
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1791001147404,
+      "started_at": 1791001147409,
+      "finished_at": 1791001175220,
+      "expires_at": 1791260375220,
+      "face_count": null,
+      "consumed_credits": 15,
+      "model_urls": {
+        "glb": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fffc-b632-7727-a8f9-2c5b3efd8f8b/output/model.glb?Expires=1791260375&Signature=pKOnxcSxlfvoA4blPUboIfL4co1mWoZgWkCA~dCpSyhI-i7zGji0xS5IMS6lVLV6Wz4WZJ5ytW~ctVgfFCrcKN1WFDC8XaI7TtQ-5JguLxL3V7WFBSGlKhr52tBel0HW0s8HeBOQaYNep4VWZYCP1h00Lb8tw2rBEs-73ExA8p0pD8pgP-JDAaEXJIEt19XJWWwKKvmWI-TEBo6iMavA3~xIJ9zlKJdtGZgY5XlYPHWjC4n25GPmQqH-LFKuhwT11ljyCimpSDzzFiarCGtKFTivIOdKfLAl3hnZAGWAGW8L6XaGq6giumlHiokxllZEhCWRh3i1uLQM1Y3cwjJF9A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      },
+      "image_urls": [],
+      "texture_urls": [
+        {
+          "base_color": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fffc-b632-7727-a8f9-2c5b3efd8f8b/output/texture_0.png?Expires=1791260375&Signature=NMN3AMnWmgVJSzvfSuMg8yao8BFORrfuIhTtv-w6q8fVsaUVk-y1Pqhp3HnLS1XZ1RBpSnkzI3y9BwWOQ5-tAsRJ3PsUQ2otWeNS1pp2Y0GxAx3b3qHG-Ob1wD~5XRsTTwmvkFvC7XfJJ0~bSoU6YdpLWHw1byczcVCVJPKSIIvh1~pnCo6bDeqg2bLSebmDHWPBVCqCvhwqkteaeESVOpjpjcQ-ifFyW~iRDslDmH1Eiufij9JpAE0IzDyVHlNKT-xQjnCJAygOKCPX1~-uhUJadz1rbjY5gttNb8QjCSQzp22ZA-jFBUf5A242U42mbVTSjVFX~7EGHgai-WHygQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+        }
+      ],
+      "thumbnail_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0fffc-b632-7727-a8f9-2c5b3efd8f8b/output/preview.png?Expires=1791260375&Signature=RTly8QXTwQHgBj08XsfQ2aBIvoiNJt-j0-lThRM-BWe~Tjd71Cad-437kXCuh1U~LI-QGeOoCiVI0f4zo592DzF5NkE9qnaxl1rQcV3XrkFkwRUnupN77V6ZQ6ghfnrcJFYNNCFCOrbpiFpVIqmn5dob1mT8gHz9odROjxpv2zx3zu3QAfdV9e98JZoN5o837g9L1sK5eYKrQHv88TIvyKaZk3Y3rcsWvzQUobX8YEacPF7jQZwo3f0ulPrYCAymptboXUdHfE~ksQAy8AoVgrlfW18qOZAUWQnDp3IHSYMF5PqG7X6wn331oWzpOitY7EbIjzDeUve-WuvP7-pBAQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": null,
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "d28bac0d-ad77-4571-98e1-0e2b99452509",
+      "task_id": "01a0fffc-b632-7727-a8f9-2c5b3efd8f8b",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": null,
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 40.59,
+      "polls": 6
+    }
+  },
+  "error": null,
+  "warnings": []
+}

@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://inxlwkrj045l"
-path="res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.ctex"
+path.s3tc="res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.s3tc.ctex"
+path.etc2="res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "87ffb5c261df2d2e1223e70fa408e986"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/jailer/jailer_Image_0.jpg"
-dest_files=["res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.ctex"]
+dest_files=["res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.s3tc.ctex", "res://.godot/imported/jailer_Image_0.jpg-40d10096d7c4efad2afb35bb02c7e79e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -39,5 +41,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=0
+process/size_limit=1024
 detect_3d/compress_to=1

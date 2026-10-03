@@ -65,7 +65,7 @@ func refresh() -> void:
 	for slot: Variant in Item.cfg()["slots"]:
 		var it: Item = profile.equipped.get(StringName(slot))
 		ItemTile.make(_slots_box, it, _select.bind(it) if it != null else func() -> void: pass,
-			tr("SLOT_" + String(slot).to_upper()), it != null and it == _selected, TILE)
+			"", it != null and it == _selected, TILE, StringName(slot))
 	for c in _bag.get_children():
 		c.queue_free()
 	_bag_title.text = tr("EQUIP_BAG") % [profile.inventory.size(), profile.inventory_size()]

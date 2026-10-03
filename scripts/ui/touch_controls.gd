@@ -159,6 +159,11 @@ func _draw_skill(i: int, font: Font) -> void:
 		return
 	var ready: float = s["ready"]
 	draw_circle(c, SKILL_RADIUS, Color(0.12, 0.05, 0.04, 0.85) if ready >= 1.0 else Color(0.05, 0.05, 0.06, 0.85))
+	var icon: Texture2D = s.get("icon")
+	if icon != null:
+		var half := SKILL_RADIUS * 0.72
+		draw_texture_rect(icon, Rect2(c - Vector2(half, half), Vector2(half, half) * 2.0), false,
+			Color(1, 1, 1, 1.0 if ready >= 1.0 else 0.35))
 	if ready < 1.0:
 		draw_arc(c, SKILL_RADIUS - 5.0, -PI / 2.0, -PI / 2.0 + TAU * ready, 48, Color(0.95, 0.4, 0.2, 0.9), 8.0, true)
 		var secs := "%d" % ceili(s["seconds"])
@@ -166,9 +171,10 @@ func _draw_skill(i: int, font: Font) -> void:
 		draw_string(font, c + Vector2(-sw * 0.5, 12), secs, HORIZONTAL_ALIGNMENT_LEFT, -1, 34, Color.WHITE)
 	else:
 		draw_arc(c, SKILL_RADIUS, 0, TAU, 48, Color(0.95, 0.55, 0.25), 4.0, true)
-		var text: String = s["label"]
-		var tw := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
-		draw_string(font, c + Vector2(-tw * 0.5, 8), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1, 0.9, 0.75))
+		if icon == null:
+			var text: String = s["label"]
+			var tw := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+			draw_string(font, c + Vector2(-tw * 0.5, 8), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1, 0.9, 0.75))
 	# Level dots under the button (GDD 8.4).
 	var lvl: int = s["level"]
 	for d in 5:

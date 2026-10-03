@@ -207,6 +207,7 @@ func _process(_delta: float) -> void:
 		var sk := world.hero.actives[i]
 		controls.skills[i] = {} if sk == null else {
 			"ready": sk.ready_ratio(), "level": sk.level, "label": tr(String(sk.data.get("name_key", sk.id))),
+			"icon": Icons.skill(sk.id),
 			"seconds": sk.cooldown_left}
 	_hp_bar.hp = world.hero.hp
 	_hp_bar.max_hp = world.hero.max_hp
