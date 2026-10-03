@@ -57,6 +57,7 @@ static func button(parent: Node, text: String, cb: Callable, size: int = 34) -> 
 	b.add_theme_stylebox_override(&"pressed", hover)
 	b.add_theme_stylebox_override(&"focus", normal)
 	b.add_theme_stylebox_override(&"disabled", normal)
+	b.pressed.connect(func() -> void: AudioManager.play(&"ui_click"))
 	b.pressed.connect(cb)
 	parent.add_child(b)
 	return b

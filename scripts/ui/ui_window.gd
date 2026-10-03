@@ -36,6 +36,7 @@ func open(parent: Node, title_text: String, size: Vector2 = Vector2(1500, 860), 
 	body.add_theme_constant_override(&"separation", 14)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	outer.add_child(body)
+	AudioManager.play(&"ui_open")
 	return self
 
 
@@ -49,6 +50,7 @@ func clear_body() -> void:
 
 
 func close() -> void:
+	AudioManager.play(&"ui_close")
 	closed.emit()
 	queue_free()
 

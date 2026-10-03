@@ -61,6 +61,11 @@ func setup(w: World) -> void:
 	_essence.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	_essence.position = Vector2(40, -64)
 	_essence.size = Vector2(440, 26)
+	if Settings.left_handed:
+		# The buttons move to the bottom left: the essence bar takes the joystick's corner.
+		_essence.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+		_essence.position = Vector2(-480, -64)
+		_essence.size = Vector2(440, 26)
 	root.add_child(_essence)
 	_hint_panel = UiKit.panel(root)
 	_hint_panel.anchor_left = 0.5
@@ -101,8 +106,15 @@ func setup(w: World) -> void:
 	root.move_child(overlay, 0)
 	controls = TouchControls.new()
 	root.add_child(controls)
-	var pause := UiKit.small_button(root, "II", func() -> void: pause_pressed.emit(), 30)
+	var pause := UiKit.small_button(root, "", func() -> void: pause_pressed.emit(), 30)
 	pause.custom_minimum_size = Vector2(100, 64)
+	for x in [36, 56]:
+		var bar := ColorRect.new()
+		bar.color = UiKit.TEXT
+		bar.position = Vector2(x, 18)
+		bar.size = Vector2(9, 28)
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		pause.add_child(bar)
 	pause.anchor_left = 1.0
 	pause.anchor_right = 1.0
 	pause.offset_left = -260
@@ -110,6 +122,17 @@ func setup(w: World) -> void:
 	pause.offset_top = 18
 	pause.offset_bottom = 82
 	world.chest_opened.connect(_on_chest)
+	if world.boss == null:
+		var map := Minimap.new()
+		root.add_child(map)
+		map.setup(world)
+		map.anchor_left = 1.0
+		map.anchor_right = 1.0
+		map.position = Vector2(-110 - map.size.x, 100)
+		map.offset_left = -110 - map.size.x
+		map.offset_right = -110
+		map.offset_top = 100
+		map.offset_bottom = 100 + map.size.y
 
 
 ## Chest contents pop up for a moment (GDD 14.1).
@@ -158,7 +181,8 @@ func _process(_delta: float) -> void:
 	var alarm := t.remaining() <= 30.0
 	_timer_label.add_theme_color_override(&"font_color", Color(1, 0.35, 0.3) if alarm else Color(0.95, 0.92, 0.85))
 	_hint.text = tr("SPIKE_HINT") if not world.grid.data.get("tutorial", false) else ""
-	_hint.visible = OS.has_feature("pc") or OS.has_feature("editor")
+	# Keyboard help on PC only, for the first floors.
+	_hint.visible = (OS.has_feature("pc") or OS.has_feature("editor")) and world.floor_index <= 2
 	_gold.text = "◆ %d" % (world.gold_collected + (world.run.gold if world.run else 0))
 	_goal.text = _goal_text()
 	_essence.value = world.essence

@@ -13,6 +13,7 @@ signal telegraph_fired(t: Telegraph)
 signal parried(attacker: Combatant)
 signal bleed_exploded(at: Vector2)
 signal second_wind
+signal skill_cast(skill: Skill)
 signal object_changed(obj: Entity)
 signal note_found(key: String)
 signal spring_used(obj: FloorObject)
@@ -250,6 +251,28 @@ func open_chest(o: FloorObject) -> void:
 		loot.append(it)
 		found["item"] = it
 	chest_opened.emit(o, found)
+
+
+## Spring (GDD 13.2): "drink" heals 50 % max HP, "blade" gives +15 % damage until the floor ends.
+## With a chooser (the floor scene's window) the player picks; otherwise (bot, tests) it heals.
+var spring_chooser: Callable
+
+
+func offer_spring(o: FloorObject) -> void:
+	if spring_chooser.is_valid():
+		spring_chooser.call(o)
+	else:
+		use_spring(o, &"drink")
+
+
+func use_spring(o: FloorObject, choice: StringName) -> void:
+	var cfg: Dictionary = DataDB.table(&"floor")
+	if choice == &"blade":
+		hero.stats.set_source(&"spring_blade", {}, {&"atk": float(cfg.get("spring_blade_pct", 0.15))})
+		hero.refresh_stats()
+	else:
+		hero.heal(hero.max_hp * float(cfg["spring_heal_pct"]))
+	spring_used.emit(o)
 
 
 func pull_lever(o: FloorObject) -> void:

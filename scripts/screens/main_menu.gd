@@ -8,6 +8,7 @@ var _continue: Button
 
 
 func _ready() -> void:
+	AudioManager.play_music(&"camp")
 	var art := UiKit.cover_art(self, ART)
 	var tw := create_tween().set_loops()
 	art.pivot_offset = Vector2(960, 540)

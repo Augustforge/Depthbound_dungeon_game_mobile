@@ -12,7 +12,7 @@ func setup(parent: Node) -> CreditsWindow:
 	box.custom_minimum_size = Vector2(1100, 0)
 	box.add_theme_constant_override(&"separation", 16)
 	scroll.add_child(box)
-	for key in ["CREDITS_GAME", "CREDITS_ART", "CREDITS_FONTS", "CREDITS_ENGINE"]:
+	for key in ["CREDITS_GAME", "CREDITS_ART", "CREDITS_AUDIO", "CREDITS_FONTS", "CREDITS_ENGINE"]:
 		var l := UiKit.label(box, tr(key), 28)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	return self

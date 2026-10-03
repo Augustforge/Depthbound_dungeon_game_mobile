@@ -69,8 +69,7 @@ func activate() -> void:
 			world.open_chest(self)
 		Kind.SPRING:
 			used = true
-			world.hero.heal(world.hero.max_hp * float(DataDB.table(&"floor")["spring_heal_pct"]))
-			world.spring_used.emit(self)
+			world.offer_spring(self)
 		Kind.BEAR_TRAP:
 			armed = false
 	world.object_changed.emit(self)

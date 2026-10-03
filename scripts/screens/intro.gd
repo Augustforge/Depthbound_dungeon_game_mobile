@@ -18,6 +18,7 @@ var _tween: Tween
 
 
 func _ready() -> void:
+	AudioManager.play_music(&"camp")
 	var bg := ColorRect.new()
 	bg.color = Color.BLACK
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

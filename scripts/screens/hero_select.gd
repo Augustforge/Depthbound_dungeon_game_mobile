@@ -10,6 +10,7 @@ var _box: VBoxContainer
 
 
 func _ready() -> void:
+	AudioManager.play_music(&"camp")
 	UiKit.cover_art(self, ART)
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.72)

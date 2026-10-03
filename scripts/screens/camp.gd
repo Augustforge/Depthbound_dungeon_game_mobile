@@ -13,6 +13,7 @@ var _top: HBoxContainer
 
 
 func _ready() -> void:
+	AudioManager.play_music(&"camp")
 	UiKit.cover_art(self, ART)
 	var fx := ArtEffects.new()
 	add_child(fx)

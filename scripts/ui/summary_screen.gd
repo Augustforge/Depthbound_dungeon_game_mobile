@@ -136,6 +136,7 @@ func _card_widget(parent: Control, card: Dictionary) -> void:
 
 
 func _pick(card: Dictionary) -> void:
+	AudioManager.play(&"card_pick")
 	run.take_card(card)
 	_picks_left -= 1
 	if _picks_left > 0:

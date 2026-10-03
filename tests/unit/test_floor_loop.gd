@@ -105,6 +105,18 @@ func test_spring_heals() -> void:
 	assert_false(_obj(w, FloorObject.Kind.SPRING).can_interact(), "single use")
 
 
+func test_spring_blade_choice() -> void:
+	var w := _world("#######\n#SF..E#\n#######")
+	var atk := w.hero.stats.get_stat(&"atk")
+	var offered := []
+	w.spring_chooser = func(o: FloorObject) -> void: offered.append(o)
+	var spring := _obj(w, FloorObject.Kind.SPRING)
+	spring.activate()
+	assert_eq(offered.size(), 1, "the player is asked")
+	w.use_spring(spring, &"blade")
+	assert_almost(w.hero.stats.get_stat(&"atk"), atk * 1.15, 0.01, "+15 % damage")
+
+
 func test_bear_trap_roots() -> void:
 	var w := _world("#######\n#S.T.E#\n#######")
 	w.hero.input.move = Vector2.RIGHT

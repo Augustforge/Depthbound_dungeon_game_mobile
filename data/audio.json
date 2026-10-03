@@ -1,0 +1,45 @@
+{
+	"_comment": "Sound ids (GDD 18.4) -> files in assets/audio/sfx (random variant), volume in dB, random pitch range. Music ids -> files in assets/audio/music. Sources and licences: art/ASSETS.md.",
+	"sfx": {
+		"hit": {"files": ["knifeSlice.ogg", "knifeSlice2.ogg", "chop.ogg"], "volume_db": -6, "pitch": [0.9, 1.1]},
+		"crit": {"files": ["impactMetal_heavy_000.ogg", "impactMetal_heavy_001.ogg"], "volume_db": -4, "pitch": [0.95, 1.1]},
+		"hero_hurt": {"files": ["impactPunch_heavy_000.ogg", "impactPunch_heavy_001.ogg"], "volume_db": -3, "pitch": [0.9, 1.05]},
+		"mob_die": {"files": ["impactPunch_medium_000.ogg", "impactPunch_medium_001.ogg"], "volume_db": -8, "pitch": [0.8, 1.0]},
+		"dodge": {"files": ["cloth1.ogg", "cloth2.ogg", "cloth3.ogg"], "volume_db": -2, "pitch": [0.95, 1.15]},
+		"dodge_water": {"files": ["splash_01.ogg", "splash_03.ogg"], "volume_db": -8, "pitch": [0.9, 1.1]},
+		"skill": {"files": ["drawKnife1.ogg", "drawKnife2.ogg", "drawKnife3.ogg"], "volume_db": -2, "pitch": [0.9, 1.1]},
+		"parry": {"files": ["impactPlate_heavy_000.ogg"], "volume_db": -2, "pitch": [1.0, 1.15]},
+		"chest": {"files": ["doorOpen_1.ogg"], "volume_db": -2, "pitch": [0.95, 1.05]},
+		"coins": {"files": ["handleCoins.ogg", "handleCoins2.ogg"], "volume_db": -10, "pitch": [0.95, 1.15]},
+		"bear_trap": {"files": ["metalLatch.ogg"], "volume_db": 0, "pitch": [0.85, 0.95]},
+		"spikes": {"files": ["impactMetal_medium_000.ogg"], "volume_db": -8, "pitch": [0.8, 0.95]},
+		"harpoon": {"files": ["impactWood_heavy_000.ogg"], "volume_db": -4, "pitch": [0.9, 1.1]},
+		"lever": {"files": ["creak1.ogg", "metalClick.ogg"], "volume_db": -2, "pitch": [0.9, 1.0]},
+		"valve": {"files": ["creak2.ogg"], "volume_db": -2, "pitch": [0.8, 0.9]},
+		"gate": {"files": ["doorClose_2.ogg"], "volume_db": -2, "pitch": [0.7, 0.8]},
+		"note": {"files": ["bookOpen.ogg"], "volume_db": -4, "pitch": [1.0, 1.0]},
+		"spring": {"files": ["bubble_01.ogg"], "volume_db": -4, "pitch": [0.9, 1.0]},
+		"flood": {"files": ["splash_05.ogg"], "volume_db": 0, "pitch": [0.6, 0.7]},
+		"step": {"files": ["footstep00.ogg", "footstep01.ogg", "footstep02.ogg", "footstep03.ogg", "footstep04.ogg"], "volume_db": -18, "pitch": [0.9, 1.1]},
+		"step_water": {"files": ["splash_01.ogg", "splash_03.ogg"], "volume_db": -20, "pitch": [1.2, 1.5]},
+		"alarm": {"files": ["impactBell_heavy_000.ogg"], "volume_db": -6, "pitch": [0.7, 0.7]},
+		"tick": {"files": ["tick_001.ogg"], "volume_db": -6, "pitch": [1.0, 1.0]},
+		"boss_enrage": {"files": ["impactBell_heavy_000.ogg"], "volume_db": 0, "pitch": [0.5, 0.5]},
+		"ui_click": {"files": ["click_001.ogg"], "volume_db": -6, "pitch": [0.95, 1.05]},
+		"ui_open": {"files": ["open_001.ogg"], "volume_db": -8, "pitch": [1.0, 1.0]},
+		"ui_close": {"files": ["close_001.ogg"], "volume_db": -8, "pitch": [1.0, 1.0]},
+		"card_pick": {"files": ["confirmation_001.ogg"], "volume_db": -4, "pitch": [1.0, 1.0]},
+		"error": {"files": ["error_001.ogg"], "volume_db": -6, "pitch": [1.0, 1.0]},
+		"buy": {"files": ["handleCoins2.ogg"], "volume_db": -2, "pitch": [1.0, 1.0]}
+	},
+	"loops": {
+		"water": {"file": "loop_water_01.ogg", "volume_db": -14},
+		"flood": {"file": "loop_bubbles_1.ogg", "volume_db": -6}
+	},
+	"music": {
+		"camp": {"file": "camp.ogg", "volume_db": -6},
+		"cells": {"file": "zone_cells.ogg", "volume_db": -8},
+		"casemates": {"file": "zone_casemates.ogg", "volume_db": -8},
+		"boss": {"file": "boss.ogg", "volume_db": -8}
+	}
+}

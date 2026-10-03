@@ -64,6 +64,7 @@ func try_cast() -> bool:
 	charges -= 1
 	if cooldown_left <= 0.0:
 		cooldown_left = max_cooldown()
+	hero.world.skill_cast.emit(self)
 	return true
 
 

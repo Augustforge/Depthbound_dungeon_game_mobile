@@ -101,7 +101,8 @@ func _show_details() -> void:
 
 
 func _buy() -> void:
-	profile.buy(_selected)
+	if profile.buy(_selected):
+		AudioManager.play(&"buy")
 	GameState.save()
 	refresh()
 

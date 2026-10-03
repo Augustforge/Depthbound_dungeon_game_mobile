@@ -35,24 +35,33 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
-func _dodge_center() -> Vector2:
+## Left-handed layout (GDD 17.2 #13): everything mirrored, the joystick on the right.
+func _m(p: Vector2) -> Vector2:
+	return Vector2(size.x - p.x, p.y) if Settings.left_handed else p
+
+
+func _rh_dodge() -> Vector2:
 	return Vector2(size.x - 210.0, size.y - 190.0)
 
 
+func _dodge_center() -> Vector2:
+	return _m(_rh_dodge())
+
+
 func _skill_center(i: int) -> Vector2:
-	return _dodge_center() + SKILL_OFFSETS[i]
+	return _m(_rh_dodge() + SKILL_OFFSETS[i])
 
 
 func _action_center() -> Vector2:
-	return _dodge_center() + Vector2(-420, 30)
+	return _m(_rh_dodge() + Vector2(-420, 30))
 
 
 func _auto_center() -> Vector2:
-	return _dodge_center() + Vector2(150, -330)
+	return _m(_rh_dodge() + Vector2(150, -330))
 
 
 func _joy_rest() -> Vector2:
-	return Vector2(260.0, size.y - 250.0)
+	return _m(Vector2(260.0, size.y - 250.0))
 
 
 func _input(event: InputEvent) -> void:
@@ -75,7 +84,7 @@ func _input(event: InputEvent) -> void:
 			if t.position.distance_to(_auto_center()) < 55.0:
 				auto_toggled.emit()
 				get_viewport().set_input_as_handled()
-			elif t.position.x >= size.x * 0.5:
+			elif (t.position.x >= size.x * 0.5) != Settings.left_handed:
 				world_tapped.emit(t.position)
 			elif _joy_finger == -1:
 				_joy_finger = t.index

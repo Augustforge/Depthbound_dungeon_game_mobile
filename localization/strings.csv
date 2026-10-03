@@ -227,3 +227,14 @@ PAUSE_LEAVE_CONFIRM,"Leave for the camp? This floor starts over next time.","У�
 SUMMARY_NEW_BEST,New best time!,Новый рекорд времени!,¡Nuevo mejor tiempo!
 SUMMARY_BEST,Best: %s,Лучшее: %s,Mejor: %s
 SUMMARY_SOLD,Bag full: %d sold to Ulm,Сумка полна: продано Ульму — %d,Bolsa llena: vendidos a Ulm — %d
+MOB_RAT,Rat,Крыса,Rata
+MOB_PRISONER,Prisoner,Узник,Prisionero
+MOB_JAILER,Jailer,Тюремщик,Carcelero
+MOB_CROSSBOWMAN,Crossbowman,Арбалетчик,Ballestero
+MOB_DROWNED,Drowned,Утопленник,Ahogado
+MOB_CHAIN_BRUTE,Chain Brute,Цепной громила,Bruto de cadenas
+SPRING_TITLE,Spring,Родник,Manantial
+SPRING_HINT,Clean water in the dark. Once.,Чистая вода во тьме. Один раз.,Agua limpia en la oscuridad. Una vez.
+SPRING_DRINK,Drink: +50% HP,Испить: +50% здоровья,Beber: +50% de salud
+SPRING_BLADE,Wash the blade: +15% damage,Омыть клинок: +15% урона,Lavar la hoja: +15% de daño
+CREDITS_AUDIO,"Sounds: Kenney (kenney.nl), rubberduck. Music: yd, Paul Wortmann, qubodup, Juhani Junkala (OpenGameArt.org) — all CC0.","Звуки: Kenney (kenney.nl), rubberduck. Музыка: yd, Paul Wortmann, qubodup, Juhani Junkala (OpenGameArt.org) — всё CC0.","Sonidos: Kenney (kenney.nl), rubberduck. Música: yd, Paul Wortmann, qubodup, Juhani Junkala (OpenGameArt.org) — todo CC0."

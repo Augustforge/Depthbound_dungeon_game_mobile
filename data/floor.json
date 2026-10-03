@@ -7,6 +7,7 @@
 	"interact_radius": 1.4,
 	"interact_times": {"lever": 1.0, "valve": 3.0, "flood_valve": 3.0, "chest": 1.0, "spring": 1.0, "bear_trap": 1.5},
 	"spring_heal_pct": 0.5,
+	"spring_blade_pct": 0.15,
 	"spikes": {"hidden": 2.0, "extended": 1.0, "tremble": 0.4, "damage": 60},
 	"bear_trap": {"root": 2.0, "damage": 50, "trigger_radius": 0.45},
 	"harpoon": {"interval": 3.0, "telegraph": 0.6, "length": 8.0, "width": 0.6, "damage": 70, "hp": 150},

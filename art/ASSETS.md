@@ -21,6 +21,12 @@
 | Фоны главного меню и лагеря | `assets/ui/main_menu.webp`, `assets/ui/camp.webp` | арты автора из `references/` | — | собственность автора | 2026-10-03 |
 | Портреты облика (мужской, женский) | `assets/ui/portrait_*.webp` | вырезаны из концептов автора (фон убран) | — | собственность автора | 2026-10-03 |
 | Шрифты Philosopher, Ruslan Display, Noto Sans Symbols 2 (подмножество ★☆▲▼◆●✓✗☰) | `assets/fonts/` | Google Fonts (github.com/google/fonts) | `assets/fonts/OFL-*.txt` | SIL Open Font License 1.1 | 2026-10-03 |
+| Звуки: удары, шаги, ткань, сундук, монеты, рычаги, двери (RPG Audio), удары по металлу и колокол (Impact Sounds), интерфейс (Interface Sounds) | `assets/audio/sfx/` | Kenney.nl | `assets/audio/LICENSE-kenney.txt` | CC0 | 2026-10-03 |
+| Звуки воды: всплески, пузыри, петля воды | `assets/audio/sfx/splash_*.ogg`, `bubble_01.ogg`, `loop_*.ogg` | OpenGameArt «40 CC0 water splash / slime SFX» (rubberduck) | opengameart.org/content/40-cc0-water-splash-slime-sfx | CC0 | 2026-10-03 |
+| Музыка зоны 1 (камеры) | `assets/audio/music/zone_cells.ogg` | OpenGameArt «Dungeon Ambience» (yd) | opengameart.org/content/dungeon-ambience | CC0 | 2026-10-03 |
+| Музыка зоны 2 (казематы) | `assets/audio/music/zone_casemates.ogg` | OpenGameArt «Dark Cavern Ambient» (Paul Wortmann) | opengameart.org/content/dark-cavern-ambient | CC0 | 2026-10-03 |
+| Музыка лагеря и меню | `assets/audio/music/camp.ogg` | OpenGameArt «Dark Shrine Loop» (qubodup, yd) | opengameart.org/content/dark-shrine-loop | CC0 | 2026-10-03 |
+| Музыка боссов | `assets/audio/music/boss.ogg` | OpenGameArt «Boss Battle Music» (Juhani Junkala), перекодировано в ogg | opengameart.org/content/boss-battle-music | CC0 | 2026-10-03 |
 
 ## Бюджет Meshy
 Баланс проверяется перед каждой крупной генерацией (`meshy balance`). Баланс на старте: 1190 кредитов.

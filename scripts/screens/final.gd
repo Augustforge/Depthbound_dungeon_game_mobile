@@ -5,6 +5,7 @@ const ART := preload("res://assets/ui/main_menu.webp")
 
 
 func _ready() -> void:
+	AudioManager.play_music(&"camp")
 	UiKit.cover_art(self, ART)
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.7)

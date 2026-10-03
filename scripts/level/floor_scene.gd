@@ -38,7 +38,11 @@ func _ready() -> void:
 	world.floor_completed.connect(_on_completed)
 	world.floor_failed.connect(_on_failed)
 	world.note_found.connect(_on_note)
+	world.spring_chooser = _choose_spring
 	world.boss_line.connect(func(key: String) -> void: hud.show_boss_line(key))
+	var sound := SoundDirector.new()
+	add_child(sound)
+	sound.setup(world)
 	EventBus.floor_started.emit(run.floor_index)
 	if GameState.profile.run_phase == &"reward" and not GameState.profile.pending_result.is_empty():
 		# The app was closed on the summary of this floor: back to the same choice (GDD 11.1).
@@ -213,6 +217,29 @@ func _tick_hints(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	water.set_level(world.timer.water_height())
+
+
+## Spring choice (GDD 13.2, P1): drink (heal) or wash the blade (+15 % damage for this floor).
+func _choose_spring(o: FloorObject) -> void:
+	_modal_open = true
+	world.running = false
+	var w := UiWindow.new().open(self, tr("SPRING_TITLE"), Vector2(1000, 0), 45)
+	var done := func(choice: StringName) -> void:
+		world.use_spring(o, choice)
+		_modal_open = false
+		world.running = true
+		w.queue_free()
+	UiKit.label(w.body, tr("SPRING_HINT"), 28, UiKit.DIM_TEXT)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override(&"separation", 30)
+	w.body.add_child(row)
+	UiKit.button(row, tr("SPRING_DRINK"), done.bind(&"drink"), 30).custom_minimum_size = Vector2(420, 110)
+	UiKit.button(row, tr("SPRING_BLADE"), done.bind(&"blade"), 30).custom_minimum_size = Vector2(420, 110)
+	# Closing without a choice drinks.
+	w.closed.connect(func() -> void:
+		if _modal_open:
+			done.call(&"drink"))
 
 
 func _on_note(key: String) -> void:

@@ -20,6 +20,11 @@ func _ready() -> void:
 	_load()
 	if locale.is_empty():
 		locale = detect_locale(OS.get_locale_language())
+	var forced := DevTools.arg("locale")
+	if not forced.is_empty():
+		locale = forced
+	if DevTools.arg("left_handed") == "1":
+		left_handed = true
 	TranslationServer.set_locale(locale)
 
 
