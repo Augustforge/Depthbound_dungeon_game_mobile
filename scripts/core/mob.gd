@@ -21,6 +21,8 @@ var swing_left: float = 0.0
 ## Abilities from mobs.json with their cooldowns: [{"data": {...}, "cd": float}]
 var abilities: Array[Dictionary] = []
 var _cast: Telegraph
+## Id of the ability being cast (views pick the animation).
+var cast_id: StringName = &""
 ## Key holder modifier (GDD 12.2): x1.5 HP and a key icon.
 var key_holder: bool = false
 var floor_index: int = 1
@@ -170,6 +172,7 @@ func _start_cast(ad: Dictionary, hero: Hero) -> void:
 	t.effect = ad.get("effect", {})
 	t.parryable = not ad.get("unparryable", false)
 	_cast = t
+	cast_id = t.id
 	state = State.CAST
 	anim_state = &"cast"
 	world.add_telegraph(t)

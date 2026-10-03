@@ -1,0 +1,53 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "image-to-image.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0ff9e-5ef9-7295-8d9a-5433f4a8e8c6",
+      "resource": "image-to-image",
+      "endpoint": "/openapi/v1/image-to-image",
+      "type": "image-to-image",
+      "name": null,
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1790994964621,
+      "started_at": 1790994964627,
+      "finished_at": 1790994976776,
+      "expires_at": 1791254176776,
+      "face_count": null,
+      "consumed_credits": 6,
+      "model_urls": {},
+      "image_urls": [
+        "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/uploads/image_01a0ff9e-5ef9-7295-8d9a-5433f4a8e8c6_0.png?Expires=1791254176&Signature=ASGNHLfitQtXDY3NirB~bnMdTUApmoHU~rDdLlXVMlmzeyUpQxoGE6135XeLJEYFstBiJ5~pVx47g24RKd4IdxysriJt4Pgc40aig-4NvGCdv1fZkZSUlcHRiPsbntn6SRAt6sDv1PB14TejtmULC31CqEywA-DpbBbr4eAL4DmkNVeoOKuwHupT1YxinKy~AcSKIJXpS0KQJgbcFMSe9YYWLz8V8NzFKlNg6DBtvPLG8wzf5d1J-YDKffOeig1i2KYRgWy~qumIKhzkZ4rmfnidyOM-Az9asd5xA2xuNV~Uva33tYMd43pPfrLw5trYjQqBHqo7UBlh1Txbb9NzJw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      ],
+      "texture_urls": [],
+      "thumbnail_url": null,
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": null,
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "74709793-0a96-49db-818b-0b9a45b83940",
+      "task_id": "01a0ff9e-5ef9-7295-8d9a-5433f4a8e8c6",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": null,
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 14.94,
+      "polls": 4
+    }
+  },
+  "error": null,
+  "warnings": []
+}

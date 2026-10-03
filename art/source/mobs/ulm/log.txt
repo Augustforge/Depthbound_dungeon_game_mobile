@@ -1,0 +1,15 @@
+image-to-image 01a0ff9e-5ef9-7295-8d9a-5433f4a8e8c6
+[image-to-image] IN_PROGRESS 30%
+[image-to-image] SUCCEEDED 100%
+      ok in 15s
+image-to-3d 01a0ff9e-a022-74c1-8d41-9285909c0110
+[image-to-3d] IN_PROGRESS 1%
+[image-to-3d] IN_PROGRESS 84%
+[image-to-3d] SUCCEEDED 100%
+      ok in 82s
+rigging 01a0ff9f-e86f-726f-a475-f44a4f676a27
+[rigging] IN_PROGRESS 0%
+[rigging] IN_PROGRESS 15%
+[rigging] IN_PROGRESS 26%
+[rigging] SUCCEEDED 100%
+      ok in 15s

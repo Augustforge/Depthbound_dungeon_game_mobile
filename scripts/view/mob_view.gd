@@ -26,6 +26,10 @@ const MODELS := {
 		"clips": {
 			&"idle": &"Idle_02", &"run": &"Run_02",
 			&"attack": &"Draw_and_Shoot_from_Back_1", &"hit": &"Hit_Reaction", &"death": &"Dead"}},
+	&"chain_brute": {"path": "res://assets/models/chain_brute/chain_brute.glb", "scale": 1.35,
+		"clips": {&"idle": &"Idle_02", &"run": &"Monster_Walk",
+			&"attack": &"Heavy_Hammer_Swing", &"hit": &"Hit_Reaction", &"death": &"Dead",
+			&"chain_pull": &"Heavy_Hammer_Swing", &"ground_slam": &"Charged_Ground_Slam"}},
 	&"drowned": {"path": "res://assets/models/drowned/drowned.glb",
 		"clips": {
 			&"idle": &"Idle_02", &"run": &"Injured_Walk",
@@ -58,6 +62,7 @@ func setup(m: Mob) -> void:
 		model = RiggedModel.new()
 		_body.add_child(model)
 		model.setup(load(model_info["path"]), model_info["clips"])
+		model.scale = Vector3.ONE * float(model_info.get("scale", 1.0))
 		_add_props()
 	elif m.def_id == &"rat" and ResourceLoader.exists(RAT_MODEL):
 		_static_model = _load_static(RAT_MODEL, look["height"])
@@ -125,6 +130,8 @@ func _add_props() -> void:
 			model.attach("LeftForeArm", SwordMesh.build_shield(), Vector3(0, 0.15, 0.12), Vector3(0, 90, 0))
 		&"crossbowman":
 			model.attach("RightHand", SwordMesh.build_crossbow(), Vector3(0, 0.05, 0), Vector3(-90, 0, 0))
+		&"chain_brute":
+			model.attach("RightHand", SwordMesh.build_chain_hook(), Vector3(0, 0.05, 0), Vector3(180, 0, 0))
 
 
 func _part(mesh_type: Variant, size: Vector3, pos: Vector3, color: Color, rot_deg: Vector3 = Vector3.ZERO) -> void:
@@ -188,7 +195,8 @@ func _animate_model(delta: float, flash: float) -> void:
 		return
 	match mob.anim_state:
 		&"cast":
-			model.play_state(&"attack", 0.55)
+			var st := mob.cast_id if model.clips.has(mob.cast_id) else &"attack"
+			model.play_state(st, 0.55)
 		&"run":
 			model.play_state(&"run", mob.move_speed / 3.2)
 		&"attack":

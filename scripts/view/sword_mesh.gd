@@ -42,6 +42,25 @@ static func build_crossbow() -> Node3D:
 	return root
 
 
+## Chain with a hooked iron weight (Chain Brute). Hangs along -Y from the hand.
+static func build_chain_hook() -> Node3D:
+	var root := Node3D.new()
+	for i in 8:
+		var link := Vector3(0.07, 0.11, 0.03) if i % 2 == 0 else Vector3(0.03, 0.11, 0.07)
+		_box(root, link, Vector3(0, -0.1 * i, 0), Color(0.32, 0.2, 0.12))
+	_box(root, Vector3(0.18, 0.28, 0.18), Vector3(0, -0.95, 0), Color(0.3, 0.22, 0.16))
+	_box(root, Vector3(0.06, 0.3, 0.06), Vector3(0.1, -1.15, 0), Color(0.38, 0.3, 0.24))
+	return root
+
+
+## Merchant's staff with a glowing lantern (Ulm).
+static func build_lantern_staff() -> Node3D:
+	var root := Node3D.new()
+	_box(root, Vector3(0.05, 1.7, 0.05), Vector3(0, 0.2, 0), Color(0.3, 0.2, 0.12))
+	_box(root, Vector3(0.16, 0.22, 0.16), Vector3(0.12, 1.0, 0), Color(1.0, 0.65, 0.3), 2.0)
+	return root
+
+
 static func _box(parent: Node3D, size: Vector3, pos: Vector3, color: Color, emission: float = 0.0) -> void:
 	var mi := MeshInstance3D.new()
 	var b := BoxMesh.new()
