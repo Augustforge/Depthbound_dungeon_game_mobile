@@ -6,8 +6,9 @@ extends RefCounted
 const SOURCES: Array[String] = [
 	"res://assets/models/hero_m/hero_m_anims.glb",
 	"res://assets/models/shared/anims_pack2.glb",
+	"res://assets/models/shared/anims_pack3.glb",
 ]
-const LOOPING: Array[String] = ["Idle_02", "Run_02", "Monster_Walk", "Injured_Walk"]
+const LOOPING: Array[String] = ["Idle_02", "Run_02", "Monster_Walk", "Injured_Walk", "RunFast", "Axe_Spin_Attack"]
 
 static var _library: AnimationLibrary
 

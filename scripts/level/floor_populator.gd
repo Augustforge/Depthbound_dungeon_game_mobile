@@ -14,7 +14,8 @@ static func populate(world: World) -> void:
 		if not lever_links.has(key):
 			lever_links[key] = []
 		lever_links[key].append(link)
-	_add(world, FloorObject.Kind.STAIRS, grid.exit)
+	if grid.in_bounds(grid.exit):
+		_add(world, FloorObject.Kind.STAIRS, grid.exit)
 	for ch: String in CHEST_TIERS:
 		for c: Vector2i in grid.marker_cells(ch):
 			var o := _add(world, FloorObject.Kind.CHEST, c)

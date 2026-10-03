@@ -30,6 +30,15 @@ const MODELS := {
 		"clips": {&"idle": &"Idle_02", &"run": &"Monster_Walk",
 			&"attack": &"Heavy_Hammer_Swing", &"hit": &"Hit_Reaction", &"death": &"Dead",
 			&"chain_pull": &"Heavy_Hammer_Swing", &"ground_slam": &"Charged_Ground_Slam"}},
+	&"warden_grum": {"path": "res://assets/models/warden_grum/warden_grum.glb", "scale": 1.15,
+		"clips": {&"idle": &"Idle_02", &"run": &"Monster_Walk", &"attack": &"Heavy_Hammer_Swing",
+			&"hit": &"Hit_Reaction", &"death": &"Dead", &"charge": &"RunFast", &"club_charge": &"Heavy_Hammer_Swing",
+			&"key_ring": &"Axe_Spin_Attack", &"whistle": &"Shouting_Angrily"}},
+	&"executioner_morten": {"path": "res://assets/models/executioner_morten/executioner_morten.glb", "scale": 1.12,
+		"clips": {&"idle": &"Idle_02", &"run": &"Monster_Walk", &"attack": &"Charged_Axe_Chop",
+			&"hit": &"Hit_Reaction", &"death": &"dying_backwards", &"execution": &"Charged_Axe_Chop",
+			&"double_execution": &"Charged_Axe_Chop", &"hook": &"Crouch_Charge_and_Throw", &"spin": &"Axe_Spin_Attack",
+			&"axe_whirl": &"Axe_Spin_Attack"}},
 	&"drowned": {"path": "res://assets/models/drowned/drowned.glb",
 		"clips": {
 			&"idle": &"Idle_02", &"run": &"Injured_Walk",
@@ -132,6 +141,12 @@ func _add_props() -> void:
 			model.attach("RightHand", SwordMesh.build_crossbow(), Vector3(0, 0.05, 0), Vector3(-90, 0, 0))
 		&"chain_brute":
 			model.attach("RightHand", SwordMesh.build_chain_hook(), Vector3(0, 0.05, 0), Vector3(180, 0, 0))
+		&"warden_grum":
+			var club := SwordMesh.build_club()
+			club.scale = Vector3.ONE * 1.6
+			model.attach("RightHand", club, Vector3(0, 0.05, 0), Vector3(-90, 0, 0))
+		&"executioner_morten":
+			model.attach("RightHand", SwordMesh.build_axe(), Vector3(0, -0.3, 0), Vector3(-90, 0, 0))
 
 
 func _part(mesh_type: Variant, size: Vector3, pos: Vector3, color: Color, rot_deg: Vector3 = Vector3.ZERO) -> void:
@@ -197,6 +212,10 @@ func _animate_model(delta: float, flash: float) -> void:
 		&"cast":
 			var st := mob.cast_id if model.clips.has(mob.cast_id) else &"attack"
 			model.play_state(st, 0.55)
+		&"charge":
+			model.play_state(&"charge", 2.0)
+		&"spin":
+			model.play_state(&"spin", 1.4)
 		&"run":
 			model.play_state(&"run", mob.move_speed / 3.2)
 		&"attack":

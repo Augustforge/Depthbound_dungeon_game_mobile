@@ -39,7 +39,7 @@ func tick(dt: float) -> void:
 	input.move = Vector2.ZERO
 	if not hero.alive:
 		return
-	if _dodge_telegraphs():
+	if _dodge_telegraphs() or _flee_spin():
 		return
 	if hero.interact_target != null:
 		return
@@ -65,18 +65,30 @@ func _dodge_telegraphs() -> bool:
 	for t in world.telegraphs:
 		if t.target_team != Entity.Team.HERO and not t.hit_all:
 			continue
-		if t.left > 0.45 or not Shapes.contains(t.shape, t.origin, t.dir, hero.pos, hero.radius):
+		if t.left > 0.9 or not Shapes.contains(t.shape, t.origin, t.dir, hero.pos, hero.radius + 0.3):
 			continue
 		var away := (hero.pos - t.origin)
-		if t.shape.get("type") == "line":
+		if t.shape.get("type") in ["line", "rect", "cone"]:
 			away = Vector2(-t.dir.y, t.dir.x)
 			if away.dot(hero.pos - t.origin) < 0.0:
 				away = -away
 		hero.input.move = away.normalized()
-		if hero.dodge_charges > 0:
+		if hero.dodge_charges > 0 and t.left < 0.45:
 			hero.input.dodge_requested = true
 		return true
 	return false
+
+
+## Keeps out of a spinning boss (Morten's Axe Whirl).
+func _flee_spin() -> bool:
+	var b := world.boss
+	if b == null or not b.alive or b.spin_radius() <= 0.0:
+		return false
+	var away := world.hero.pos - b.pos
+	if away.length() > b.spin_radius() + 1.5:
+		return true
+	world.hero.input.move = away.normalized() if away.length() > 0.01 else Vector2.DOWN
+	return true
 
 
 ## The enemy to fight now: anything already fighting us nearby, or (CLEAR) the closest mob.

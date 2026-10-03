@@ -23,6 +23,9 @@ signal seals_changed(done: int, needed: int)
 signal flood_started(rect: Rect2i)
 signal floor_completed(result: Dictionary)
 signal floor_failed(cause: StringName)
+signal boss_enraged(boss: Boss)
+signal boss_summoned(boss: Boss)
+signal boss_line(key: String)
 
 const TICK := 1.0 / 60.0
 
@@ -55,6 +58,9 @@ var failed: bool = false
 var run: RunState
 ## Active floods: [{"rect": Rect2i, "left": float}]
 var floods: Array[Dictionary] = []
+var boss: Boss
+## Slowing puddles (Morten phase 2): [{"pos": Vector2, "radius": float, "slow": float}]
+var puddles: Array[Dictionary] = []
 var _flooded_ids: Dictionary = {}
 
 
@@ -96,6 +102,35 @@ func _setup_goal() -> void:
 				push_warning("World: key holder pack not found")
 		&"seals":
 			seals_needed = int(goal.get("count", grid.marker_cells("V").size()))
+		&"boss":
+			_setup_boss(goal)
+
+
+func _setup_boss(goal: Dictionary) -> void:
+	var id := StringName(goal["boss"])
+	var bd: Dictionary = DataDB.table(&"bosses")[String(id)]
+	timer.boss_mode = true
+	timer.limit = float(bd["enrage"])
+	timer.flood_after = float(bd["flood_after"])
+	boss = Boss.new()
+	var at: Array = goal.get("boss_at", [grid.width / 2, grid.height / 2])
+	boss.setup_boss(id, FloorGrid.cell_center(Vector2i(int(at[0]), int(at[1]))))
+	for c: Array in grid.data.get("cages", []):
+		boss.cages.append(FloorGrid.cell_center(Vector2i(int(c[0]), int(c[1]))))
+	add_entity(boss)
+	var intro: String = bd.get("lines", {}).get("intro", "")
+	if not intro.is_empty():
+		boss_line.emit.call_deferred(intro)
+
+
+func spawn_puddles(count: int, diameter: float, slow: float) -> void:
+	var r := rng.stream("ai", floor_index)
+	for i in count:
+		for attempt in 20:
+			var p := Vector2(r.randf_range(2.0, grid.width - 2.0), r.randf_range(2.0, grid.height - 2.0))
+			if grid.circle_free(p, diameter * 0.5):
+				puddles.append({"pos": p, "radius": diameter * 0.5, "slow": slow})
+				break
 
 
 func _strongest_in_pack(letter: String) -> Mob:
@@ -123,12 +158,20 @@ func goal_done() -> bool:
 		&"seals":
 			return seals_done >= seals_needed
 		&"boss":
-			return living_enemies() == 0
+			return boss != null and not boss.alive
 	return true
 
 
 ## Stars by remaining time (GDD 10.6).
 func stars() -> int:
+	if timer.boss_mode:
+		var bcfg: Dictionary = DataDB.table(&"bosses")["stars"]
+		var used := timer.elapsed / timer.limit
+		if used <= float(bcfg["three"]):
+			return 3
+		if used <= float(bcfg["two"]):
+			return 2
+		return 1
 	var cfg: Dictionary = DataDB.table(&"floor")["stars"]
 	var left := timer.remaining() / timer.limit
 	if left >= float(cfg["three"]):
@@ -142,7 +185,8 @@ func result() -> Dictionary:
 	return {"floor": floor_index, "time": timer.elapsed, "stars": stars(), "essence": essence,
 		"essence_total": essence_total, "essence_fill": essence_fill(),
 		"double_card": essence >= essence_threshold() and essence_total > 0.0,
-		"gold": gold_collected, "crystals": crystals_collected, "loot": loot}
+		"gold": gold_collected, "crystals": crystals_collected, "loot": loot,
+		"boss": String(boss.def_id) if boss != null else ""}
 
 
 func _on_entity_died(e: Entity) -> void:
@@ -388,6 +432,10 @@ func step(dt: float) -> void:
 			e.tick(dt)
 	_tick_telegraphs(dt)
 	_tick_floods(dt)
+	for pd in puddles:
+		for e in entities:
+			if e is Combatant and e.alive and e.team != Entity.Team.NEUTRAL and e.pos.distance_to(pd["pos"]) < pd["radius"]:
+				e.statuses.apply(&"slow", 0.1, float(pd["slow"]))
 	_separate()
 	_update_lock_gates()
 	_check_end()
@@ -407,7 +455,18 @@ func _check_end() -> void:
 	if not hero.alive:
 		failed = true
 		running = false
+		if boss != null and boss.alive:
+			var win: String = boss.boss_data.get("lines", {}).get("hero_death", "")
+			if not win.is_empty():
+				boss_line.emit(win)
 		floor_failed.emit(&"fell")
+		return
+	if goal_type == &"boss":
+		if boss != null and not boss.alive:
+			completed = true
+			running = false
+			timer.paused = true
+			floor_completed.emit(result())
 		return
 	if hero.pos.distance_to(FloorGrid.cell_center(grid.exit)) <= float(DataDB.table(&"floor")["stairs_radius"]):
 		if goal_done():

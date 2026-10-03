@@ -1,0 +1,15 @@
+{
+	"id": "d01_f10",
+	"name_key": "FLOOR_D01_10",
+	"goal": {
+		"type": "boss",
+		"boss": "executioner_morten",
+		"boss_at": [
+			12,
+			5
+		]
+	},
+	"arena": "block_drains",
+	"zone": "casemates",
+	"torch_density": 1.0
+}

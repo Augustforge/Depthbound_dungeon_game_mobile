@@ -34,6 +34,7 @@ func _ready() -> void:
 	world.floor_completed.connect(_on_completed)
 	world.floor_failed.connect(_on_failed)
 	world.note_found.connect(_on_note)
+	world.boss_line.connect(func(key: String) -> void: hud.show_boss_line(key))
 	EventBus.floor_started.emit(run.floor_index)
 
 
@@ -51,7 +52,7 @@ func _apply_dev_args() -> void:
 
 
 func _build_view(grid: FloorGrid) -> void:
-	var torches := LightGrid.place_torches(grid)
+	var torches := LightGrid.place_torches(grid, float(grid.data.get("torch_density", 0.55)))
 	var img := LightGrid.bake(grid, torches)
 	VisualGlobals.set_light_grid(ImageTexture.create_from_image(img), Vector2.ZERO, Vector2(grid.width, grid.height))
 	var floor_view := FloorView.new()
@@ -207,6 +208,12 @@ func _on_completed(result: Dictionary) -> void:
 	run.gold += int(result["gold"])
 	run.crystals += int(result["crystals"])
 	_modal_open = true
+	if not String(result.get("boss", "")).is_empty():
+		var b := BossRewardScreen.new()
+		add_child(b)
+		b.setup(run, result)
+		b.finished.connect(_next_floor)
+		return
 	var s := SummaryScreen.new()
 	add_child(s)
 	s.setup(run, result)

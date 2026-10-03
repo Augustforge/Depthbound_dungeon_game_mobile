@@ -53,6 +53,15 @@ static func build_chain_hook() -> Node3D:
 	return root
 
 
+## Executioner's two-handed axe (Morten). +Y from grip to head.
+static func build_axe() -> Node3D:
+	var root := Node3D.new()
+	_box(root, Vector3(0.07, 1.5, 0.07), Vector3(0, 0.45, 0), Color(0.28, 0.18, 0.1))
+	_box(root, Vector3(0.62, 0.5, 0.05), Vector3(0.25, 1.05, 0), Color(0.55, 0.52, 0.5), 0.1)
+	_box(root, Vector3(0.12, 0.12, 0.12), Vector3(0, 1.22, 0), Color(0.35, 0.3, 0.28))
+	return root
+
+
 ## Merchant's staff with a glowing lantern (Ulm).
 static func build_lantern_staff() -> Node3D:
 	var root := Node3D.new()

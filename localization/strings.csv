@@ -83,3 +83,32 @@ CARD_SECOND_ROLL_DESC,+1 dodge charge,+1 заряд уворота,+1 carga de e
 CARD_RIPOSTE_DESC,After a dodge the next attack deals double damage,После уворота следующая атака наносит двойной урон,"Tras esquivar, el siguiente ataque hace el doble de daño"
 CARD_SKILL_UP_DESC,Level %d → %d,Уровень %d → %d,Nivel %d → %d
 CARD_SKILL_UP_RARE,"Level %d → %d, cooldown −10%%","Уровень %d → %d, перезарядка −10%%","Nivel %d → %d, enfriamiento −10%%"
+BOSS_GRUM,Warden Grum,Надзиратель Грюм,Celador Grum
+BOSS_MORTEN,Morten the Executioner,Палач Мортен,Morten el Verdugo
+BOSS_ENRAGED,ENRAGED — the water is rising!,ЯРОСТЬ — вода прибывает!,¡FURIA: el agua sube!
+GRUM_LINE_INTRO,Another one? The water will get you before I do.,Ещё один? Вода всё равно доберётся до тебя раньше меня.,¿Otro más? El agua te alcanzará antes que yo.
+GRUM_LINE_RAGE,"You whelp! To me, rats!","Ах ты щенок! Ко мне, крысы!","¡Cachorro! ¡A mí, ratas!"
+GRUM_LINE_WIN,I'll send you to the others.,Отправлю тебя к остальным.,Te enviaré con los demás.
+GRUM_LINE_DEFEAT,The keys... won't help you... it's worse below...,Ключи… тебе не помогут… внизу хуже…,Las llaves... no te ayudarán... abajo es peor...
+MORTEN_LINE_INTRO,The block has long awaited a new neck.,Плаха давно ждёт новую шею.,El tajo lleva tiempo esperando un cuello nuevo.
+MORTEN_LINE_PHASE,Enough games. Let the water wash away the blood!,Довольно игр. Пусть вода смоет кровь!,Basta de juegos. ¡Que el agua lave la sangre!
+MORTEN_LINE_WIN,Clean work.,Чисто сработано.,Trabajo limpio.
+MORTEN_LINE_DEFEAT,Beneath us... the drains... they... hear everything...,Под нами… стоки… там они… всё слышат…,Bajo nosotros... los desagües... ellos... lo oyen todo...
+BOSS_DEFEATED,Boss defeated!,Босс повержен!,¡Jefe derrotado!
+CRYSTALS,Crystals,Кристаллы,Cristales
+BTN_NEXT,Next,Дальше,Siguiente
+BTN_SKIP,Skip,Пропустить,Omitir
+CHOOSE_SKILL,Choose a new skill,Выбери новый навык,Elige una habilidad nueva
+REFORGE_TITLE,Reforge: drop a card (%d left) and pick a new one,Перековка: откажись от карточки (осталось %d) и выбери новую,Reforja: descarta una carta (quedan %d) y elige otra
+SKILL_CLEAVE_DESC,Cone strike for 180% damage.,Удар конусом на 180% урона.,Golpe en cono con 180% de daño.
+SKILL_DASH_DESC,"Dash 5 m, invulnerable, hitting everyone on the way for 150%.","Рывок на 5 м с неуязвимостью, 150% урона всем на пути.","Embestida de 5 m, invulnerable, 150% de daño a todos en el camino."
+SKILL_WHIRLWIND_DESC,"Spin for 2.5 s, hitting all around; you can move.","Вращение 2,5 с, удары вокруг; можно двигаться.","Gira 2,5 s golpeando alrededor; puedes moverte."
+SKILL_PARRY_DESC,1 s stance that blocks a hit and strikes back for 300%.,Стойка на 1 с: блокирует удар и отвечает на 300%.,Postura de 1 s: bloquea un golpe y contraataca con 300%.
+SKILL_BLADE_DESC,"Throw a blade 8 m for 200%, piercing 3 enemies; pulls levers.","Бросок клинка на 8 м, 200%, пробивает 3 врагов; дёргает рычаги.","Lanza una hoja a 8 m con 200%, atraviesa 3 enemigos; acciona palancas."
+SKILL_CRY_DESC,"6 s: +30% damage, +20% attack speed, +15% move speed.","6 с: +30% урона, +20% скорости атаки, +15% скорости бега.","6 s: +30% de daño, +20% de velocidad de ataque, +15% de velocidad."
+SKILL_BLEED_DESC,Hits make enemies bleed: 15% damage per second for 3 s.,Удары вызывают кровотечение: 15% урона в секунду 3 с.,Los golpes causan sangrado: 15% de daño por segundo durante 3 s.
+SKILL_MASTER_DESC,Every 3rd attack is a guaranteed critical hit.,Каждая 3-я атака — гарантированный крит.,Cada 3.er ataque es un crítico garantizado.
+SKILL_LIFESTEAL_DESC,+6% lifesteal.,+6% вампиризма.,+6% de robo de vida.
+SKILL_COUNTER_DESC,"When hit, 25% chance to strike back for 150%.",При получении удара 25% шанс ответить на 150%.,"Al recibir un golpe, 25% de devolverlo con 150%."
+SKILL_WIND_DESC,"Once per floor, lethal damage leaves you at 30% HP.",Раз за этаж смертельный удар оставляет 30% HP.,"Una vez por piso, un golpe letal te deja con 30% de salud."
+SKILL_FURY_DESC,+0.5% damage for every 1% of missing health.,"+0,5% урона за каждый 1% потерянного здоровья.","+0,5% de daño por cada 1% de salud perdida."

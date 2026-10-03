@@ -1,0 +1,38 @@
+{
+	"_comment": "Bosses (GDD 15). HP and damage are absolute (not scaled by floor). Times in seconds. Auto-attack damage and HP rebalanced (decision D24).",
+	"warden_grum": {
+		"name_key": "BOSS_GRUM", "hp": 3600, "armor": 25, "damage": 24, "attack_interval": 2.0, "attack_range": 1.8,
+		"move_speed": 3.0, "radius": 0.75, "enrage": 90, "flood_after": 30, "tier": "weak",
+		"skills": [
+			{"id": "club_charge", "kind": "charge", "cooldown": 8, "first": 4,
+				"telegraph": {"type": "rect", "length": 8.0, "width": 1.5, "time": 1.0}, "damage": 110, "effect": {"stun": 1.0}},
+			{"id": "key_ring", "kind": "telegraph", "cooldown": 12, "first": 7,
+				"telegraph": {"type": "circle", "radius": 2.5, "time": 1.0}, "damage": 90},
+			{"id": "whistle", "kind": "summon", "cooldown": 20, "first": 10, "summon": [{"mob": "rat", "count": 3}, {"mob": "prisoner", "count": 1}]}
+		],
+		"thresholds": [{"hp": 0.3, "attack_speed_pct": 0.25, "cooldown_cut": 0.2, "line": "GRUM_LINE_RAGE"}],
+		"lines": {"intro": "GRUM_LINE_INTRO", "hero_death": "GRUM_LINE_WIN", "defeat": "GRUM_LINE_DEFEAT"},
+		"reward": {"gold": 300, "items": 2, "crystals": 5, "skill_type": "active", "reforge": 1}
+	},
+	"executioner_morten": {
+		"name_key": "BOSS_MORTEN", "hp": 6500, "armor": 35, "damage": 36, "attack_interval": 2.2, "attack_range": 2.0,
+		"move_speed": 2.8, "radius": 0.7, "enrage": 150, "flood_after": 30, "tier": "medium",
+		"skills": [
+			{"id": "execution", "kind": "telegraph", "cooldown": 9, "first": 4, "phase": 1,
+				"telegraph": {"type": "cone", "angle": 90, "radius": 3.5, "time": 1.4}, "damage": 220},
+			{"id": "double_execution", "kind": "double", "cooldown": 9, "first": 3, "phase": 2, "second_delay": 0.8,
+				"telegraph": {"type": "cone", "angle": 90, "radius": 3.5, "time": 1.4}, "damage": 220},
+			{"id": "hook", "kind": "telegraph", "cooldown": 13, "first": 8,
+				"telegraph": {"type": "line", "length": 10.0, "width": 1.0, "time": 0.9}, "damage": 70, "effect": {"pull": true}},
+			{"id": "axe_whirl", "kind": "spin", "cooldown": 15, "first": 6, "phase": 2,
+				"telegraph": {"type": "circle", "radius": 3.0, "time": 0.8}, "damage": 40, "tick": 0.3, "duration": 3.0, "spin_speed": 1.5,
+				"unparryable": true}
+		],
+		"thresholds": [{"hp": 0.5, "phase": 2, "invulnerable": 2.0, "puddles": 3, "puddle_diameter": 3.0, "puddle_slow": 0.25,
+			"line": "MORTEN_LINE_PHASE"}],
+		"lines": {"intro": "MORTEN_LINE_INTRO", "hero_death": "MORTEN_LINE_WIN", "defeat": "MORTEN_LINE_DEFEAT"},
+		"reward": {"gold": 600, "items": 2, "min_item_rarity": 2, "crystals": 10, "skill_type": "passive", "reforge": 2}
+	},
+	"enrage": {"damage_pct": 0.5, "attack_speed_pct": 0.3},
+	"stars": {"three": 0.5, "two": 0.7}
+}

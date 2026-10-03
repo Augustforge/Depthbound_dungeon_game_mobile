@@ -1,0 +1,33 @@
+{
+	"id": "d01_f05",
+	"name_key": "FLOOR_D01_05",
+	"goal": {
+		"type": "boss",
+		"boss": "warden_grum",
+		"boss_at": [
+			11,
+			8
+		]
+	},
+	"cages": [
+		[
+			11,
+			3
+		],
+		[
+			3,
+			11
+		],
+		[
+			18,
+			11
+		],
+		[
+			11,
+			18
+		]
+	],
+	"arena": "round_cages",
+	"zone": "cells",
+	"torch_density": 1.0
+}

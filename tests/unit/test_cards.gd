@@ -110,3 +110,30 @@ func test_run_state_roundtrip() -> void:
 	assert_eq(copy.gold, 123)
 	assert_eq(int(copy.skill_entry(&"bleed")["level"]), 2)
 	assert_eq(copy.cards[0]["skill"], &"bleed")
+
+
+func test_reforge_undoes_skill_card() -> void:
+	var run := RunState.new_run(1)
+	run.take_card({"id": &"skill_up", "kind": &"skill", "skill": &"cleave", "rarity": 1})
+	assert_eq(int(run.skill_entry(&"cleave")["level"]), 2)
+	run.remove_card(0)
+	assert_eq(int(run.skill_entry(&"cleave")["level"]), 1)
+	assert_almost(float(run.skill_entry(&"cleave")["card_cdr"]), 0.0)
+	assert_true(run.cards.is_empty())
+
+
+func test_reforge_undoes_stat_card() -> void:
+	var run := RunState.new_run(1)
+	run.take_card({"id": &"vitality", "kind": &"stat", "rarity": 2})
+	run.remove_card(0)
+	var w := make_world("#####\n#S..#\n#####")
+	run.apply_to_hero(w.hero)
+	assert_almost(w.hero.max_hp, 600.0)
+
+
+func test_missing_skills_for_boss_reward() -> void:
+	var run := RunState.new_run(1)
+	var actives := run.missing_skills("active")
+	assert_false(actives.has(&"cleave"), "already owned")
+	assert_eq(actives.size(), 5)
+	assert_eq(run.missing_skills("passive").size(), 5)

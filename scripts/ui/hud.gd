@@ -18,6 +18,10 @@ var _hint_label: Label
 var _hint_left: float = 0.0
 var _essence: EssenceBar
 var _stairs_msg_left: float = 0.0
+var _boss_bar: BossBar
+var _line_panel: PanelContainer
+var _line_label: Label
+var _line_left: float = 0.0
 
 
 func setup(w: World) -> void:
@@ -66,6 +70,26 @@ func setup(w: World) -> void:
 	_hint_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hint_label = UiKit.label(_hint_panel, "", 34)
 	_hint_panel.visible = false
+	_boss_bar = BossBar.new()
+	_boss_bar.anchor_left = 0.5
+	_boss_bar.anchor_right = 0.5
+	_boss_bar.offset_left = -420
+	_boss_bar.offset_right = 420
+	_boss_bar.offset_top = 180
+	_boss_bar.offset_bottom = 214
+	root.add_child(_boss_bar)
+	_line_panel = UiKit.panel(root, Color(0.75, 0.25, 0.2))
+	_line_panel.anchor_left = 0.5
+	_line_panel.anchor_right = 0.5
+	_line_panel.anchor_top = 1.0
+	_line_panel.anchor_bottom = 1.0
+	_line_panel.offset_left = -520
+	_line_panel.offset_right = 520
+	_line_panel.offset_top = -260
+	_line_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_line_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_line_label = UiKit.label(_line_panel, "", 32, Color(1, 0.85, 0.75))
+	_line_panel.visible = false
 	_hp_bar = HpBar.new()
 	_hp_bar.position = Vector2(40, 70)
 	_hp_bar.size = Vector2(420, 34)
@@ -113,6 +137,10 @@ func _process(_delta: float) -> void:
 	controls.action_progress = 0.0 if world.hero.interact_target == null else \
 			1.0 - world.hero.interact_left / maxf(world.hero.interact_total, 0.01)
 	_stairs_message()
+	_boss_bar.boss = world.boss
+	_boss_bar.visible = world.boss != null and world.boss.alive
+	_line_left -= get_process_delta_time()
+	_line_panel.visible = _line_left > 0.0
 	_fps.text = "%d FPS" % Engine.get_frames_per_second()
 	_gauge.ratio = clampf(t.progress(), 0.0, 1.0)
 	controls.dodge_ready = world.hero.dodge_ready_ratio()
@@ -131,8 +159,19 @@ func show_hint(text: String, seconds: float) -> void:
 	_hint_left = seconds
 
 
+## Boss line plate (GDD 15): shown 3 s at the bottom, the fight does not stop.
+func show_boss_line(key: String) -> void:
+	var boss_name := tr(String(world.boss.boss_data["name_key"])) if world.boss else ""
+	_line_label.text = "%s: «%s»" % [boss_name, tr(key)]
+	_line_left = 3.0
+
+
 func _goal_text() -> String:
 	match world.goal_type:
+		&"boss":
+			if world.boss and world.boss.enraged:
+				return tr("BOSS_ENRAGED")
+			return tr(String(world.boss.boss_data["name_key"])) if world.boss else ""
 		&"key_holder":
 			return tr("GOAL_KEY_DONE") if world.has_key else tr("GOAL_KEY_MISSING")
 		&"seals":
@@ -147,6 +186,34 @@ func _stairs_message() -> void:
 		var msg := tr("STAIRS_LOCKED_KEY") if world.goal_type == &"key_holder" \
 				else tr("STAIRS_LOCKED_SEALS") % [world.seals_done, world.seals_needed]
 		show_hint(msg, 1.5)
+
+
+## Big boss health bar with phase marks (GDD 17.3).
+class BossBar:
+	extends Control
+	var boss: Boss
+
+	func _process(_d: float) -> void:
+		queue_redraw()
+
+	func _draw() -> void:
+		if boss == null:
+			return
+		var r := Rect2(Vector2.ZERO, size)
+		draw_rect(r.grow(4), Color(0, 0, 0, 0.85))
+		var k := clampf(boss.hp / boss.max_hp, 0.0, 1.0)
+		var col := Color(0.85, 0.15, 0.1) if not boss.enraged else Color(1.0, 0.35, 0.05)
+		draw_rect(Rect2(Vector2.ZERO, Vector2(size.x * k, size.y)), col)
+		for th: Dictionary in boss.boss_data.get("thresholds", []):
+			var x := size.x * float(th["hp"])
+			draw_line(Vector2(x, -6), Vector2(x, size.y + 6), Color(1, 0.9, 0.6), 3.0)
+		draw_rect(r, Color(0.8, 0.65, 0.45), false, 2.0)
+		var font := get_theme_default_font()
+		var t := tr(String(boss.boss_data["name_key"]))
+		var tw := font.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
+		draw_string_outline(font, Vector2((size.x - tw) * 0.5, size.y - 7), t, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, 6,
+				Color(0, 0, 0))
+		draw_string(font, Vector2((size.x - tw) * 0.5, size.y - 7), t, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color.WHITE)
 
 
 class EssenceBar:

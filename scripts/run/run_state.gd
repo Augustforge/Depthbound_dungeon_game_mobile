@@ -60,6 +60,30 @@ func take_card(card: Dictionary) -> void:
 			s["card_cdr"] = float(s["card_cdr"]) + float(cfg["rare_cooldown_cut"])
 
 
+## Reforge (GDD 9.5): removes a taken card and fully undoes its effect.
+func remove_card(index: int) -> void:
+	var card: Dictionary = cards[index]
+	cards.remove_at(index)
+	if card["kind"] == &"skill":
+		var s := skill_entry(card["skill"])
+		if s.is_empty():
+			return
+		var cfg: Dictionary = DataDB.table(&"cards")["skill_upgrade"]
+		s["level"] = maxi(1, int(s["level"]) - int(cfg["levels"][card["rarity"]]))
+		if card["rarity"] == 1:
+			s["card_cdr"] = maxf(0.0, float(s["card_cdr"]) - float(cfg["rare_cooldown_cut"]))
+
+
+## Skills of a type the hero does not have yet (boss reward, GDD 8.1).
+func missing_skills(skill_type: String) -> Array[StringName]:
+	var out: Array[StringName] = []
+	for id: String in DataDB.table(&"skills"):
+		var sd: Variant = DataDB.table(&"skills")[id]
+		if sd is Dictionary and String(sd.get("type", "")) == skill_type and skill_entry(StringName(id)).is_empty():
+			out.append(StringName(id))
+	return out
+
+
 ## Total floor time bonus from Respite cards.
 func time_bonus() -> float:
 	var t := 0.0
