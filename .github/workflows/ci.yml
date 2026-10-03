@@ -35,6 +35,11 @@ jobs:
           mkdir -p build/shots
           tools/screenshot.sh res://scenes/dev/spike.tscn build/shots/spike_dry.png 40
           tools/screenshot.sh res://scenes/dev/spike.tscn build/shots/spike_knee_deep.png 40 --water=0.9
+          tools/screenshot.sh res://scenes/main_menu.tscn build/shots/main_menu.png 40
+          tools/screenshot.sh res://scenes/camp.tscn build/shots/camp.png 40 --demo=1
+          for step in 0 1 2 3 4 5 6; do
+            tools/screenshot.sh res://scenes/dev/ui_check.tscn build/shots/ui_check_$step.png 30 --step=$step
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: screenshots

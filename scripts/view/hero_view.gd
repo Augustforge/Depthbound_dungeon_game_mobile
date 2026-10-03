@@ -6,6 +6,7 @@ extends Node3D
 const CHAR_SHADER := preload("res://shaders/character.gdshader")
 const MODELS := {
 	&"male": "res://assets/models/hero_m/hero_m_anims.glb",
+	&"female": "res://assets/models/hero_f/hero_f.glb",
 }
 const CLIPS := {
 	&"idle": &"Idle_02", &"run": &"Run_02", &"attack_a": &"Left_Slash", &"attack_b": &"Right_Hand_Sword_Slash",

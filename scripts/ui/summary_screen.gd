@@ -21,7 +21,6 @@ func setup(r: RunState, res: Dictionary) -> void:
 	var streams := RngStreams.new(run.run_seed)
 	_rng = streams.stream("cards", int(res["floor"]))
 	_reroll_rng = streams.stream("reroll", int(res["floor"]))
-	run.rerolls_used_on_floor = 0
 	if DevTools.arg("show_cards") == "1":
 		_show_cards(CardDeck.offer(run, float(res["essence_fill"]), _rng))
 	else:
@@ -45,13 +44,41 @@ func _show_stats() -> void:
 	var t := int(result["time"])
 	UiKit.label(box, "%s: %d:%02d" % [tr("SUMMARY_TIME"), t / 60, t % 60], 34)
 	var pct := roundi(100.0 * float(result["essence"]) / maxf(float(result["essence_total"]), 1.0))
+	if result.get("new_best", false):
+		UiKit.label(box, tr("SUMMARY_NEW_BEST"), 28, Color(0.5, 0.95, 0.5))
+	elif result.has("best_time"):
+		UiKit.label(box, tr("SUMMARY_BEST") % UiKit.time_text(float(result["best_time"])), 28, UiKit.DIM_TEXT)
 	UiKit.label(box, "%s: %d%%" % [tr("SUMMARY_ESSENCE"), pct], 34)
-	UiKit.label(box, "%s: +%d" % [tr("HUD_GOLD"), int(result["gold"])], 34, Color(1, 0.85, 0.35))
-	if not (result["loot"] as Array).is_empty():
-		UiKit.label(box, "%s: %d" % [tr("SUMMARY_LOOT"), (result["loot"] as Array).size()], 30)
+	var gained := UiKit.wallet(box, int(result.get("gold_total", result["gold"])), int(result.get("crystals_total", 0)),
+		34)
+	gained.alignment = BoxContainer.ALIGNMENT_CENTER
+	SummaryScreen.loot_row(box, result)
 	if result["double_card"]:
 		UiKit.label(box, tr("SUMMARY_DOUBLE"), 30, Color(0.75, 0.55, 1.0))
-	UiKit.button(box, tr("CHOOSE_CARD"), _show_cards.bind(CardDeck.offer(run, float(result["essence_fill"]), _rng)))
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override(&"separation", 24)
+	box.add_child(row)
+	UiKit.button(row, tr("EQUIP_TITLE"), func() -> void: EquipmentWindow.new().setup(self, GameState.profile))
+	UiKit.button(row, tr("CHOOSE_CARD"), _show_cards.bind(CardDeck.offer(run, float(result["essence_fill"]), _rng)))
+
+
+## Items found on the floor (and sold for lack of room) as a row of tiles.
+static func loot_row(parent: Control, res: Dictionary) -> void:
+	var items: Array = res.get("loot", [])
+	if items.is_empty():
+		return
+	UiKit.label(parent, TranslationServer.translate("SUMMARY_LOOT"), 28, UiKit.DIM_TEXT)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override(&"separation", 12)
+	parent.add_child(row)
+	for it: Variant in items:
+		if it is Item:
+			ItemTile.make(row, it, func() -> void: pass)
+	if int(res.get("auto_sold", 0)) > 0:
+		UiKit.label(parent, TranslationServer.translate("SUMMARY_SOLD") % int(res["auto_sold"]), 24,
+			Color(0.95, 0.6, 0.4))
 
 
 func _show_cards(offer: Array[Dictionary]) -> void:
@@ -73,10 +100,10 @@ func _show_cards(offer: Array[Dictionary]) -> void:
 	outer.add_child(bottom)
 	var cost := int(DataDB.table(&"cards")["reroll_cost"])
 	var reroll := UiKit.button(bottom, tr("BTN_REROLL") % cost, func() -> void:
-		run.crystals -= cost
+		GameState.profile.crystals -= cost
 		run.rerolls_used_on_floor += 1
 		_show_cards(CardDeck.offer(run, float(result["essence_fill"]), _reroll_rng)))
-	reroll.disabled = run.crystals < cost or run.rerolls_used_on_floor >= 1
+	reroll.disabled = GameState.profile.crystals < cost or run.rerolls_used_on_floor >= 1
 
 
 func _card_widget(parent: Control, card: Dictionary) -> void:

@@ -47,6 +47,40 @@ func setup(w: World, ov: WorldOverlay) -> void:
 		for sk in world.hero.all_skills():
 			sk.set_level(sk.level + 1))
 	_button("Restart floor (R)", func() -> void: get_tree().reload_current_scene())
+	_button("Complete floor", complete_floor)
+	_button("Floor +1", func() -> void: _jump(1))
+	_button("Floor -1", func() -> void: _jump(-1))
+	_button("+1000 gold, +10 crystals", func() -> void:
+		GameState.profile.gold += 1000
+		GameState.profile.crystals += 10)
+	_button("Give a random item", func() -> void:
+		var rng := RandomNumberGenerator.new()
+		rng.randomize()
+		GameState.profile.add_item(Loot.roll_item("relic", world.floor_index, rng)))
+	_button("Typical build of this floor", func() -> void:
+		var run := GameState.run
+		var sim := SimBuild.make_run(run.run_seed, world.floor_index)
+		run.skills = sim.skills
+		run.cards = sim.cards
+		get_tree().reload_current_scene())
+
+
+## Finishes the floor as if the goal were done and the stairs reached (or the boss killed).
+func complete_floor() -> void:
+	world.has_key = true
+	world.seals_done = world.seals_needed
+	if world.boss != null and world.boss.alive:
+		world.boss.take_damage(world.boss.hp + 1.0, false, world.hero)
+	elif world.grid.in_bounds(world.grid.exit):
+		world.hero.pos = FloorGrid.cell_center(world.grid.exit)
+
+
+func _jump(delta: int) -> void:
+	var run := GameState.run
+	run.floor_index = clampi(run.floor_index + delta, 1, GameState.LAST_FLOOR)
+	GameState.profile.run_phase = &"floor"
+	GameState.profile.pending_result = {}
+	get_tree().reload_current_scene()
 
 
 func kill_all() -> void:

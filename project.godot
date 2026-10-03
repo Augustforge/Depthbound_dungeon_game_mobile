@@ -7,7 +7,7 @@ config_version=5
 
 config/name="Depthbound"
 config/description="Mobile action roguelite: descend a flooding dungeon."
-config/version="0.1.0"
+config/version="0.5.0"
 run/main_scene="res://scenes/boot.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.02, 0.03, 0.04, 1)
@@ -16,13 +16,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+DevTools="*res://autoload/dev_tools.gd"
 EventBus="*res://autoload/event_bus.gd"
 Settings="*res://autoload/settings.gd"
 DataDB="*res://autoload/data_db.gd"
-GameState="*res://autoload/game_state.gd"
 SaveManager="*res://autoload/save_manager.gd"
+GameState="*res://autoload/game_state.gd"
 AudioManager="*res://autoload/audio_manager.gd"
-DevTools="*res://autoload/dev_tools.gd"
 
 [depthbound]
 
@@ -37,6 +37,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
+
+[gui]
+
+theme/custom_font="res://assets/fonts/ui_font.tres"
 
 [input_devices]
 

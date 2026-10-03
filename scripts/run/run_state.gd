@@ -17,6 +17,8 @@ var total_time: float = 0.0
 ## floor index (String) -> stars
 var stars: Dictionary = {}
 var rerolls_used_on_floor: int = 0
+## A run of an already completed dungeon: chests give less (GDD 11.5).
+var replay: bool = false
 
 
 static func new_run(seed_value: int) -> RunState:
@@ -103,16 +105,8 @@ func gold_bonus() -> float:
 	return g
 
 
-## Builds the hero for a floor from this run: skills with levels, card stat bonuses, dodge mods.
-func apply_to_hero(hero: Hero) -> void:
-	hero.actives.clear()
-	hero.actives.resize(Hero.MAX_ACTIVES)
-	hero.passives.clear()
-	for s in skills:
-		hero.add_skill(s["id"], int(s["level"]))
-		var sk := hero.find_skill(s["id"])
-		if sk:
-			sk.card_cdr = float(s["card_cdr"])
+## Stat cards as a StatBlock source: [flat, pct].
+func card_bonuses() -> Array[Dictionary]:
 	var flat := {}
 	var pct := {}
 	var stats_cfg: Dictionary = DataDB.table(&"cards")["stats"]
@@ -125,7 +119,21 @@ func apply_to_hero(hero: Hero) -> void:
 			pct[StringName(cfg["pct"])] = float(pct.get(StringName(cfg["pct"]), 0.0)) + v
 		else:
 			flat[StringName(cfg["flat"])] = float(flat.get(StringName(cfg["flat"]), 0.0)) + v
-	hero.stats.set_source(&"cards", flat, pct)
+	return [flat, pct]
+
+
+## Builds the hero for a floor from this run: skills with levels, card stat bonuses, dodge mods.
+func apply_to_hero(hero: Hero) -> void:
+	hero.actives.clear()
+	hero.actives.resize(Hero.MAX_ACTIVES)
+	hero.passives.clear()
+	for s in skills:
+		hero.add_skill(s["id"], int(s["level"]))
+		var sk := hero.find_skill(s["id"])
+		if sk:
+			sk.card_cdr = float(s["card_cdr"])
+	var bonuses := card_bonuses()
+	hero.stats.set_source(&"cards", bonuses[0], bonuses[1])
 	var dodge_cfg: Dictionary = DataDB.table(&"cards")["dodge"]
 	var agility := count_card(&"agility")
 	hero.dodge_cooldown = maxf(float(dodge_cfg["agility"]["cooldown_min"]),
@@ -148,7 +156,8 @@ func to_dict() -> Dictionary:
 			e["skill"] = String(c["skill"])
 		cd.append(e)
 	return {"run_seed": run_seed, "floor_index": floor_index, "skills": sk, "cards": cd, "gold": gold,
-		"crystals": crystals, "deaths": deaths, "total_time": total_time, "stars": stars}
+		"crystals": crystals, "deaths": deaths, "total_time": total_time, "stars": stars,
+		"rerolls_used_on_floor": rerolls_used_on_floor, "replay": replay}
 
 
 static func from_dict(d: Dictionary) -> RunState:
@@ -166,5 +175,9 @@ static func from_dict(d: Dictionary) -> RunState:
 	r.crystals = int(d.get("crystals", 0))
 	r.deaths = int(d.get("deaths", 0))
 	r.total_time = float(d.get("total_time", 0.0))
-	r.stars = d.get("stars", {})
+	var st: Dictionary = d.get("stars", {})
+	for k: String in st:
+		r.stars[k] = int(st[k])
+	r.rerolls_used_on_floor = int(d.get("rerolls_used_on_floor", 0))
+	r.replay = bool(d.get("replay", false))
 	return r

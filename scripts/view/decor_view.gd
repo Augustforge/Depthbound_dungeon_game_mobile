@@ -10,7 +10,7 @@ const IRON := Color(0.2, 0.19, 0.18)
 const WOOD := Color(0.42, 0.28, 0.16)
 const WOOD_DARK := Color(0.28, 0.19, 0.11)
 const BONE := Color(0.74, 0.7, 0.6)
-const STRAW := Color(0.4, 0.32, 0.16)
+const STRAW := Color(0.3, 0.24, 0.12)
 ## Emissive parts store alpha < 1 (the shader turns 1 - alpha into glow).
 const EMBER := Color(1.0, 0.45, 0.12, 0.25)
 const FLAME := Color(1.0, 0.8, 0.45, 0.2)

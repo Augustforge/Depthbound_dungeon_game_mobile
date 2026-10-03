@@ -1,9 +1,10 @@
 class_name DeathScreen
 extends CanvasLayer
-## Death (GDD 11.2): "You have fallen" / "The water took you"; retry the floor from its snapshot.
+## Death (GDD 11.2): "You have fallen" / "The water took you"; retry the floor from its snapshot
+## or go to the camp (the run is kept and continues from this floor).
 
 signal retry
-signal new_run
+signal to_camp
 
 
 func setup(cause: StringName) -> void:
@@ -18,4 +19,4 @@ func setup(cause: StringName) -> void:
 	UiKit.label(box, tr("DEATH_DROWNED" if cause == &"drowned" else "DEATH_FELL"), 64,
 			Color(0.6, 0.9, 1.0) if cause == &"drowned" else Color(0.9, 0.3, 0.25))
 	UiKit.button(box, tr("BTN_RETRY"), func() -> void: retry.emit())
-	UiKit.button(box, tr("BTN_NEW_RUN"), func() -> void: new_run.emit())
+	UiKit.button(box, tr("BTN_TO_CAMP"), func() -> void: to_camp.emit())

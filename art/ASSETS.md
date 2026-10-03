@@ -17,12 +17,17 @@
 | Надзиратель Грюм, Палач Мортен (модели с ригом) | `assets/models/warden_grum/`, `assets/models/executioner_morten/` | Meshy: image-to-image → image-to-3D → rigging | `art/source/mobs/<id>/*.json` | Meshy | 2026-10-03 |
 | Пакет анимаций боссов (удар и вращение топором, рывок, крик, угроза, рёв, стойка) | `assets/models/shared/anims_pack3.glb` | Meshy animate на риге героя | `art/source/hero_m/anim3_out.json` | Meshy | 2026-10-03 |
 | Дубина Грюма, топор Мортена | `scripts/view/sword_mesh.gd` | собраны кодом | — | свой | 2026-10-03 |
+| Героиня (женский облик), модель с ригом; анимации — общие с героем | `assets/models/hero_f/` | Meshy: image-to-image → image-to-3D → rigging по концепту автора | `art/source/mobs/hero_f/*.json` | Meshy | 2026-10-03 |
+| Фоны главного меню и лагеря | `assets/ui/main_menu.webp`, `assets/ui/camp.webp` | арты автора из `references/` | — | собственность автора | 2026-10-03 |
+| Портреты облика (мужской, женский) | `assets/ui/portrait_*.webp` | вырезаны из концептов автора (фон убран) | — | собственность автора | 2026-10-03 |
+| Шрифты Philosopher, Ruslan Display, Noto Sans Symbols 2 (подмножество ★☆▲▼◆●✓✗☰) | `assets/fonts/` | Google Fonts (github.com/google/fonts) | `assets/fonts/OFL-*.txt` | SIL Open Font License 1.1 | 2026-10-03 |
 
 ## Бюджет Meshy
 Баланс проверяется перед каждой крупной генерацией (`meshy balance`). Баланс на старте: 1190 кредитов.
 
 | Дата | Что | Потрачено | Остаток |
 |---|---|---|---|
+| 2026-10-03 | Героиня: A-поза 6, image-to-3D 15, риг 5 | 26 | 834 |
 | 2026-10-03 | Боссы Грюм и Мортен (по 26), пакет из 7 анимаций (21) | 73 | 860 |
 | 2026-10-03 | Громила и Ульм (по 26) | 52 | 933 |
 | 2026-10-03 | 4 моба (по 26), пакет из 10 анимаций (30), крыса (15) | 149 | 985 |

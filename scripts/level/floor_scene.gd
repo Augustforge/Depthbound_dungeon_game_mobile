@@ -20,13 +20,17 @@ var _modal_open: bool = false
 
 
 func _ready() -> void:
+	if GameState.run == null:
+		# Started directly (dev): a fresh run.
+		GameState.new_run()
 	var run := GameState.run
 	var path := map_path if not map_path.is_empty() else DevTools.arg("map", GameState.floor_path(run.floor_index))
 	var grid := FloorGrid.load_floor(path)
 	world = World.new()
 	add_child(world)
 	# A fresh RngStreams per attempt: retrying a floor replays the same loot and cards (GDD 11.1).
-	world.setup(grid, RngStreams.new(run.run_seed), run.floor_index, float(grid.data.get("time_limit", 150)), run)
+	world.setup(grid, RngStreams.new(run.run_seed), run.floor_index, float(grid.data.get("time_limit", 150)), run,
+		GameState.profile.equipped_items())
 	world.running = true
 	_apply_dev_args()
 	_build_view(grid)
@@ -36,6 +40,14 @@ func _ready() -> void:
 	world.note_found.connect(_on_note)
 	world.boss_line.connect(func(key: String) -> void: hud.show_boss_line(key))
 	EventBus.floor_started.emit(run.floor_index)
+	if GameState.profile.run_phase == &"reward" and not GameState.profile.pending_result.is_empty():
+		# The app was closed on the summary of this floor: back to the same choice (GDD 11.1).
+		world.running = false
+		_modal_open = true
+		_show_reward.call_deferred(GameState.profile.pending_result)
+	else:
+		# Floor-start snapshot (GDD 11.1).
+		GameState.save()
 
 
 func _apply_dev_args() -> void:
@@ -76,7 +88,7 @@ func _build_view(grid: FloorGrid) -> void:
 	water.visible = DevTools.arg("nowater") == ""
 	var hero_view := HeroView.new()
 	add_child(hero_view)
-	hero_view.setup(world.hero, GameState.hero_look)
+	hero_view.setup(world.hero, StringName(DevTools.arg("look", String(GameState.hero_look))))
 	for e in world.entities:
 		_add_view(e)
 	world.entity_added.connect(_add_view)
@@ -98,6 +110,7 @@ func _build_ui() -> void:
 	hud.controls.world_tapped.connect(_on_world_tapped)
 	hud.controls.skill_pressed.connect(func(i: int) -> void: world.hero.input.skill_requested[i] = true)
 	hud.controls.auto_toggled.connect(func() -> void: world.hero.auto_mode = not world.hero.auto_mode)
+	hud.pause_pressed.connect(_open_pause)
 	hud.overlay.setup(world, cam)
 	if DebugMenu.enabled():
 		var dbg := DebugMenu.new()
@@ -214,28 +227,33 @@ func _on_note(key: String) -> void:
 
 
 func _on_completed(result: Dictionary) -> void:
-	var run := GameState.run
-	run.total_time += float(result["time"])
-	run.stars[str(run.floor_index)] = maxi(int(run.stars.get(str(run.floor_index), 0)), int(result["stars"]))
-	run.gold += int(result["gold"])
-	run.crystals += int(result["crystals"])
 	_modal_open = true
-	if not String(result.get("boss", "")).is_empty():
+	var r := Progress.complete_floor(GameState.profile, result)
+	GameState.save()
+	_show_reward(r)
+
+
+func _show_reward(r: Dictionary) -> void:
+	_modal_open = true
+	if not String(r.get("boss", "")).is_empty():
 		var b := BossRewardScreen.new()
 		add_child(b)
-		b.setup(run, result)
+		b.setup(GameState.run, r)
 		b.finished.connect(_next_floor)
 		return
 	var s := SummaryScreen.new()
 	add_child(s)
-	s.setup(run, result)
+	s.setup(GameState.run, r)
 	s.finished.connect(_next_floor)
 
 
 func _next_floor() -> void:
-	var run := GameState.run
-	run.floor_index += 1
-	if not GameState.floor_exists(run.floor_index):
+	var done := Progress.next_floor(GameState.profile, GameState.LAST_FLOOR)
+	GameState.save()
+	if done:
+		GameState.goto(GameState.FINAL_SCENE)
+		return
+	if not GameState.floor_exists(GameState.run.floor_index):
 		_show_demo_end()
 		return
 	get_tree().change_scene_to_file(SCENE)
@@ -261,14 +279,45 @@ func _on_failed(cause: StringName) -> void:
 	d.setup(cause)
 	d.retry.connect(func() -> void:
 		# GDD 11.3: each death adds 20 s to the dungeon time.
-		GameState.run.deaths += 1
+		Progress.retry_floor(GameState.profile)
+		GameState.save()
 		get_tree().reload_current_scene())
-	d.new_run.connect(_restart_run)
+	d.to_camp.connect(func() -> void:
+		Progress.retry_floor(GameState.profile)
+		GameState.to_camp())
 
 
 func _restart_run() -> void:
-	GameState.new_run(int(Time.get_unix_time_from_system()))
+	GameState.new_run()
 	get_tree().change_scene_to_file(SCENE)
+
+
+## Pause (GDD 17.2 #7): Continue, Equipment, Settings, To camp. The timer stops.
+func _open_pause() -> void:
+	if _modal_open or world.completed or world.failed:
+		return
+	_modal_open = true
+	world.running = false
+	var w := UiWindow.new().open(self, tr("PAUSE_TITLE"), Vector2(700, 0), 45)
+	var resume := func() -> void:
+		_modal_open = false
+		world.running = true
+	w.closed.connect(resume)
+	UiKit.button(w.body, tr("PAUSE_CONTINUE"), w.close)
+	UiKit.button(w.body, tr("EQUIP_TITLE"), func() -> void:
+		var eq := EquipmentWindow.new().setup(self, GameState.profile)
+		eq.layer = 55
+		eq.gear_changed.connect(func() -> void: GameState.profile.apply_gear(world.hero))
+		eq.closed.connect(GameState.save))
+	UiKit.button(w.body, tr("MENU_SETTINGS"), func() -> void: SettingsWindow.new().setup(self))
+	UiKit.button(w.body, tr("BTN_TO_CAMP"), func() -> void:
+		ConfirmWindow.new().ask(self, tr("BTN_TO_CAMP"), tr("PAUSE_LEAVE_CONFIRM"), GameState.to_camp))
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"pause") and not _modal_open:
+		get_viewport().set_input_as_handled()
+		_open_pause()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

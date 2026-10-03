@@ -1,7 +1,9 @@
 extends Node
 ## Loads JSON balance configs from res://data (GDD 19.4). Access: DataDB.table(&"hero_swordsman").
 
-const TABLES: Array[String] = ["hero_swordsman", "mobs", "combat", "skills", "cards", "floor", "bosses", "accents"]
+const TABLES: Array[String] = [
+	"hero_swordsman", "mobs", "combat", "skills", "cards", "floor", "bosses", "accents", "gear",
+]
 
 var _tables: Dictionary = {}
 var load_errors: PackedStringArray = []

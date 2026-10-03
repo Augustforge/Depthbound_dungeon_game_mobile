@@ -6,7 +6,7 @@ source "$(dirname "$0")/godot_env.sh"
 # Re-import so newly added class_name scripts are registered.
 "$GODOT_BIN" --headless --path "$PROJECT_ROOT" --import >/dev/null 2>&1 || true
 log="$(mktemp)"
-"$GODOT_BIN" --headless --path "$PROJECT_ROOT" res://tests/test_runner.tscn -- --filter="${1:-}" 2>&1 \
+"$GODOT_BIN" --headless --path "$PROJECT_ROOT" res://tests/test_runner.tscn -- --nosave --filter="${1:-}" 2>&1 \
 	| grep -v -E "^ALSA lib|audio_driver_alsa|All audio drivers failed|servers/audio/audio_server" | tee "$log"
 status="${PIPESTATUS[0]}"
 if grep -q -E "SCRIPT ERROR|Parse Error" "$log"; then

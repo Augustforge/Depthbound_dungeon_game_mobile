@@ -20,8 +20,6 @@ func setup(r: RunState, res: Dictionary) -> void:
 	reward = DataDB.table(&"bosses")[String(res["boss"])]["reward"]
 	_rng = RngStreams.new(run.run_seed).stream("boss_reward", int(res["floor"]))
 	_reforge_left = int(reward.get("reforge", 0))
-	run.gold += int(reward["gold"])
-	run.crystals += int(reward["crystals"])
 	_show_chest()
 
 
@@ -39,10 +37,15 @@ func _show_chest() -> void:
 	var box := UiKit.centered_box(_root)
 	UiKit.label(box, tr("BOSS_DEFEATED"), 52, UiKit.BRONZE)
 	UiKit.label(box, "★".repeat(int(result["stars"])) + "☆".repeat(3 - int(result["stars"])), 72, Color(1, 0.8, 0.3))
-	UiKit.label(box, "%s: +%d" % [tr("HUD_GOLD"), int(reward["gold"]) + int(result["gold"])], 34, Color(1, 0.85, 0.35))
-	UiKit.label(box, "%s: +%d" % [tr("CRYSTALS"), int(reward["crystals"])], 34, Color(0.6, 0.85, 1.0))
-	UiKit.label(box, "%s: %d" % [tr("SUMMARY_LOOT"), int(reward["items"])], 30)
-	UiKit.button(box, tr("BTN_NEXT"), _show_skills)
+	var gained := UiKit.wallet(box, int(result.get("gold_total", 0)), int(result.get("crystals_total", 0)), 34)
+	gained.alignment = BoxContainer.ALIGNMENT_CENTER
+	SummaryScreen.loot_row(box, result)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override(&"separation", 24)
+	box.add_child(row)
+	UiKit.button(row, tr("EQUIP_TITLE"), func() -> void: EquipmentWindow.new().setup(self, GameState.profile))
+	UiKit.button(row, tr("BTN_NEXT"), _show_skills)
 
 
 func _show_skills() -> void:

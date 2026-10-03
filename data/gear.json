@@ -1,0 +1,52 @@
+{
+	"_comment": "Gear and loot (GDD 14). Rarity index: 0 common, 1 uncommon, 2 rare, 3 epic, 4 legendary. Stat values: flat unless the stat is listed in pct_stats.",
+	"slots": ["weapon", "helmet", "armor", "gloves", "boots", "ring"],
+	"main_stats": {
+		"weapon": {"atk": [6.0, 1.0]},
+		"helmet": {"max_hp": [30.0, 6.0]},
+		"armor": {"max_hp": [40.0, 8.0], "armor": [4.0, 0.8]},
+		"gloves": {"attack_speed": [0.03, 0.002]},
+		"boots": {"move_speed": [0.03, 0.0015]},
+		"ring": {"crit_chance": [0.02, 0.001]}
+	},
+	"pct_stats": ["attack_speed", "move_speed", "floor_time"],
+	"rarity_mult": [1.0, 1.2, 1.45, 1.75, 2.1],
+	"affix_count": [0, 1, 2, 3, 3],
+	"affix_ilvl_scale": 0.04,
+	"affixes": {
+		"atk": {"range": [3.0, 6.0], "weight": 1.0},
+		"max_hp": {"range": [20.0, 40.0], "weight": 1.0},
+		"armor": {"range": [3.0, 6.0], "weight": 1.0},
+		"crit_chance": {"range": [0.01, 0.03], "weight": 1.0},
+		"crit_damage": {"range": [0.05, 0.12], "weight": 1.0},
+		"lifesteal": {"range": [0.01, 0.02], "weight": 1.0},
+		"move_speed": {"range": [0.02, 0.04], "weight": 1.0},
+		"cdr": {"range": [0.02, 0.05], "weight": 1.0},
+		"floor_time": {"range": [0.02, 0.04], "weight": 0.3}
+	},
+	"rarity_by_source": {
+		"wood": [60, 30, 9, 1, 0],
+		"iron": [30, 45, 20, 5, 0],
+		"relic": [0, 30, 50, 18, 2],
+		"boss_warden_grum": [0, 40, 45, 14, 1],
+		"boss_executioner_morten": [0, 0, 60, 35, 5],
+		"final_0": [0, 0, 70, 30, 0],
+		"final_1": [0, 0, 40, 55, 5],
+		"final_2": [0, 0, 0, 80, 20],
+		"final_3": [0, 0, 0, 50, 50],
+		"merchant": [40, 35, 20, 5, 0]
+	},
+	"final_chest": {
+		"_comment": "Tier by the share of stars on floors 1..10 (boss floors included): <40 % bronze, 40-69 silver, 70-89 gold, 90+ legendary.",
+		"thresholds": [0.4, 0.7, 0.9],
+		"gold": [500, 1000, 2000, 3500],
+		"items": [2, 3, 3, 4],
+		"crystals": [10, 20, 30, 50]
+	},
+	"replay": {"gold_mult": 0.5, "gear_chance_mult": 0.5},
+	"inventory_size": 30,
+	"prices": [50, 120, 300, 750, 1500],
+	"price_ilvl_scale": 0.1,
+	"sell_share": 0.25,
+	"merchant": {"stock": 6, "refresh_crystals": 5}
+}

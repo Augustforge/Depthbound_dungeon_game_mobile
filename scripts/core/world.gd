@@ -52,7 +52,8 @@ var essence_total: float = 0.0
 var gold_collected: int = 0
 var crystals_collected: int = 0
 ## Loot found on the floor this attempt: [{"type": "gear", "source": tier}, ...] (items arrive in stage 5).
-var loot: Array[Dictionary] = []
+## Items found on this floor; they reach the inventory only when the floor is completed (GDD 11.2).
+var loot: Array[Item] = []
 var completed: bool = false
 var failed: bool = false
 var run: RunState
@@ -64,16 +65,21 @@ var puddles: Array[Dictionary] = []
 var _flooded_ids: Dictionary = {}
 
 
+## `gear` — equipped items (Profile.equipped_items()); their stats and floor time apply here.
 func setup(floor_grid: FloorGrid, run_rng: RngStreams, index: int, time_limit: float,
-		run_state: RunState = null) -> void:
+		run_state: RunState = null, gear: Array = []) -> void:
 	grid = floor_grid
 	rng = run_rng
 	floor_index = index
 	run = run_state
-	var limit := time_limit * (1.0 + (run.time_bonus() if run else 0.0))
+	var limit := time_limit * (1.0 + (run.time_bonus() if run else 0.0) + Loot.floor_time_bonus(gear))
 	timer = FloorTimer.new(limit)
 	hero = Hero.new()
 	hero.apply_data(DataDB.table(&"hero_swordsman"))
+	var bonuses := Loot.gear_bonuses(gear)
+	hero.stats.set_source(&"gear", bonuses[0], bonuses[1])
+	hero.refresh_stats()
+	hero.hp = hero.max_hp
 	if run:
 		run.apply_to_hero(hero)
 	hero.pos = FloorGrid.cell_center(grid.start)
@@ -222,18 +228,27 @@ func collect_gold(v: int) -> void:
 	gold_changed.emit(gold_collected)
 
 
+## Chest contents (GDD 14.1): each chest has its own random stream (seed, floor, chest cell), so
+## a retry gives the same loot whatever order the chests are opened in (GDD 11.1).
 func open_chest(o: FloorObject) -> void:
 	var cfg: Dictionary = DataDB.table(&"floor")["chests"][String(o.tier)]
-	var r := rng.stream("loot", floor_index)
+	var replay_cfg: Dictionary = DataDB.table(&"gear")["replay"]
+	var replay := run != null and run.replay
+	var r := rng.stream("chest_%d_%d" % [o.cell.x, o.cell.y], floor_index)
 	var gold := r.randi_range(int(cfg["gold"][0]), int(cfg["gold"][1]))
 	gold = roundi(gold * (1.0 + 0.1 * (floor_index - 1)) * (1.0 + (run.gold_bonus() if run else 0.0)))
-	var found := {"gold": gold, "crystals": 0, "gear": r.randf() < float(cfg["gear_chance"])}
+	if replay:
+		gold = roundi(gold * float(replay_cfg["gold_mult"]))
+	var chance := float(cfg["gear_chance"]) * (float(replay_cfg["gear_chance_mult"]) if replay else 1.0)
+	var found := {"gold": gold, "crystals": 0, "gear": r.randf() < chance, "item": null}
 	if cfg.has("crystal_chance") and r.randf() < float(cfg["crystal_chance"]):
 		found["crystals"] = r.randi_range(int(cfg["crystals"][0]), int(cfg["crystals"][1]))
 	collect_gold(gold)
 	crystals_collected += int(found["crystals"])
 	if found["gear"]:
-		loot.append({"type": "gear", "source": String(o.tier), "floor": floor_index})
+		var it := Loot.roll_item(String(o.tier), floor_index, r)
+		loot.append(it)
+		found["item"] = it
 	chest_opened.emit(o, found)
 
 

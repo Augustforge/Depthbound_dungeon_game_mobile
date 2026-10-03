@@ -2,6 +2,8 @@ class_name Hud
 extends CanvasLayer
 ## In-floor HUD (GDD 17.3), placeholder look: floor and timer on top, water gauge on the right edge.
 
+signal pause_pressed
+
 var world: World
 var controls: TouchControls
 var _title: Label
@@ -99,6 +101,35 @@ func setup(w: World) -> void:
 	root.move_child(overlay, 0)
 	controls = TouchControls.new()
 	root.add_child(controls)
+	var pause := UiKit.small_button(root, "II", func() -> void: pause_pressed.emit(), 30)
+	pause.custom_minimum_size = Vector2(100, 64)
+	pause.anchor_left = 1.0
+	pause.anchor_right = 1.0
+	pause.offset_left = -260
+	pause.offset_right = -160
+	pause.offset_top = 18
+	pause.offset_bottom = 82
+	world.chest_opened.connect(_on_chest)
+
+
+## Chest contents pop up for a moment (GDD 14.1).
+func _on_chest(_o: FloorObject, found: Dictionary) -> void:
+	var text := "◆ +%d" % int(found["gold"])
+	if int(found["crystals"]) > 0:
+		text += "   ● +%d" % int(found["crystals"])
+	var col := UiKit.GOLD
+	var it: Item = found.get("item")
+	if it != null:
+		text += "   " + "%s · %s" % [ItemText.title(it), tr("ITEM_RARITY_%d" % it.rarity)]
+		col = ItemText.color(it)
+	var l := _label(get_child(0), 34, col)
+	l.text = text
+	l.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	l.position.y -= 160
+	var tw := create_tween()
+	tw.tween_property(l, "position:y", l.position.y - 60, 2.2)
+	tw.parallel().tween_property(l, "modulate:a", 0.0, 2.2).set_delay(0.8)
+	tw.tween_callback(l.queue_free)
 
 
 func _label(parent: Control, font_size: int, color: Color) -> Label:

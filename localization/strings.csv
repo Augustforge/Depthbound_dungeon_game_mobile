@@ -122,3 +122,108 @@ FLOOR_D01_07,Torture Chamber,Пыточная,Cámara de tortura
 FLOOR_D01_08,Sluice Hall,Шлюзовая,Sala de esclusas
 FLOOR_D01_09,Death Row,Камера смертников,Corredor de la muerte
 FLOOR_D01_10,The Block,Плаха,El Cadalso
+STAT_floor_time,+%s floor time,+%s времени этажа,+%s de tiempo del piso
+SLOT_WEAPON,Sword,Меч,Espada
+SLOT_HELMET,Helmet,Шлем,Yelmo
+SLOT_ARMOR,Armor,Доспех,Armadura
+SLOT_GLOVES,Gloves,Перчатки,Guantes
+SLOT_BOOTS,Boots,Сапоги,Botas
+SLOT_RING,Ring,Кольцо,Anillo
+ITEM_RARITY_0,Common,Обычный,Común
+ITEM_RARITY_1,Uncommon,Необычный,Poco común
+ITEM_RARITY_2,Rare,Редкий,Raro
+ITEM_RARITY_3,Epic,Эпический,Épico
+ITEM_RARITY_4,Legendary,Легендарный,Legendario
+ITEM_LEVEL,level %d,уровень %d,nivel %d
+BTN_TO_CAMP,To camp,В лагерь,Al campamento
+HSTAT_max_hp,Health,Здоровье,Salud
+HSTAT_atk,Damage,Урон,Daño
+HSTAT_armor,Armor,Броня,Armadura
+HSTAT_attack_speed,Attacks per second,Ударов в секунду,Ataques por segundo
+HSTAT_move_speed,Run speed (m/s),Скорость бега (м/с),Velocidad (m/s)
+HSTAT_crit_chance,Crit chance,Шанс крита,Probabilidad crítica
+HSTAT_crit_damage,Crit damage,Сила крита,Daño crítico
+HSTAT_lifesteal,Lifesteal,Вампиризм,Robo de vida
+HSTAT_cdr,Cooldown reduction,Сокращение перезарядки,Reducción de enfriamiento
+HSTAT_floor_time,Floor time,Время этажа,Tiempo del piso
+ITEM_COMPARE,Compared to equipped:,По сравнению с надетым:,Comparado con lo equipado:
+EQUIP_TITLE,Equipment,Снаряжение,Equipo
+EQUIP_STATS,Hero,Герой,Héroe
+EQUIP_BAG,Bag %d / %d,Сумка %d / %d,Bolsa %d / %d
+EQUIP_PICK,Pick an item to see it,Выбери предмет,Elige un objeto
+BTN_EQUIP,Equip,Надеть,Equipar
+BTN_UNEQUIP,Take off,Снять,Quitar
+BTN_BUY,Buy %d,Купить за %d,Comprar por %d
+BTN_SELL,Sell %d,Продать за %d,Vender por %d
+EQUIP_SLOTS,Worn,Надето,Equipado
+MERCHANT_TITLE,Ulm the merchant,Торговец Ульм,Ulm el mercader
+MERCHANT_GREETING,"""Gold is useless down here. Almost.""","«Золото здесь бесполезно. Почти.»","«El oro aquí no sirve de nada. Casi.»"
+MERCHANT_STOCK,For sale,На продажу,En venta
+MERCHANT_REFRESH,New goods (%d ●),Новый товар (%d ●),Mercancía nueva (%d ●)
+MERCHANT_BAG_FULL,Your bag is full,Сумка полна,Tu bolsa está llena
+RECORDS_TITLE,Record board,Доска рекордов,Tablón de récords
+RECORDS_FLOOR,Floor,Этаж,Piso
+RECORDS_NAME,Name,Название,Nombre
+RECORDS_TIME,Best time,Лучшее время,Mejor tiempo
+RECORDS_STARS,Stars,Звёзды,Estrellas
+RECORDS_DUNGEON,Flooded Dungeon — best total time: %s,Затопленная темница — лучшее общее время: %s,Mazmorra inundada — mejor tiempo total: %s
+RECORDS_TIER,Best final chest: %s,Лучший финальный сундук: %s,Mejor cofre final: %s
+CHEST_TIER_0,Bronze,Бронзовый,De bronce
+CHEST_TIER_1,Silver,Серебряный,De plata
+CHEST_TIER_2,Gold,Золотой,De oro
+CHEST_TIER_3,Legendary,Легендарный,Legendario
+REFLECTION_TITLE,Reflection,Отражение,Reflejo
+REFLECTION_HINT,The dark water by the fire shows who you are.,"Тёмная вода у костра показывает тебя таким, какой ты есть.",El agua oscura junto al fuego muestra quién eres.
+LOOK_MALE,Man,Мужчина,Hombre
+LOOK_FEMALE,Woman,Женщина,Mujer
+SETTINGS_TITLE,Settings,Настройки,Ajustes
+SETTINGS_LANGUAGE,Language,Язык,Idioma
+SETTINGS_MUSIC,Music,Музыка,Música
+SETTINGS_SOUNDS,Sounds,Звуки,Sonidos
+SETTINGS_VIBRATION,Vibration,Вибрация,Vibración
+SETTINGS_LEFT_HANDED,Left-handed layout,Режим для левши,Modo para zurdos
+LANG_EN,English,English,English
+LANG_RU,Русский,Русский,Русский
+LANG_ES,Español,Español,Español
+CREDITS_TITLE,Credits,Авторы,Créditos
+CREDITS_GAME,"Depthbound — idea, design and art direction: the author. Built with an AI agent.","«Спуск» — идея, дизайн и арт-направление: автор. Собрано с помощью ИИ-агента.","Descenso — idea, diseño y dirección de arte: el autor. Hecho con un agente de IA."
+CREDITS_ART,"3D models and animations: generated with Meshy from the author's concept art.","3D-модели и анимации: сгенерированы в Meshy по концептам автора.","Modelos 3D y animaciones: generados con Meshy a partir del arte conceptual del autor."
+CREDITS_FONTS,"Fonts: Philosopher (The Philosopher Project Authors), Ruslan Display (Oleg Snarsky, Denis Masharov, Vladimir Rabdu), Noto Sans Symbols 2 (Google) — SIL Open Font License.","Шрифты: Philosopher (The Philosopher Project Authors), Ruslan Display (Oleg Snarsky, Denis Masharov, Vladimir Rabdu), Noto Sans Symbols 2 (Google) — SIL Open Font License.","Fuentes: Philosopher (The Philosopher Project Authors), Ruslan Display (Oleg Snarsky, Denis Masharov, Vladimir Rabdu), Noto Sans Symbols 2 (Google) — SIL Open Font License."
+CREDITS_ENGINE,"Engine: Godot Engine (MIT licence), godotengine.org.","Движок: Godot Engine (лицензия MIT), godotengine.org.","Motor: Godot Engine (licencia MIT), godotengine.org."
+MENU_TAGLINE,The water does not wait.,Вода не ждёт.,El agua no espera.
+MENU_CONTINUE,Continue,Продолжить,Continuar
+MENU_NEW_GAME,New game,Новая игра,Nueva partida
+MENU_SETTINGS,Settings,Настройки,Ajustes
+MENU_CREDITS,Credits,Авторы,Créditos
+MENU_NEW_GAME_CONFIRM,"Start over? Your gear, gold and records will be lost.","Начать заново? Снаряжение, золото и рекорды пропадут.","¿Empezar de nuevo? Perderás el equipo, el oro y los récords."
+BTN_YES,Yes,Да,Sí
+BTN_NO,No,Нет,No
+SELECT_TITLE,Choose your hero,Выбери героя,Elige a tu héroe
+SELECT_START,Begin,Начать,Comenzar
+BTN_BACK,Back,Назад,Atrás
+CLASS_SWORDSMAN,Swordsman,Мечник,Espadachín
+CLASS_SWORDSMAN_DESC,Sword and agility,Меч и ловкость,Espada y agilidad
+CLASS_GUARDIAN,Guardian,Страж,Guardián
+CLASS_HUNTER,Hunter,Охотник,Cazador
+CLASS_ASSASSIN,Assassin,Убийца,Asesino
+CLASS_SOON,Coming soon,Скоро,Próximamente
+INTRO_1,The kingdom does not execute. It throws you down.,Королевство не казнит. Оно сбрасывает вниз.,El reino no ejecuta. Te arroja abajo.
+INTRO_2,"""For a crime against the crown — the Descent.""","«За преступление против короны — Спуск».","«Por un crimen contra la corona: el Descenso»."
+INTRO_3,You fall into the dark. Far above the grate slams shut.,Ты падаешь во тьму. Наверху с лязгом захлопывается решётка.,Caes a la oscuridad. Arriba la reja se cierra de golpe.
+INTRO_4,"""There is no way up. If you want to live, go down. And don't linger: the water does not wait.""","«Наверх дороги нет. Хочешь жить — иди вниз. И не задерживайся: вода не ждёт».","«No hay camino hacia arriba. Si quieres vivir, baja. Y no te entretengas: el agua no espera»."
+CAMP_TITLE,The Last Refuge,Последний приют,El Último Refugio
+CAMP_DESCEND,Descend · floor %d,Спуск · этаж %d,Descender · piso %d
+CAMP_NEW_RUN,Descend · new run,Спуск · новый забег,Descender · nueva partida
+CAMP_MENU,Menu,Меню,Menú
+FINAL_TITLE,The Flooded Dungeon is behind you,Затопленная темница пройдена,Has superado la Mazmorra inundada
+FINAL_TIME,Total time: %s,Общее время: %s,Tiempo total: %s
+FINAL_DEATHS,Deaths: %d (+20 s each),Смертей: %d (+20 с за каждую),Muertes: %d (+20 s cada una)
+FINAL_RECORD,New record!,Новый рекорд!,¡Nuevo récord!
+FINAL_CHEST,%s chest,Сундук: %s,Cofre %s
+FINAL_NO_CHEST,"No chest this time: beat your time or your stars.","В этот раз без сундука: побей рекорд времени или звёзд.","Esta vez no hay cofre: supera tu tiempo o tus estrellas."
+PAUSE_TITLE,Pause,Пауза,Pausa
+PAUSE_CONTINUE,Continue,Продолжить,Continuar
+PAUSE_LEAVE_CONFIRM,"Leave for the camp? This floor starts over next time.","Уйти в лагерь? Этот этаж в следующий раз начнётся сначала.","¿Volver al campamento? Este piso empezará de nuevo la próxima vez."
+SUMMARY_NEW_BEST,New best time!,Новый рекорд времени!,¡Nuevo mejor tiempo!
+SUMMARY_BEST,Best: %s,Лучшее: %s,Mejor: %s
+SUMMARY_SOLD,Bag full: %d sold to Ulm,Сумка полна: продано Ульму — %d,Bolsa llena: vendidos a Ulm — %d
