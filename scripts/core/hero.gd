@@ -18,6 +18,13 @@ var attack_cooldown: float = 0.0
 var swing_left: float = 0.0
 ## Debug: ignore all damage.
 var immortal: bool = false
+## Riposte card (GDD 9.3): the first auto-attack after a dodge deals double damage.
+var riposte: bool = false
+var _riposte_ready: bool = false
+## Interaction in progress (GDD 5): object and remaining seconds. Moving cancels it.
+var interact_target: FloorObject
+var interact_left: float = 0.0
+var interact_total: float = 0.0
 ## AUTO toggle (GDD 5, 8.3).
 var auto_mode: bool = false
 var actives: Array[Skill] = []
@@ -171,9 +178,13 @@ func tick(dt: float) -> void:
 		pos = world.grid.move_circle(pos, radius, _dodge_dir * (dodge_distance / dodge_duration) * step)
 		anim_state = &"dodge"
 		return
+	var interact := input.interact_requested
+	input.interact_requested = false
 	for i in MAX_ACTIVES:
 		if actives[i] != null and (requested[i] or (auto_mode and actives[i].ready() and actives[i].auto_wants())):
 			actives[i].try_cast()
+	if _tick_interaction(dt, interact):
+		return
 	if _dash_left > 0.0:
 		return
 	var move := input.move.limit_length(1.0)
@@ -193,6 +204,31 @@ func tick(dt: float) -> void:
 		anim_state = &"attack" if swing_left > 0.0 else &"idle"
 	if spin:
 		anim_state = &"whirlwind"
+
+
+## Returns true while an interaction keeps the hero busy this tick.
+func _tick_interaction(dt: float, start: bool) -> bool:
+	if interact_target != null:
+		if input.move.length() > 0.2 or not interact_target.can_interact():
+			interact_target = null
+			return false
+		interact_left -= dt
+		anim_state = &"interact"
+		facing = (interact_target.pos - pos).normalized() if interact_target.pos != pos else facing
+		if interact_left <= 0.0:
+			var o := interact_target
+			interact_target = null
+			o.activate()
+		return true
+	if start:
+		var o := world.interactable_near(pos)
+		if o != null:
+			interact_target = o
+			interact_total = o.interact_time()
+			interact_left = interact_total
+			anim_state = &"interact"
+			return true
+	return false
 
 
 func _update_dynamic_stats() -> void:
@@ -228,6 +264,9 @@ func _auto_attack() -> void:
 	attack_cooldown = stats.attack_interval()
 	swing_left = minf(0.35, attack_cooldown)
 	var ctx := {"auto": true}
+	if _riposte_ready:
+		_riposte_ready = false
+		ctx["mult"] = 2.0
 	for s in passives:
 		s.on_auto_attack(ctx)
 	world.hero_attacked.emit(current_target)
@@ -246,7 +285,8 @@ func deal_damage(target: Combatant, coef: float, ctx: Dictionary = {}) -> float:
 	var rng := world.rng.stream("combat", world.floor_index)
 	var crit_chance := 1.0 if ctx.get("force_crit", false) else stats.get_stat(&"crit_chance")
 	var crit_damage := stats.get_stat(&"crit_damage") + float(ctx.get("crit_bonus", 0.0))
-	var d := Damage.roll(stats.get_stat(&"atk"), coef, crit_chance, crit_damage, target.armor, rng)
+	var d := Damage.roll(stats.get_stat(&"atk"), coef, crit_chance, crit_damage, target.armor, rng,
+			float(ctx.get("mult", 1.0)))
 	var was_alive := target.alive
 	var taken := target.take_damage(d.amount, d.crit, self)
 	if taken > 0.0:
@@ -329,6 +369,7 @@ func try_dodge() -> bool:
 		dodge_recharge = dodge_cooldown
 	_dodge_left = dodge_duration
 	_invulnerable_left = maxf(_invulnerable_left, dodge_invulnerable)
+	_riposte_ready = riposte
 	return true
 
 

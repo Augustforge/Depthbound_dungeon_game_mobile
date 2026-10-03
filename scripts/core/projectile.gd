@@ -50,6 +50,11 @@ func tick(dt: float) -> void:
 	_hit_along(from, pos)
 
 
+func _seg_dist(a: Vector2, seg: Vector2, p: Vector2) -> float:
+	var t := clampf((p - a).dot(seg) / maxf(seg.length_squared(), 1e-6), 0.0, 1.0)
+	return (a + seg * t).distance_to(p)
+
+
 func _finish_outbound() -> void:
 	if returns and not _returning:
 		_returning = true
@@ -62,6 +67,15 @@ func _finish_outbound() -> void:
 
 func _hit_along(a: Vector2, b: Vector2) -> void:
 	var seg := b - a
+	if kind == &"blade":
+		# Throwing blades pull levers and break harpoon walls from afar (GDD 8.2 #5).
+		for o in world.entities:
+			if o is FloorObject and o.kind == FloorObject.Kind.LEVER and o.can_interact() \
+					and _seg_dist(a, seg, o.pos) <= 0.6:
+				o.activate()
+			elif o is HarpoonWall and o.alive and not _hit.has(o.id) and _seg_dist(a, seg, o.pos) <= 0.7:
+				_hit[o.id] = true
+				world.hero.deal_damage(o, coef, {"skill": kind})
 	for e in world.entities:
 		if not (e is Mob) or not e.alive or _hit.has(e.id) or _hits_left <= 0:
 			continue

@@ -15,6 +15,8 @@ var damage: float = 0.0
 ## {"stun": s, "root": s, "slow": [value, s], "pull": true, "knockback": m}
 var effect: Dictionary = {}
 var parryable: bool = true
+## Traps hit every team (GDD 12.1: traps hit mobs too).
+var hit_all: bool = false
 var fired: bool = false
 
 

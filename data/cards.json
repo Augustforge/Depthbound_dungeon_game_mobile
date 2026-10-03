@@ -1,0 +1,26 @@
+{
+	"_comment": "Upgrade cards (GDD 9). Values per rarity: [common, rare, epic].",
+	"rarity": {"rare_base": 0.25, "rare_per_essence": 0.10, "epic_base": 0.05, "epic_per_essence": 0.05},
+	"weights": {"skill": 14, "stat": 10, "time": 8, "dodge": 6},
+	"offer_size": 3,
+	"reroll_cost": 10,
+	"stats": {
+		"sharpness": {"name_key": "CARD_SHARPNESS", "pct": "atk", "values": [0.08, 0.14, 0.22]},
+		"quick_hand": {"name_key": "CARD_QUICK_HAND", "pct": "attack_speed", "values": [0.07, 0.12, 0.18]},
+		"light_step": {"name_key": "CARD_LIGHT_STEP", "pct": "move_speed", "values": [0.06, 0.10, 0.15]},
+		"vitality": {"name_key": "CARD_VITALITY", "pct": "max_hp", "values": [0.12, 0.20, 0.30]},
+		"tempering": {"name_key": "CARD_TEMPERING", "flat": "armor", "values": [10, 18, 28]},
+		"precision": {"name_key": "CARD_PRECISION", "flat": "crit_chance", "values": [0.04, 0.07, 0.11]},
+		"cruelty": {"name_key": "CARD_CRUELTY", "flat": "crit_damage", "values": [0.15, 0.25, 0.40]},
+		"bloodthirst": {"name_key": "CARD_BLOODTHIRST", "flat": "lifesteal", "values": [0.02, 0.04, 0.06]},
+		"focus": {"name_key": "CARD_FOCUS", "flat": "cdr", "values": [0.05, 0.08, 0.12]},
+		"greed": {"name_key": "CARD_GREED", "flat": "pickup_radius", "values": [1.0, 1.5, 2.0], "gold_pct": [0.10, 0.15, 0.20]}
+	},
+	"time": {"respite": {"name_key": "CARD_RESPITE", "time_pct": [0.05, 0.08, 0.12]}},
+	"dodge": {
+		"agility": {"name_key": "CARD_AGILITY", "rarity": 0, "cooldown_minus": 1.0, "cooldown_min": 3.0, "max_takes": 2},
+		"second_roll": {"name_key": "CARD_SECOND_ROLL", "rarity": 1, "charges_plus": 1, "max_takes": 1},
+		"riposte": {"name_key": "CARD_RIPOSTE", "rarity": 2, "next_attack_mult": 2.0, "max_takes": 1}
+	},
+	"skill_upgrade": {"name_key": "CARD_SKILL_UP", "levels": [1, 1, 2], "rare_cooldown_cut": 0.10}
+}
