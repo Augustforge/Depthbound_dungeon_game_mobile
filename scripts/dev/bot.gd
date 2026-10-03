@@ -3,8 +3,12 @@ extends RefCounted
 ## Test bot (GDD 19.8): plays a floor through HeroInput, faster than real time.
 ## RUSH: shortest way to the stairs, fights only what blocks it, does the floor goal.
 ## CLEAR: kills every pack and opens every chest, then leaves.
+## PLAYER: like CLEAR while more than 45 % of the time is left, then like RUSH — a model of a
+## typical player for whole-run tests.
 
-enum Mode { RUSH, CLEAR }
+enum Mode { RUSH, CLEAR, PLAYER }
+
+const PLAYER_LEAVE_AT := 0.45
 
 var world: World
 var mode: Mode = Mode.RUSH
@@ -106,7 +110,8 @@ func _threat(engaged_only: bool) -> Mob:
 			continue
 		var d := hero.pos.distance_to(e.pos)
 		var engaged: bool = e.state != Mob.State.IDLE and e.state != Mob.State.RETURN and d < 6.0
-		var hunted: bool = mode == Mode.CLEAR or (world.goal_type == &"key_holder" and e.key_holder)
+		var hunted: bool = (_clearing() and not (mode == Mode.PLAYER and e.elite and hero.hp < hero.max_hp * 0.8)) \
+				or (world.goal_type == &"key_holder" and e.key_holder)
 		var wanted: bool = engaged or (not engaged_only and hunted)
 		if wanted and d < best_d and _reachable(e.pos):
 			best_d = d
@@ -126,15 +131,32 @@ func _next_object() -> FloorObject:
 			FloorObject.Kind.VALVE:
 				want = world.goal_type == &"seals" and not world.goal_done()
 			FloorObject.Kind.CHEST, FloorObject.Kind.SPRING:
-				want = mode == Mode.CLEAR or (e.kind == FloorObject.Kind.SPRING and hero.hp < hero.max_hp * 0.5)
+				want = _clearing() or (e.kind == FloorObject.Kind.SPRING and hero.hp < hero.max_hp * 0.5)
 			FloorObject.Kind.LEVER:
 				want = not _reachable(FloorGrid.cell_center(world.grid.exit))
+			FloorObject.Kind.FLOOD_VALVE:
+				# Drown a big pack instead of fighting it (GDD 16.3, floor 8).
+				want = _mobs_in(e.flood_rect) >= 4
 		if want and _reachable(e.pos):
 			var d := hero.pos.distance_to(e.pos)
 			if d < best_d:
 				best_d = d
 				best = e
 	return best
+
+
+func _mobs_in(rect: Rect2i) -> int:
+	var n := 0
+	for e in world.entities:
+		if e is Mob and e.alive and rect.has_point(FloorGrid.to_cell(e.pos)):
+			n += 1
+	return n
+
+
+func _clearing() -> bool:
+	if mode == Mode.PLAYER:
+		return world.timer.remaining() > world.timer.limit * PLAYER_LEAVE_AT or world.boss != null
+	return mode == Mode.CLEAR
 
 
 func _spring() -> FloorObject:
