@@ -66,13 +66,18 @@ static func bake(grid: FloorGrid, torches: Array[Dictionary]) -> Image:
 				var k := 1.0 - dist / TORCH_RADIUS
 				var v := k * k * k * TORCH_INTENSITY * 1.6
 				light[ty * w + tx] += Vector3(TORCH_COLOR.r, TORCH_COLOR.g, TORCH_COLOR.b) * v
-	# Alpha = 1 on walkable floor, 0 inside walls (the water shader uses it as a mask).
+	# Alpha: 0 inside walls, 0.5 on floor, 1 in decorative water basins (~). The water shader uses it
+	# as a mask; while the floor is dry, water shows only in basins (and never through mesh seams).
+	var basins := {}
+	for c in grid.marker_cells("~"):
+		basins[c] = true
 	var img := Image.create(w, h, false, Image.FORMAT_RGBAH)
 	for ty in h:
 		for tx in w:
 			var v := _blurred(light, w, h, tx, ty) * STORE_SCALE
-			var floor_cell := not grid.is_wall(Vector2i(tx / TEXELS_PER_METRE, ty / TEXELS_PER_METRE))
-			img.set_pixel(tx, ty, Color(v.x, v.y, v.z, 1.0 if floor_cell else 0.0))
+			var cell := Vector2i(tx / TEXELS_PER_METRE, ty / TEXELS_PER_METRE)
+			var mask := 0.0 if grid.is_wall(cell) else (1.0 if basins.has(cell) else 0.5)
+			img.set_pixel(tx, ty, Color(v.x, v.y, v.z, mask))
 	return img
 
 

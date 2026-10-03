@@ -32,16 +32,17 @@ func setup(scene: PackedScene, clip_map: Dictionary, root_bone: String = "Hips")
 	if player:
 		for anim_name in player.get_animation_list():
 			_strip_root_motion(player.get_animation(anim_name), root_bone)
-	for loop_state in [&"idle", &"run"]:
-		if clips.has(loop_state) and player and player.has_animation(clips[loop_state]):
-			player.get_animation(clips[loop_state]).loop_mode = Animation.LOOP_LINEAR
+		if not player.has_animation_library(&"shared"):
+			player.add_animation_library(&"shared", SharedAnims.library())
 
 
 ## Plays the clip mapped to a game state; restart=true replays one-shot clips (attacks).
 func play_state(state: StringName, speed: float = 1.0, restart: bool = false) -> void:
 	if player == null or not clips.has(state):
 		return
-	var clip: StringName = clips[state]
+	var clip := StringName("shared/" + String(clips[state]))
+	if not player.has_animation(clip):
+		return
 	if clip == _current and not restart:
 		return
 	_current = clip
@@ -53,7 +54,24 @@ func play_state(state: StringName, speed: float = 1.0, restart: bool = false) ->
 func clip_length(state: StringName) -> float:
 	if player == null or not clips.has(state):
 		return 0.0
-	return player.get_animation(clips[state]).length
+	var clip := StringName("shared/" + String(clips[state]))
+	return player.get_animation(clip).length if player.has_animation(clip) else 0.0
+
+
+## Attaches a prop (weapon, shield) to a bone; undoes the rig's centimetre scale.
+func attach(bone: String, prop: Node3D, offset: Vector3, rot_deg: Vector3) -> void:
+	if skeleton == null:
+		return
+	var att := BoneAttachment3D.new()
+	skeleton.add_child(att)
+	att.bone_name = bone
+	var holder := Node3D.new()
+	att.add_child(holder)
+	var s := skeleton.global_transform.basis.get_scale()
+	holder.scale = Vector3(1.0 / s.x, 1.0 / s.y, 1.0 / s.z)
+	holder.add_child(prop)
+	prop.position = offset
+	prop.rotation_degrees = rot_deg
 
 
 func set_flash(amount: float) -> void:

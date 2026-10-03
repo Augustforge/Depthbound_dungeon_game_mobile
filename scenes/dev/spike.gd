@@ -36,6 +36,7 @@ func _ready() -> void:
 	water = WaterView.new()
 	add_child(water)
 	water.setup(grid)
+	water.visible = DevTools.arg("nowater") == ""
 
 	var hero_view := HeroView.new()
 	add_child(hero_view)

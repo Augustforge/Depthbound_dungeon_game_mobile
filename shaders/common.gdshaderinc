@@ -33,10 +33,14 @@ vec3 sample_light(vec2 xz, float time) {
 	return l * flicker + hero_glow;
 }
 
-// 1 on walkable floor, 0 inside walls.
+// 0 inside walls, 0.5 on floor, 1 in water basins.
 float floor_mask(vec2 xz) {
 	vec2 uv = (xz - light_grid_rect.xy) / light_grid_rect.zw;
-	return texture(light_grid, uv).a;
+	if (uv.x < 0.0 || uv.y < 0.0 || uv.x >= 1.0 || uv.y >= 1.0) {
+		return 0.0;
+	}
+	ivec2 size = textureSize(light_grid, 0);
+	return texelFetch(light_grid, ivec2(uv * vec2(size)), 0).a;
 }
 
 // 4x4 ordered dither threshold for screen-door transparency.

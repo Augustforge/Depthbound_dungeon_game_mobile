@@ -15,6 +15,33 @@ static func build() -> Node3D:
 	return root
 
 
+## Spiked wooden club (jailer). +Y from grip to head.
+static func build_club() -> Node3D:
+	var root := Node3D.new()
+	_box(root, Vector3(0.05, 0.35, 0.05), Vector3(0, 0.05, 0), Color(0.25, 0.16, 0.1))
+	_box(root, Vector3(0.12, 0.4, 0.12), Vector3(0, 0.42, 0), Color(0.35, 0.22, 0.14))
+	for i in 4:
+		_box(root, Vector3(0.18, 0.03, 0.03), Vector3(0, 0.3 + i * 0.1, 0), Color(0.3, 0.28, 0.26))
+	return root
+
+
+## Tall wooden tower shield (jailer).
+static func build_shield() -> Node3D:
+	var root := Node3D.new()
+	_box(root, Vector3(0.62, 1.05, 0.06), Vector3.ZERO, Color(0.36, 0.25, 0.16))
+	for y in [-0.38, 0.0, 0.38]:
+		_box(root, Vector3(0.66, 0.06, 0.08), Vector3(0, y, 0), Color(0.25, 0.22, 0.2))
+	return root
+
+
+## Crossbow (crossbowman). Stock along +Y.
+static func build_crossbow() -> Node3D:
+	var root := Node3D.new()
+	_box(root, Vector3(0.06, 0.6, 0.07), Vector3(0, 0.2, 0), Color(0.35, 0.23, 0.13))
+	_box(root, Vector3(0.6, 0.04, 0.04), Vector3(0, 0.42, 0), Color(0.3, 0.28, 0.26))
+	return root
+
+
 static func _box(parent: Node3D, size: Vector3, pos: Vector3, color: Color, emission: float = 0.0) -> void:
 	var mi := MeshInstance3D.new()
 	var b := BoxMesh.new()

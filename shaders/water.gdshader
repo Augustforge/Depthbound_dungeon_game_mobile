@@ -23,7 +23,8 @@ float caustic(vec2 p, float t) {
 
 void fragment() {
 	vec2 p = world_pos.xz;
-	if (floor_mask(p) < 0.35) {
+	float mask = floor_mask(p);
+	if (mask < 0.25 || (water_height < -0.1 && mask < 0.75)) {
 		discard;
 	}
 	float t = TIME;

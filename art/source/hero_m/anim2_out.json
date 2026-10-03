@@ -1,0 +1,57 @@
+{
+  "schema_version": "meshy.cli/v1",
+  "command": "animate.create",
+  "ok": true,
+  "result": {
+    "task": {
+      "task_id": "01a0ff86-4e30-7237-8ac0-b8d23cad407c",
+      "resource": "animate",
+      "endpoint": "/openapi/v1/animations",
+      "type": "animate",
+      "name": "",
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "preceding_tasks": null,
+      "created_at": 1790993387235,
+      "started_at": 1790993387245,
+      "finished_at": 1790993412486,
+      "expires_at": 1791252612486,
+      "face_count": null,
+      "consumed_credits": 30,
+      "model_urls": {},
+      "image_urls": [],
+      "texture_urls": [],
+      "thumbnail_url": null,
+      "thumbnail_urls": null,
+      "alpha_thumbnail_url": null,
+      "result": {
+        "animation_glb_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0ff86-4e30-7237-8ac0-b8d23cad407c/output/merged_animations.glb?Expires=1791252612&Signature=JG6lWlmJZ9BDbeXqu7giN88MaZJnrZR3nLVHfJWxPOrXKkepKOOejEPysRM4iLZNDFqTrx0P8IFNONSl-MjjNZkLPEnoGGmDW4TDd~rkkjBPRuMVJlZds-WlnR1IF7~um6Hp4riOSC~2Xo9V7YMk3y~cJbFt8lXlLuSPS9qmKGDesX8zut~sq3TpIpQQIrIMhTG7Uqx7mqCbbiSbSHZaYQ6UFuWcBcxr3DIjBNjxbIm5VRnvIeYNtuw8M5NJ-l0o-ou~4YTjIKa8MEmaqyBgegyEMYCYqr-eq-zTei3n4gIglXGjRDjDxtl1qwEoLojmyibuM26gkqOZg~3EGLYLrg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "animation_fbx_url": "https://assets.meshy.ai/77a8fbed-9199-4d70-a835-3f5a0b4b0ad6/tasks/01a0ff86-4e30-7237-8ac0-b8d23cad407c/output/merged_animations.fbx?Expires=1791252612&Signature=XZiyjPSHlsmF7YQpBJ~UgcZ3qKF~3klU6B9wJLM2Jx2WAjwaj4~r3v6BaYSdEoX~r7hNjVUgWMP3fPjb1GonhXs-XWaNcd2MODMFE-tx6pXReBSYd1EWnANks2VLYnRxn7V3tgap8ucasYNyJCPF136k1CLC1zHaclJlfGAu2jRTe1-z7C-~K6LcaEkvdnSLQQrF7TXvELiVDLSXEkkn9x8YhQxBez-SrT~dCLutU3Gs3NLZuifcVKNEBU2n~3fIFCglMaFZkuD4iHLynFVcyv52JKS7UFsIf6VPn4eWvysSJ7eOwIA54kMozYy9GXF8JlCuj-JpbRPywtPVlN6Fng__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "processed_usdz_url": "",
+        "processed_armature_fbx_url": "",
+        "processed_animation_fps_fbx_url": ""
+      },
+      "printability": null,
+      "task_error": null
+    },
+    "submission": {
+      "state": "accepted",
+      "operation_id": "f866a1c9-1bb7-4db9-808f-317ebe48fdb7",
+      "task_id": "01a0ff86-4e30-7237-8ac0-b8d23cad407c",
+      "request_id": null
+    },
+    "downloads": {
+      "state": "not_requested",
+      "files": [],
+      "metadata_path": null
+    },
+    "saved_json": null,
+    "wait": {
+      "timed_out": false,
+      "elapsed_seconds": 25.65,
+      "polls": 5
+    }
+  },
+  "error": null,
+  "warnings": []
+}
