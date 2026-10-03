@@ -1,0 +1,66 @@
+{
+	"id": "d01_f02",
+	"name_key": "FLOOR_D01_02",
+	"time_limit": 150,
+	"goal": {
+		"type": "breakthrough"
+	},
+	"zone": "cells",
+	"accent": "cells",
+	"packs": {
+		"a": [
+			{
+				"mob": "rat",
+				"count": 4
+			}
+		],
+		"b": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		],
+		"d": [
+			{
+				"mob": "rat",
+				"count": 5
+			}
+		],
+		"e": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		]
+	},
+	"locks": {
+		"c": [
+			[
+				33,
+				12
+			],
+			[
+				33,
+				13
+			],
+			[
+				33,
+				14
+			]
+		]
+	}
+}

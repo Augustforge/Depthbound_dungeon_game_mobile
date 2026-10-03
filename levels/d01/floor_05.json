@@ -1,6 +1,7 @@
 {
 	"id": "d01_f05",
 	"name_key": "FLOOR_D01_05",
+	"accent": "warden",
 	"goal": {
 		"type": "boss",
 		"boss": "warden_grum",

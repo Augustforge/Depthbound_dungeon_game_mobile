@@ -1,0 +1,98 @@
+{
+	"id": "d01_f04",
+	"name_key": "FLOOR_D01_04",
+	"time_limit": 165,
+	"goal": {
+		"type": "breakthrough"
+	},
+	"zone": "cells",
+	"accent": "flooded_yard",
+	"packs": {
+		"a": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			}
+		],
+		"b": [
+			{
+				"mob": "crossbowman",
+				"count": 2
+			},
+			{
+				"mob": "jailer",
+				"count": 1
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 2
+			}
+		],
+		"d": [
+			{
+				"mob": "rat",
+				"count": 4
+			},
+			{
+				"mob": "prisoner",
+				"count": 1
+			}
+		],
+		"e": [
+			{
+				"mob": "rat",
+				"count": 6
+			}
+		],
+		"f": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			},
+			{
+				"mob": "crossbowman",
+				"count": 1
+			}
+		],
+		"g": [
+			{
+				"mob": "chain_brute",
+				"count": 1
+			}
+		]
+	},
+	"links": [
+		{
+			"lever_at": [
+				15,
+				1
+			],
+			"gate_at": [
+				30,
+				14
+			]
+		},
+		{
+			"lever_at": [
+				15,
+				1
+			],
+			"gate_at": [
+				30,
+				15
+			]
+		}
+	],
+	"harpoons": {
+		"29,2": [
+			0,
+			1
+		],
+		"24,22": [
+			0,
+			1
+		]
+	}
+}

@@ -1,6 +1,7 @@
 {
 	"id": "d01_f10",
 	"name_key": "FLOOR_D01_10",
+	"accent": "scaffold",
 	"goal": {
 		"type": "boss",
 		"boss": "executioner_morten",

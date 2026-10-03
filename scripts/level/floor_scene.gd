@@ -52,15 +52,27 @@ func _apply_dev_args() -> void:
 
 
 func _build_view(grid: FloorGrid) -> void:
-	var torches := LightGrid.place_torches(grid, float(grid.data.get("torch_density", 0.55)))
-	var img := LightGrid.bake(grid, torches)
+	var accent := Accent.resolve(String(grid.data.get("accent", "default")))
+	var torches := LightGrid.place_torches(grid, Accent.torch_density(grid, accent))
+	var decor := DecorView.new()
+	add_child(decor)
+	decor.build(grid, accent, torches)
+	var lights := torches.duplicate()
+	lights.append_array(decor.lights)
+	var shafts := LightGrid.place_shafts(grid, lights, Accent.color(accent, "shaft"))
+	lights.append_array(shafts)
+	for s in shafts:
+		var shaft := ShaftView.new()
+		add_child(shaft)
+		shaft.setup(s)
+	var img := LightGrid.bake(grid, lights, Accent.color(accent, "torch"))
 	VisualGlobals.set_light_grid(ImageTexture.create_from_image(img), Vector2.ZERO, Vector2(grid.width, grid.height))
 	var floor_view := FloorView.new()
 	add_child(floor_view)
-	floor_view.build(grid, torches)
+	floor_view.build(grid, torches, accent)
 	water = WaterView.new()
 	add_child(water)
-	water.setup(grid)
+	water.setup(grid, accent)
 	water.visible = DevTools.arg("nowater") == ""
 	var hero_view := HeroView.new()
 	add_child(hero_view)

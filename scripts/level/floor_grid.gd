@@ -3,9 +3,11 @@ extends RefCounted
 ## A floor parsed from an ASCII map (GDD 19.5). 1 character = 1 cell = 1 metre.
 ## Cell (cx, cy) covers world plane [cx, cx+1) x [cy, cy+1); its centre is (cx+0.5, cy+0.5).
 
-enum Cell { FLOOR, WALL }
+## BARS: prison bars — block movement like a wall, but light, sight and projectiles pass through.
+enum Cell { FLOOR, WALL, BARS }
 
 const WALL_CHARS := "#H"
+const BARS_CHAR := "|"
 ## Characters that are floor cells but also mark something (start, exit, objects, packs).
 const MARKER_CHARS := "SECGR^TLDVWFNB~"
 
@@ -42,6 +44,10 @@ static func from_text(text: String, params: Dictionary = {}) -> FloorGrid:
 				if ch == "H":
 					g._add_marker(ch, Vector2i(x, y))
 				continue
+			if ch == BARS_CHAR:
+				g.cells[y * g.width + x] = Cell.BARS
+				g._add_marker(ch, Vector2i(x, y))
+				continue
 			g.cells[y * g.width + x] = Cell.FLOOR
 			if ch == ".":
 				continue
@@ -73,13 +79,35 @@ func in_bounds(c: Vector2i) -> bool:
 	return c.x >= 0 and c.y >= 0 and c.x < width and c.y < height
 
 
+## Stone wall (or outside the map). Bars are not walls: they have a floor and let light through.
 func is_wall(c: Vector2i) -> bool:
 	return not in_bounds(c) or cells[c.y * width + c.x] == Cell.WALL
 
 
-## Walkable = not a wall and not blocked by a closed gate.
+func is_bars(c: Vector2i) -> bool:
+	return in_bounds(c) and cells[c.y * width + c.x] == Cell.BARS
+
+
+## Walkable = not a wall, not bars and not blocked by a closed gate.
 func is_walkable(c: Vector2i) -> bool:
-	return not is_wall(c) and not _blocked.has(c)
+	return in_bounds(c) and cells[c.y * width + c.x] == Cell.FLOOR and not _blocked.has(c)
+
+
+## For bars and gates: true if the grille runs along X (its neighbours left/right are solid),
+## false if it runs along Z (the cell closes a horizontal passage).
+func grille_along_x(c: Vector2i) -> bool:
+	var along_x := int(_solid_for_grille(c + Vector2i(1, 0))) + int(_solid_for_grille(c - Vector2i(1, 0)))
+	var along_z := int(_solid_for_grille(c + Vector2i(0, 1))) + int(_solid_for_grille(c - Vector2i(0, 1)))
+	return along_x >= along_z
+
+
+func _solid_for_grille(c: Vector2i) -> bool:
+	if is_wall(c) or is_bars(c):
+		return true
+	for ch in ["D", "B"]:
+		if marker_cells(ch).has(c):
+			return true
+	return false
 
 
 func set_blocked(c: Vector2i, blocked: bool) -> void:

@@ -64,6 +64,8 @@ func setup(e: Entity) -> void:
 				var bar := _box(Vector3(0.07, 2.1, 0.07), Color(0.28, 0.25, 0.23), 0.0, bars)
 				bar.position = Vector3(-0.4 + i * 0.2, 1.05, 0)
 			_parts["bars"] = bars
+			if not o.world.grid.grille_along_x(o.cell):
+				bars.rotation.y = PI * 0.5
 		FloorObject.Kind.VALVE, FloorObject.Kind.FLOOD_VALVE:
 			_box(Vector3(0.25, 0.8, 0.25), Color(0.3, 0.3, 0.32)).position.y = 0.4
 			var wheel_col := Color(0.55, 0.25, 0.15) if o.kind == FloorObject.Kind.VALVE else Color(0.2, 0.4, 0.6)

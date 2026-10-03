@@ -119,6 +119,9 @@ func _process(_delta: float) -> void:
 		return
 	var t := world.timer
 	_title.text = tr("HUD_FLOOR") % [world.floor_index, 25]
+	var floor_name := String(world.grid.data.get("name_key", ""))
+	if not floor_name.is_empty() and tr(floor_name) != floor_name:
+		_title.text += " · " + tr(floor_name)
 	var rem := ceili(t.remaining())
 	_timer_label.text = "%d:%02d" % [rem / 60, rem % 60]
 	var alarm := t.remaining() <= 30.0

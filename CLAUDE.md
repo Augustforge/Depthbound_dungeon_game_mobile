@@ -19,6 +19,8 @@ tools/install_godot.sh                 # поставить Godot (идемпо�
 tools/run_tests.sh                     # все юнит-тесты headless; код возврата != 0 при падении
 tools/screenshot.sh <scene> <out.png> [frames]   # отрендерить сцену и сохранить кадр
 tools/godot_check.sh                   # импорт проекта + проверка, что скрипты парсятся
+python3 tools/mapgen/floors.py         # пересобрать карты этажей 2–4, 6–9 из кода (levels/d01)
+python3 tools/mapgen/check.py [N...]   # маршрут этажа и какие пачки на нём стоят
 ```
 
 ## Правила кода

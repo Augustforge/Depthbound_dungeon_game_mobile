@@ -112,3 +112,13 @@ SKILL_LIFESTEAL_DESC,+6% lifesteal.,+6% вампиризма.,+6% de robo de vid
 SKILL_COUNTER_DESC,"When hit, 25% chance to strike back for 150%.",При получении удара 25% шанс ответить на 150%.,"Al recibir un golpe, 25% de devolverlo con 150%."
 SKILL_WIND_DESC,"Once per floor, lethal damage leaves you at 30% HP.",Раз за этаж смертельный удар оставляет 30% HP.,"Una vez por piso, un golpe letal te deja con 30% de salud."
 SKILL_FURY_DESC,+0.5% damage for every 1% of missing health.,"+0,5% урона за каждый 1% потерянного здоровья.","+0,5% de daño por cada 1% de salud perdida."
+FLOOR_D01_01,The Pit,Яма,El Foso
+FLOOR_D01_02,Block A,Блок А,Bloque A
+FLOOR_D01_03,Guard Post,Сторожевой пост,Puesto de guardia
+FLOOR_D01_04,Flooded Yard,Затопленный двор,Patio inundado
+FLOOR_D01_05,Warden's Office,Кабинет надзирателя,Despacho del celador
+FLOOR_D01_06,Lower Cells,Нижние камеры,Celdas inferiores
+FLOOR_D01_07,Torture Chamber,Пыточная,Cámara de tortura
+FLOOR_D01_08,Sluice Hall,Шлюзовая,Sala de esclusas
+FLOOR_D01_09,Death Row,Камера смертников,Corredor de la muerte
+FLOOR_D01_10,The Block,Плаха,El Cadalso

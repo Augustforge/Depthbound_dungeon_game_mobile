@@ -30,7 +30,7 @@ func run(max_seconds: float) -> Dictionary:
 		t += World.TICK
 	return {"completed": world.completed, "failed": world.failed, "time": world.timer.elapsed,
 		"limit": world.timer.limit, "essence": world.essence, "essence_total": world.essence_total,
-		"hp": world.hero.hp, "gold": world.gold_collected}
+		"hp": world.hero.hp, "gold": world.gold_collected, "bot_time": t}
 
 
 func tick(dt: float) -> void:
@@ -43,13 +43,17 @@ func tick(dt: float) -> void:
 		return
 	if hero.interact_target != null:
 		return
-	var fight := _threat()
+	var fight := _threat(true)
+	# Low on health and nothing on us: drink from the spring before the next fight.
+	var spring := _spring() if fight == null and hero.hp < hero.max_hp * 0.55 else null
+	if fight == null and spring == null:
+		fight = _threat(false)
 	if fight != null:
 		var d := hero.pos.distance_to(fight.pos)
 		if d > hero.stats.get_stat(&"attack_range") + fight.radius - 0.1:
 			_go(fight.pos, dt)
 		return
-	var obj := _next_object()
+	var obj := spring if spring != null else _next_object()
 	if obj != null:
 		if hero.pos.distance_to(obj.pos) <= float(DataDB.table(&"floor")["interact_radius"]) - 0.2:
 			input.interact_requested = true
@@ -91,8 +95,9 @@ func _flee_spin() -> bool:
 	return true
 
 
-## The enemy to fight now: anything already fighting us nearby, or (CLEAR) the closest mob.
-func _threat() -> Mob:
+## The enemy to fight now: anything already fighting us nearby (engaged_only), else also
+## (CLEAR) the closest mob and the key holder.
+func _threat(engaged_only: bool) -> Mob:
 	var hero := world.hero
 	var best: Mob = null
 	var best_d := INF
@@ -101,7 +106,8 @@ func _threat() -> Mob:
 			continue
 		var d := hero.pos.distance_to(e.pos)
 		var engaged: bool = e.state != Mob.State.IDLE and e.state != Mob.State.RETURN and d < 6.0
-		var wanted: bool = mode == Mode.CLEAR or engaged or (world.goal_type == &"key_holder" and e.key_holder)
+		var hunted: bool = mode == Mode.CLEAR or (world.goal_type == &"key_holder" and e.key_holder)
+		var wanted: bool = engaged or (not engaged_only and hunted)
 		if wanted and d < best_d and _reachable(e.pos):
 			best_d = d
 			best = e
@@ -131,14 +137,19 @@ func _next_object() -> FloorObject:
 	return best
 
 
+func _spring() -> FloorObject:
+	for e in world.entities:
+		if e is FloorObject and e.kind == FloorObject.Kind.SPRING and e.can_interact() and _reachable(e.pos):
+			return e
+	return null
+
+
 func _goal_target() -> Vector2:
 	return FloorGrid.cell_center(world.grid.exit)
 
 
 func _reachable(p: Vector2) -> bool:
-	var path := world.find_path(world.hero.pos, p)
-	return path.size() > 0 and (path.size() > 1 or world.hero.pos.distance_to(p) < 2.0) \
-			and world.grid.is_walkable(FloorGrid.to_cell(path[path.size() - 1]))
+	return world.is_reachable(world.hero.pos, p)
 
 
 func _go(target: Vector2, dt: float) -> void:

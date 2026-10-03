@@ -14,3 +14,4 @@ Thumbs.db
 /tools/bin/
 /tools/cache/
 /tmp/
+__pycache__/

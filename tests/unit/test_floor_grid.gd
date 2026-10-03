@@ -62,3 +62,19 @@ func test_line_of_sight() -> void:
 	var g := FloorGrid.from_text(MAP)
 	assert_true(g.has_line_of_sight(Vector2(1.5, 1.5), Vector2(5.5, 1.5)))
 	assert_false(g.has_line_of_sight(Vector2(3.5, 1.5), Vector2(3.5, 3.5)), "wall row between")
+
+
+func test_bars_block_movement_but_not_sight() -> void:
+	var g := FloorGrid.from_text("#####\n#.|.#\n#####")
+	assert_true(g.is_bars(Vector2i(2, 1)))
+	assert_false(g.is_wall(Vector2i(2, 1)), "bars are not stone")
+	assert_false(g.is_walkable(Vector2i(2, 1)))
+	var p := g.move_circle(Vector2(1.5, 1.5), 0.35, Vector2(3.0, 0.0))
+	assert_true(p.x < 2.0, "bars stop the hero")
+	assert_true(g.has_line_of_sight(Vector2(1.5, 1.5), Vector2(3.5, 1.5)), "but you can see through them")
+
+
+func test_grille_orientation() -> void:
+	var g := FloorGrid.from_text("#######\n#.....#\n##||.##\n#..D..#\n#######")
+	assert_true(g.grille_along_x(Vector2i(2, 2)), "a row of bars runs along X")
+	assert_false(g.grille_along_x(Vector2i(3, 3)), "a gate in a horizontal passage runs along Z")

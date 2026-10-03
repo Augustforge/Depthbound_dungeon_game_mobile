@@ -1,0 +1,84 @@
+{
+	"id": "d01_f06",
+	"name_key": "FLOOR_D01_06",
+	"time_limit": 180,
+	"goal": {
+		"type": "seals",
+		"count": 2
+	},
+	"zone": "casemates",
+	"accent": "lower_cells",
+	"packs": {
+		"a": [
+			{
+				"mob": "drowned",
+				"count": 2
+			}
+		],
+		"b": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			},
+			{
+				"mob": "crossbowman",
+				"count": 1
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "drowned",
+				"count": 1
+			}
+		],
+		"d": [
+			{
+				"mob": "drowned",
+				"count": 2
+			},
+			{
+				"mob": "rat",
+				"count": 2
+			}
+		],
+		"e": [
+			{
+				"mob": "prisoner",
+				"count": 4
+			}
+		],
+		"f": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "crossbowman",
+				"count": 2
+			}
+		],
+		"g": [
+			{
+				"mob": "rat",
+				"count": 5
+			}
+		]
+	},
+	"seal_gates": [
+		[
+			22,
+			8
+		],
+		[
+			23,
+			8
+		]
+	],
+	"notes": {
+		"N": "NOTE_D01_03"
+	}
+}

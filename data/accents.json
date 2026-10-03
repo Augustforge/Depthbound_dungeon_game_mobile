@@ -1,0 +1,59 @@
+{
+	"_comment": "Per-floor visual accent (GDD 16.1): stone / light / water tint and the decor set. Floor json picks one with \"accent\". Colours are linear RGB; decor values are relative weights; decor_density is the chance per free wall-side cell.",
+	"default": {
+		"stone": [0.33, 0.34, 0.34], "top": [0.3, 0.31, 0.31], "ambient": [0.13, 0.2, 0.23],
+		"torch": [1.0, 0.56, 0.22], "water_deep": [0.01, 0.16, 0.18], "water_bright": [0.1, 0.62, 0.6],
+		"shaft": [0.42, 0.6, 0.72],
+		"torch_density": 0.55, "decor_density": 0.0, "decor": {}
+	},
+	"pit": {
+		"stone": [0.33, 0.32, 0.3], "top": [0.29, 0.28, 0.27],
+		"decor_density": 0.16, "decor": {"bones": 4, "straw": 2, "bucket": 1, "chains": 2, "skull": 2}
+	},
+	"cells": {
+		"stone": [0.34, 0.34, 0.33],
+		"decor_density": 0.2, "decor": {"straw": 4, "bucket": 2, "chains": 3, "bones": 2, "crate": 1}
+	},
+	"guard_post": {
+		"stone": [0.37, 0.33, 0.29], "top": [0.33, 0.3, 0.27], "ambient": [0.15, 0.18, 0.2],
+		"torch": [1.0, 0.6, 0.26], "torch_density": 0.7,
+		"decor_density": 0.24, "decor": {"barrel": 3, "crate": 3, "table": 2, "weapon_rack": 3, "bucket": 1, "brazier": 2}
+	},
+	"flooded_yard": {
+		"stone": [0.27, 0.33, 0.3], "top": [0.25, 0.3, 0.27], "ambient": [0.11, 0.21, 0.22],
+		"torch": [0.95, 0.6, 0.3], "torch_density": 0.45,
+		"water_deep": [0.02, 0.17, 0.14], "water_bright": [0.14, 0.6, 0.48],
+		"decor_density": 0.2, "decor": {"barrel": 2, "grate": 3, "crate": 1, "chains": 1, "moss": 4}
+	},
+	"warden": {
+		"stone": [0.36, 0.32, 0.28], "top": [0.32, 0.29, 0.26],
+		"decor_density": 0.22, "decor": {"chains": 3, "table": 1, "barrel": 1, "bones": 2, "weapon_rack": 2}
+	},
+	"lower_cells": {
+		"stone": [0.27, 0.3, 0.34], "top": [0.25, 0.27, 0.3], "ambient": [0.1, 0.19, 0.25],
+		"torch": [0.95, 0.55, 0.28], "torch_density": 0.45,
+		"water_deep": [0.01, 0.13, 0.19], "water_bright": [0.08, 0.5, 0.62],
+		"decor_density": 0.22, "decor": {"straw": 2, "chains": 3, "bones": 3, "moss": 3, "grate": 1, "bucket": 1}
+	},
+	"torture": {
+		"stone": [0.35, 0.3, 0.29], "top": [0.31, 0.27, 0.26], "ambient": [0.15, 0.15, 0.18],
+		"torch": [1.0, 0.45, 0.2], "torch_density": 0.6,
+		"decor_density": 0.26, "decor": {"rack": 3, "brazier": 2, "chains": 3, "cage": 2, "bones": 2, "table": 1}
+	},
+	"sluice": {
+		"stone": [0.28, 0.33, 0.33], "top": [0.26, 0.3, 0.3], "ambient": [0.1, 0.21, 0.24],
+		"torch": [0.92, 0.6, 0.32], "torch_density": 0.5,
+		"water_deep": [0.01, 0.15, 0.2], "water_bright": [0.12, 0.66, 0.72],
+		"decor_density": 0.24, "decor": {"pipe": 4, "grate": 3, "barrel": 1, "moss": 3, "chains": 1}
+	},
+	"death_row": {
+		"stone": [0.3, 0.29, 0.32], "top": [0.27, 0.26, 0.29], "ambient": [0.12, 0.15, 0.22],
+		"torch": [0.95, 0.52, 0.25], "torch_density": 0.45,
+		"decor_density": 0.24, "decor": {"chains": 3, "cage": 2, "candles": 3, "bones": 3, "skull": 2, "straw": 1}
+	},
+	"scaffold": {
+		"stone": [0.32, 0.29, 0.29], "top": [0.29, 0.26, 0.26], "ambient": [0.14, 0.14, 0.19],
+		"torch": [1.0, 0.48, 0.22],
+		"decor_density": 0.22, "decor": {"chains": 2, "brazier": 2, "candles": 2, "bones": 2, "cage": 1}
+	}
+}

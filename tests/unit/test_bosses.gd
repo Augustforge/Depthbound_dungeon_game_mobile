@@ -102,18 +102,10 @@ func test_bot_beats_grum_with_some_cards() -> void:
 			{"id": &"quick_hand", "kind": &"stat", "rarity": 0}, {"id": &"bloodthirst", "kind": &"stat", "rarity": 1}]:
 		run.take_card(c)
 	var w := _arena(5, run)
-	_gear(w.hero, 4)
+	SimBuild.apply_gear(w.hero, 4)
 	var r := Bot.new(w, Bot.Mode.CLEAR).run(140.0)
 	print("    grum fight: ", r, " boss hp ", w.boss.hp)
 	assert_true(r["completed"], "a floor-5 build can beat Grum")
-
-
-## Common gear of item level `ilvl` in weapon, helmet and armour (GDD 14.3), as found by floor 5.
-func _gear(hero: Hero, ilvl: int) -> void:
-	hero.stats.set_source(&"gear_sim", {&"atk": 6.0 + 1.0 * ilvl, &"max_hp": 30.0 + 6.0 * ilvl + 40.0 + 8.0 * ilvl,
-		&"armor": 4.0 + 0.8 * ilvl})
-	hero.refresh_stats()
-	hero.hp = hero.max_hp
 
 
 func test_bot_beats_morten_with_floor_10_build() -> void:
@@ -126,7 +118,7 @@ func test_bot_beats_morten_with_floor_10_build() -> void:
 			{"id": &"sharpness", "kind": &"stat", "rarity": 0}, {"id": &"tempering", "kind": &"stat", "rarity": 0}]:
 		run.take_card(c)
 	var w := _arena(10, run)
-	_gear(w.hero, 8)
+	SimBuild.apply_gear(w.hero, 8)
 	var r := Bot.new(w, Bot.Mode.CLEAR).run(220.0)
 	print("    morten fight: ", r, " boss hp ", w.boss.hp)
 	assert_true(r["completed"], "a floor-10 build can beat Morten")

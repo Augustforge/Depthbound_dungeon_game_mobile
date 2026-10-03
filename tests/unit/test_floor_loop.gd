@@ -205,3 +205,19 @@ func test_coins_drop_and_collect() -> void:
 			e.take_damage(999.0, false, w.hero)
 	run_world(w, 1.0)
 	assert_true(w.gold_collected >= 1, "coins flew into the pickup radius")
+
+
+func test_seal_gates_open_when_all_seals_turned() -> void:
+	var map := "#########\n#S.V.V..#\n####D####\n####E####\n#########"
+	var w := World.new()
+	_owned.append(w)
+	var grid := FloorGrid.from_text(map, {"goal": {"type": "seals", "count": 2}, "seal_gates": [[4, 2]]})
+	w.setup(grid, RngStreams.new(1), 1, 150.0)
+	assert_false(w.grid.is_walkable(Vector2i(4, 2)), "sluice closed")
+	assert_false(w.is_reachable(w.hero.pos, Vector2(4.5, 3.5)))
+	var valves := w.entities.filter(func(e: Entity) -> bool: return e is FloorObject and e.kind == FloorObject.Kind.VALVE)
+	valves[0].activate()
+	assert_false(w.grid.is_walkable(Vector2i(4, 2)), "one seal is not enough")
+	valves[1].activate()
+	assert_true(w.grid.is_walkable(Vector2i(4, 2)), "both seals open the sluice")
+	assert_true(w.is_reachable(w.hero.pos, Vector2(4.5, 3.5)))

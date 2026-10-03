@@ -1,6 +1,7 @@
 {
 	"id": "d01_f01",
 	"name_key": "FLOOR_D01_01",
+	"accent": "pit",
 	"time_limit": 150,
 	"goal": {"type": "breakthrough"},
 	"zone": "cells",

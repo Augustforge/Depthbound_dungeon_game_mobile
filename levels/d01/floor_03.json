@@ -1,0 +1,86 @@
+{
+	"id": "d01_f03",
+	"name_key": "FLOOR_D01_03",
+	"time_limit": 145,
+	"goal": {
+		"type": "key_holder",
+		"pack": "f"
+	},
+	"zone": "cells",
+	"accent": "guard_post",
+	"packs": {
+		"a": [
+			{
+				"mob": "prisoner",
+				"count": 2
+			},
+			{
+				"mob": "crossbowman",
+				"count": 1
+			}
+		],
+		"b": [
+			{
+				"mob": "rat",
+				"count": 4
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "crossbowman",
+				"count": 2
+			}
+		],
+		"d": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			}
+		],
+		"e": [
+			{
+				"mob": "rat",
+				"count": 5
+			}
+		],
+		"f": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		]
+	},
+	"links": [
+		{
+			"lever_at": [
+				28,
+				18
+			],
+			"harpoon_at": [
+				26,
+				9
+			]
+		}
+	],
+	"harpoons": {
+		"26,9": [
+			0,
+			1
+		],
+		"23,27": [
+			0,
+			-1
+		]
+	},
+	"notes": {
+		"N": "NOTE_D01_02"
+	}
+}

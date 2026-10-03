@@ -1,0 +1,84 @@
+{
+	"id": "d01_f09",
+	"name_key": "FLOOR_D01_09",
+	"time_limit": 195,
+	"goal": {
+		"type": "key_holder",
+		"pack": "f"
+	},
+	"zone": "casemates",
+	"accent": "death_row",
+	"packs": {
+		"a": [
+			{
+				"mob": "prisoner",
+				"count": 4
+			},
+			{
+				"mob": "crossbowman",
+				"count": 1
+			}
+		],
+		"b": [
+			{
+				"mob": "drowned",
+				"count": 3
+			},
+			{
+				"mob": "jailer",
+				"count": 1
+			}
+		],
+		"c": [
+			{
+				"mob": "jailer",
+				"count": 2
+			},
+			{
+				"mob": "crossbowman",
+				"count": 2
+			}
+		],
+		"d": [
+			{
+				"mob": "rat",
+				"count": 6
+			}
+		],
+		"e": [
+			{
+				"mob": "drowned",
+				"count": 3
+			}
+		],
+		"f": [
+			{
+				"mob": "chain_brute",
+				"count": 1
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		],
+		"g": [
+			{
+				"mob": "chain_brute",
+				"count": 1
+			}
+		]
+	},
+	"harpoons": {
+		"22,11": [
+			0,
+			1
+		],
+		"47,33": [
+			0,
+			-1
+		]
+	},
+	"notes": {
+		"N": "NOTE_D01_04"
+	}
+}

@@ -254,6 +254,14 @@ func pull_lever(o: FloorObject) -> void:
 func seal_activated(_o: FloorObject) -> void:
 	seals_done += 1
 	seals_changed.emit(seals_done, seals_needed)
+	if seals_done < seals_needed:
+		return
+	# All seals turned: the sluice gates to the stairs open (floor json "seal_gates").
+	for cell: Array in grid.data.get("seal_gates", []):
+		var c := Vector2i(int(cell[0]), int(cell[1]))
+		for e in entities:
+			if e is FloorObject and e.kind == FloorObject.Kind.GATE and e.cell == c:
+				e.set_closed(false)
 
 
 ## Flood valve (GDD 13.2): the hall drowns for 6 s; mobs inside die for half essence.
@@ -375,6 +383,15 @@ func find_path(from: Vector2, to: Vector2) -> PackedVector2Array:
 	if path.size() > 1:
 		path.remove_at(0)
 	return path
+
+
+## True if a walkable route exists between the two points (closed gates count as walls).
+func is_reachable(from: Vector2, to: Vector2) -> bool:
+	var a := FloorGrid.to_cell(from)
+	var b := FloorGrid.to_cell(to)
+	if not grid.is_walkable(a) or not grid.is_walkable(b):
+		return false
+	return a == b or not _astar.get_id_path(a, b, false).is_empty()
 
 
 func aggro_pack(m: Mob) -> void:

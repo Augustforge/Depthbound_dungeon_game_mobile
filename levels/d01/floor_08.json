@@ -1,0 +1,84 @@
+{
+	"id": "d01_f08",
+	"name_key": "FLOOR_D01_08",
+	"time_limit": 140,
+	"goal": {
+		"type": "breakthrough"
+	},
+	"zone": "casemates",
+	"accent": "sluice",
+	"packs": {
+		"a": [
+			{
+				"mob": "prisoner",
+				"count": 3
+			}
+		],
+		"b": [
+			{
+				"mob": "jailer",
+				"count": 2
+			},
+			{
+				"mob": "drowned",
+				"count": 3
+			},
+			{
+				"mob": "prisoner",
+				"count": 3
+			}
+		],
+		"c": [
+			{
+				"mob": "crossbowman",
+				"count": 2
+			},
+			{
+				"mob": "jailer",
+				"count": 1
+			}
+		],
+		"d": [
+			{
+				"mob": "drowned",
+				"count": 4
+			}
+		],
+		"e": [
+			{
+				"mob": "rat",
+				"count": 5
+			}
+		],
+		"f": [
+			{
+				"mob": "jailer",
+				"count": 1
+			},
+			{
+				"mob": "drowned",
+				"count": 2
+			}
+		]
+	},
+	"floods": [
+		{
+			"valve_at": [
+				15,
+				2
+			],
+			"rect": [
+				14,
+				10,
+				16,
+				12
+			]
+		}
+	],
+	"harpoons": {
+		"36,2": [
+			0,
+			1
+		]
+	}
+}

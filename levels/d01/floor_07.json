@@ -1,0 +1,74 @@
+{
+	"id": "d01_f07",
+	"name_key": "FLOOR_D01_07",
+	"time_limit": 110,
+	"goal": {
+		"type": "breakthrough"
+	},
+	"zone": "casemates",
+	"accent": "torture",
+	"packs": {
+		"a": [
+			{
+				"mob": "prisoner",
+				"count": 6
+			}
+		],
+		"b": [
+			{
+				"mob": "jailer",
+				"count": 2
+			},
+			{
+				"mob": "crossbowman",
+				"count": 1
+			}
+		],
+		"c": [
+			{
+				"mob": "drowned",
+				"count": 3
+			}
+		],
+		"d": [
+			{
+				"mob": "jailer",
+				"count": 2
+			},
+			{
+				"mob": "prisoner",
+				"count": 2
+			}
+		],
+		"e": [
+			{
+				"mob": "prisoner",
+				"count": 4
+			},
+			{
+				"mob": "crossbowman",
+				"count": 2
+			}
+		],
+		"f": [
+			{
+				"mob": "rat",
+				"count": 6
+			}
+		]
+	},
+	"harpoons": {
+		"35,24": [
+			0,
+			1
+		],
+		"36,27": [
+			0,
+			-1
+		],
+		"40,21": [
+			0,
+			1
+		]
+	}
+}

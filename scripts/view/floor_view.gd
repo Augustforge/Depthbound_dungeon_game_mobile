@@ -13,7 +13,7 @@ var wall_material: ShaderMaterial
 var _noise := FastNoiseLite.new()
 
 
-func build(floor_grid: FloorGrid, torches: Array[Dictionary]) -> void:
+func build(floor_grid: FloorGrid, torches: Array[Dictionary], accent: Dictionary = {}) -> void:
 	grid = floor_grid
 	_noise.seed = 7
 	_noise.frequency = 0.25
@@ -22,6 +22,11 @@ func build(floor_grid: FloorGrid, torches: Array[Dictionary]) -> void:
 	wall_material = ShaderMaterial.new()
 	wall_material.shader = ENV_SHADER
 	wall_material.set_shader_parameter(&"is_wall", 1.0)
+	if not accent.is_empty():
+		for mat: ShaderMaterial in [floor_material, wall_material]:
+			mat.set_shader_parameter(&"stone_color", Accent.color(accent, "stone"))
+			mat.set_shader_parameter(&"top_color", Accent.color(accent, "top"))
+			mat.set_shader_parameter(&"ambient", Accent.color(accent, "ambient"))
 	for cy in range(0, grid.height, CHUNK):
 		for cx in range(0, grid.width, CHUNK):
 			_build_chunk(Rect2i(cx, cy, CHUNK, CHUNK))

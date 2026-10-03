@@ -25,7 +25,7 @@ static func place_torches(grid: FloorGrid, density: float = 0.55) -> Array[Dicti
 				continue
 			for d: Vector2i in dirs:
 				var front := c + d
-				if not grid.in_bounds(front) or grid.is_wall(front):
+				if not grid.in_bounds(front) or grid.is_wall(front) or grid.is_bars(front):
 					continue
 				var h := RngStreams.fnv1a32("torch%d,%d,%d" % [x, y, d.x], 2166136261) % 1000
 				var chance := density if d.y == 1 else density * 0.35
@@ -43,7 +43,47 @@ static func place_torches(grid: FloorGrid, density: float = 0.55) -> Array[Dicti
 	return result
 
 
-static func bake(grid: FloorGrid, torches: Array[Dictionary]) -> Image:
+## Pale light falling from holes in the vault (the well above): fills the dark middles of big
+## rooms, greedily at the open cell farthest from any light, until none is darker than `dark_dist`.
+static func place_shafts(grid: FloorGrid, lights: Array[Dictionary], color: Color, dark_dist: float = 4.8,
+		) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var points: Array[Vector2] = []
+	for t in lights:
+		points.append(t["pos"])
+	var open: Array[Vector2] = []
+	for y in range(1, grid.height - 1):
+		for x in range(1, grid.width - 1):
+			if _open_area(grid, Vector2i(x, y)):
+				open.append(Vector2(x + 0.5, y + 0.5))
+	while result.size() < 24:
+		var best := Vector2.ZERO
+		var best_d := dark_dist
+		for p in open:
+			var d := INF
+			for q in points:
+				d = minf(d, p.distance_to(q))
+			if d > best_d:
+				best_d = d
+				best = p
+		if best == Vector2.ZERO:
+			break
+		points.append(best)
+		result.append({"pos": best, "intensity": 0.8, "color": color, "shaft": true})
+	return result
+
+
+## A cell in the middle of a room: it and its 8 neighbours are floor (not walls or bars).
+static func _open_area(grid: FloorGrid, c: Vector2i) -> bool:
+	for oy in range(-1, 2):
+		for ox in range(-1, 2):
+			var n := c + Vector2i(ox, oy)
+			if grid.is_wall(n) or grid.is_bars(n):
+				return false
+	return true
+
+
+static func bake(grid: FloorGrid, torches: Array[Dictionary], color: Color = TORCH_COLOR) -> Image:
 	var w := grid.width * TEXELS_PER_METRE
 	var h := grid.height * TEXELS_PER_METRE
 	var light := PackedVector3Array()
@@ -51,6 +91,8 @@ static func bake(grid: FloorGrid, torches: Array[Dictionary]) -> Image:
 	var step := 1.0 / TEXELS_PER_METRE
 	for t in torches:
 		var tp: Vector2 = t["pos"]
+		var intensity := TORCH_INTENSITY * float(t.get("intensity", 1.0))
+		var c: Color = t.get("color", color)
 		var x0 := maxi(0, floori((tp.x - TORCH_RADIUS) * TEXELS_PER_METRE))
 		var x1 := mini(w - 1, ceili((tp.x + TORCH_RADIUS) * TEXELS_PER_METRE))
 		var y0 := maxi(0, floori((tp.y - TORCH_RADIUS) * TEXELS_PER_METRE))
@@ -64,8 +106,8 @@ static func bake(grid: FloorGrid, torches: Array[Dictionary]) -> Image:
 				if grid.is_wall(FloorGrid.to_cell(p)) or not grid.has_line_of_sight(tp, p):
 					continue
 				var k := 1.0 - dist / TORCH_RADIUS
-				var v := k * k * k * TORCH_INTENSITY * 1.6
-				light[ty * w + tx] += Vector3(TORCH_COLOR.r, TORCH_COLOR.g, TORCH_COLOR.b) * v
+				var v := k * k * k * intensity * 1.6
+				light[ty * w + tx] += Vector3(c.r, c.g, c.b) * v
 	# Alpha: 0 inside walls, 0.5 on floor, 1 in decorative water basins (~). The water shader uses it
 	# as a mask; while the floor is dry, water shows only in basins (and never through mesh seams).
 	var basins := {}

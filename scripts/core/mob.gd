@@ -56,7 +56,9 @@ func setup(def: StringName, d: Dictionary, floor_number: int, at: Vector2) -> vo
 
 func make_key_holder() -> void:
 	key_holder = true
-	max_hp *= float(DataDB.table(&"combat").get("key_holder_hp_mult", 1.5))
+	# Elites are tough enough already: only common mobs get the key holder's extra health.
+	if not elite:
+		max_hp *= float(DataDB.table(&"combat").get("key_holder_hp_mult", 1.5))
 	hp = max_hp
 
 
