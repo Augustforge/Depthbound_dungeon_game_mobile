@@ -12,6 +12,7 @@ const SIZES := {
 	"valve": {"height": 0.95}, "spring": {"width": 1.3}, "bear_trap": {"width": 0.75},
 	"lever": {"height": 1.1}, "barrel": {"height": 0.85}, "crate": {"height": 0.65},
 	"rack": {"width": 1.9}, "cage": {"height": 1.2}, "weapon_rack": {"height": 1.7}, "table": {"width": 1.3},
+	"bones": {"width": 0.85}, "skull": {"width": 0.65},
 }
 
 static var _cache: Dictionary = {}

@@ -27,7 +27,7 @@
 | Музыка зоны 2 (казематы) | `assets/audio/music/zone_casemates.ogg` | OpenGameArt «Dark Cavern Ambient» (Paul Wortmann) | opengameart.org/content/dark-cavern-ambient | CC0 | 2026-10-03 |
 | Музыка лагеря и меню | `assets/audio/music/camp.ogg` | OpenGameArt «Dark Shrine Loop» (qubodup, yd) | opengameart.org/content/dark-shrine-loop | CC0 | 2026-10-03 |
 | Музыка боссов | `assets/audio/music/boss.ogg` | OpenGameArt «Boss Battle Music» (Juhani Junkala), перекодировано в ogg | opengameart.org/content/boss-battle-music | CC0 | 2026-10-03 |
-| Объекты: сундуки (деревянный, окованный, реликварий), вентиль, Родник, капкан, рычаг; декор: бочка, ящик, дыба, клетка, стойка с оружием, стол | `assets/models/props/` | Meshy: text-to-image (nano-banana-2) → image-to-3D (smart topology) | `art/source/objects/<id>/*.json`, скрипт `art/source/objects/pipeline.sh` | Meshy, платный аккаунт автора | 2026-10-03 |
+| Объекты: сундуки (деревянный, окованный, реликварий), вентиль, Родник, капкан, рычаг; декор: бочка, ящик, дыба, клетка, стойка с оружием, стол, кости, череп | `assets/models/props/` | Meshy: text-to-image (nano-banana-2) → image-to-3D (smart topology) | `art/source/objects/<id>/*.json`, скрипт `art/source/objects/pipeline.sh` | Meshy, платный аккаунт автора | 2026-10-03 |
 | Иконки 12 навыков и 6 слотов снаряжения | `assets/ui/icons/` | Meshy text-to-image (nano-banana-2), два листа 3×3, нарезаны | `art/source/icons/sheet_*.json` | Meshy | 2026-10-03 |
 | Кадры интро (4) | `assets/ui/intro/frame*.webp` | Meshy text-to-image (nano-banana-2), 16:9 | `art/source/intro/frame*.json` | Meshy | 2026-10-03 |
 | Портреты боссов для реплик | `assets/ui/portrait_warden_grum.webp`, `portrait_executioner_morten.webp` | вырезаны из концептов автора | — | собственность автора | 2026-10-03 |
@@ -38,6 +38,7 @@
 
 | Дата | Что | Потрачено | Остаток |
 |---|---|---|---|
+| 2026-10-04 | Кости и череп для декора (по 21) | 42 | 471 |
 | 2026-10-03 | 2 текстуры камня (по 6) | 12 | 513 |
 | 2026-10-03 | 4 кадра интро (по 6) | 24 | 525 |
 | 2026-10-03 | 13 объектов (по 21: картинка 6 + 3D 15), 2 листа иконок (по 6) | 285 | 549 |

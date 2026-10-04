@@ -104,6 +104,9 @@ func _place_decor(grid: FloorGrid, accent: Dictionary, torches: Array[Dictionary
 			_at(Vector3(anchor.x, 0.0, anchor.y), yaw)
 			if PropModels.has(kind):
 				var t := Transform3D(_basis, _origin + _basis.z * (0.12 if kind in TALL else 0.25))
+				if kind == "skull":
+					# A skull reads by its face: turn it to the camera (south), with a little jitter.
+					t.basis = Basis(Vector3.UP, float(h % 140) / 100.0 - 0.7)
 				if not _model_xforms.has(kind):
 					_model_xforms[kind] = []
 				_model_xforms[kind].append(t)
